@@ -112,7 +112,7 @@
         
         .audio-progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #3b82f6);
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
             width: 0%;
             transition: width 0.1s linear;
             border-radius: 4px;
@@ -147,7 +147,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(59, 130, 246, 0.9));
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(147, 51, 234, 0.8));
             z-index: 1;
         }
         
@@ -157,7 +157,7 @@
         }
         
         .price-badge {
-            background: linear-gradient(135deg, #3b82f6, #3b82f6);
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -173,6 +173,13 @@
             box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
             transform: translateY(-2px);
         }
+        
+        @media (max-width: 640px) {
+            .modal-content {
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -180,198 +187,198 @@
  <body class="bg-gray-50"><!-- Header -->
   <header class="bg-white shadow-sm sticky top-0 z-50">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center py-4">
-     <div class="flex items-center space-x-3"><img id="logo-image" src="logo.PNG" alt="De Beat Store Logo" class="w-12 h-12 rounded-xl object-cover shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md" style="display: none;"><i class="fas fa-music text-white text-xl"></i>
+    <div class="flex justify-between items-center py-3 sm:py-4">
+     <div class="flex items-center space-x-2 sm:space-x-3"><img id="logo-image" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="De Beat Store Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md" style="display: none;"><i class="fas fa-music text-white text-lg sm:text-xl"></i>
       </div>
       <div>
-       <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">De Beat Store</h1>
-       <p class="text-xs text-gray-500" id="tagline">Premium Beats</p>
+       <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">De Beat Store</h1>
+       <p class="text-[10px] sm:text-xs text-gray-500" id="tagline">Premium Beats &amp; Instrumentals</p>
       </div>
      </div>
      <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
      </nav>
-     <div class="flex items-center space-x-4"><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button>
+     <div class="flex items-center space-x-4"><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button>
      </div>
     </div><!-- Search Bar -->
-    <div class="pb-4">
-     <div class="relative max-w-2xl mx-auto"><input type="text" id="search-input" placeholder="Search beats by name, genre, or BPM..." class="w-full px-4 py-3 pl-12 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" onkeyup="handleGlobalSearch(event)" oninput="handleGlobalSearch(event)"> <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i> <button onclick="clearSearch()" id="clear-search" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" style="display: none;"> <i class="fas fa-times"></i> </button>
+    <div class="pb-3 sm:pb-4">
+     <div class="relative max-w-2xl mx-auto"><input type="text" id="search-input" placeholder="Search beats..." class="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 pr-10 sm:pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" onkeyup="handleGlobalSearch(event)" oninput="handleGlobalSearch(event)"> <i class="fas fa-search absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-base"></i> <button onclick="clearSearch()" id="clear-search" class="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" style="display: none;"> <i class="fas fa-times text-sm sm:text-base"></i> </button>
      </div>
-     <div id="search-results-info" class="text-center mt-2 text-sm text-gray-600 font-medium" style="display: none;"></div>
+     <div id="search-results-info" class="text-center mt-2 text-xs sm:text-sm text-gray-600 font-medium" style="display: none;"></div>
     </div>
    </div>
   </header><!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home Page -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8"><!-- Home Page -->
    <div id="home-page"><!-- Hero Section -->
-    <section class="hero-section relative rounded-2xl p-12 mb-12 text-white overflow-hidden min-h-[400px] flex flex-col justify-center shadow-2xl"><img id="hero-image" src="logo.PNG" alt="Hero background" class="absolute inset-0 w-full h-full object-cover" style="z-index: 0;" onerror="this.style.display='none';">
+    <section class="hero-section relative rounded-2xl p-6 sm:p-12 mb-6 sm:mb-12 text-white overflow-hidden min-h-[250px] sm:min-h-[400px] flex flex-col justify-center shadow-2xl"><img id="hero-image" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&amp;h=400&amp;fit=crop" alt="Hero background" class="absolute inset-0 w-full h-full object-cover" style="z-index: 0;" onerror="this.style.display='none';">
      <div class="relative z-10">
-      <h2 class="text-5xl font-bold mb-4 drop-shadow-lg" id="hero-title">Discover Premium Beats</h2>
-      <p class="text-xl mb-8 opacity-95 drop-shadow" id="hero-subtitle">High-quality instrumentals for your next hit</p><button onclick="showPage('tracks')" class="btn-primary text-white px-8 py-4 rounded-xl font-semibold shadow-lg"> <i class="fas fa-headphones mr-2"></i>Browse All Tracks </button>
+      <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 drop-shadow-lg" id="hero-title">Discover Premium Beats</h2>
+      <p class="text-sm sm:text-lg lg:text-xl mb-4 sm:mb-8 opacity-95 drop-shadow" id="hero-subtitle">High-quality instrumentals for your next hit</p><button onclick="showPage('tracks')" class="btn-primary text-white px-5 sm:px-8 py-2.5 sm:py-4 rounded-xl font-semibold shadow-lg text-sm sm:text-base"> <i class="fas fa-headphones mr-2"></i>Browse All Tracks </button>
      </div>
     </section><!-- Genre Filter -->
-    <div class="mb-8">
-     <h3 class="text-2xl font-bold text-gray-900 mb-4">Browse by Genre</h3>
-     <div class="flex flex-wrap gap-3"><button onclick="filterByGenre('all')" class="genre-btn px-6 py-2 bg-blue-600 text-white rounded-full font-medium shadow-md"> All </button> <button onclick="filterByGenre('Afrobeat')" class="genre-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium"> Afrobeat </button> <button onclick="filterByGenre('Amapiano')" class="genre-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium"> Amapiano </button>
+    <div class="mb-6 sm:mb-8">
+     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Browse by Genre</h3>
+     <div class="flex flex-wrap gap-2 sm:gap-3"><button onclick="filterByGenre('all')" class="genre-btn px-4 sm:px-6 py-1.5 sm:py-2 bg-blue-600 text-white rounded-full font-medium shadow-md text-sm sm:text-base"> All </button> <button onclick="filterByGenre('Afrobeat')" class="genre-btn px-4 sm:px-6 py-1.5 sm:py-2 bg-gray-200 text-gray-700 rounded-full font-medium text-sm sm:text-base"> Afrobeat </button> <button onclick="filterByGenre('Amapiano')" class="genre-btn px-4 sm:px-6 py-1.5 sm:py-2 bg-gray-200 text-gray-700 rounded-full font-medium text-sm sm:text-base"> Amapiano </button>
      </div>
     </div><!-- Beats List -->
     <div id="beats-container"></div>
    </div><!-- Tracks Page -->
    <div id="tracks-page" style="display: none;">
-    <h2 class="text-3xl font-bold text-gray-900 mb-6">All Tracks</h2>
-    <div class="mb-8"><label class="block text-sm font-medium text-gray-700 mb-2">Filter by Genre</label> <select id="genre-filter" onchange="applyTrackFilters()" class="w-full max-w-md px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"> <option value="all">All Genres</option> <option value="Afrobeat">Afrobeat</option> <option value="Amapiano">Amapiano</option> </select>
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">All Tracks</h2>
+    <div class="mb-6 sm:mb-8"><label class="block text-sm font-medium text-gray-700 mb-2">Filter by Genre</label> <select id="genre-filter" onchange="applyTrackFilters()" class="w-full max-w-md px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"> <option value="all">All Genres</option> <option value="Afrobeat">Afrobeat</option> <option value="Amapiano">Amapiano</option> </select>
     </div>
     <div id="tracks-beats-container"></div>
    </div><!-- Services Page -->
    <div id="services-page" style="display: none;">
-    <h2 class="text-3xl font-bold text-gray-900 mb-8">Our Services</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Lessons -->
-     <div class="service-card bg-white rounded-xl shadow-lg p-6">
-      <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-graduation-cap text-white text-2xl"></i>
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Our Services</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"><!-- Lessons -->
+     <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-graduation-cap text-white text-lg sm:text-2xl"></i>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Music Lessons</h3>
-      <p class="text-gray-600 text-center mb-4">Learn music production, beat making, and mixing techniques</p>
-      <div class="space-y-2 mb-6">
-       <div class="flex justify-between"><span class="text-sm text-gray-600">1-on-1 Session (1hr)</span> <span class="font-semibold text-blue-600">₦75,000</span>
+      <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Music Lessons</h3>
+      <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Learn music production, beat making, and mixing techniques</p>
+      <div class="space-y-2 mb-4 sm:mb-6">
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">1-on-1 Session (1hr)</span> <span class="font-semibold text-blue-600">₦75,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Package (5 sessions)</span> <span class="font-semibold text-blue-600">₦325,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Package (5 sessions)</span> <span class="font-semibold text-blue-600">₦325,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Group Session (1hr)</span> <span class="font-semibold text-blue-600">₦45,000/person</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Group Session (1hr)</span> <span class="font-semibold text-blue-600">₦45,000/person</span>
        </div>
-      </div><button onclick="contactForService('Music Lessons')" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md"> Book Now </button>
+      </div><button onclick="contactForService('Music Lessons')" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"> Book Now </button>
      </div><!-- Consultation -->
-     <div class="service-card bg-white rounded-xl shadow-lg p-6">
-      <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-comments text-white text-2xl"></i>
+     <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-comments text-white text-lg sm:text-2xl"></i>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Consultation</h3>
-      <p class="text-gray-600 text-center mb-4">Get expert advice on your music projects and career</p>
-      <div class="space-y-2 mb-6">
-       <div class="flex justify-between"><span class="text-sm text-gray-600">30-minute Session</span> <span class="font-semibold text-purple-600">₦50,000</span>
+      <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Consultation</h3>
+      <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Get expert advice on your music projects and career</p>
+      <div class="space-y-2 mb-4 sm:mb-6">
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">30-minute Session</span> <span class="font-semibold text-purple-600">₦50,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">1-hour Session</span> <span class="font-semibold text-purple-600">₦85,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">1-hour Session</span> <span class="font-semibold text-purple-600">₦85,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Project Review</span> <span class="font-semibold text-purple-600">₦125,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Project Review</span> <span class="font-semibold text-purple-600">₦125,000</span>
        </div>
-      </div><button onclick="contactForService('Consultation')" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Book Now </button>
+      </div><button onclick="contactForService('Consultation')" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Book Now </button>
      </div><!-- Mastering -->
-     <div class="service-card bg-white rounded-xl shadow-lg p-6">
-      <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-sliders-h text-white text-2xl"></i>
+     <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-sliders-h text-white text-lg sm:text-2xl"></i>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Mastering</h3>
-      <p class="text-gray-600 text-center mb-4">Professional mastering to make your tracks radio-ready</p>
-      <div class="space-y-2 mb-6">
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Single Track</span> <span class="font-semibold text-green-600">₦45,000</span>
+      <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Mastering</h3>
+      <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Professional mastering to make your tracks radio-ready</p>
+      <div class="space-y-2 mb-4 sm:mb-6">
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track</span> <span class="font-semibold text-green-600">₦45,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-green-600">₦125,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-green-600">₦125,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-green-600">₦200,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-green-600">₦200,000</span>
        </div>
-      </div><button onclick="contactForService('Mastering')" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Get Quote </button>
+      </div><button onclick="contactForService('Mastering')" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
      </div><!-- Collaboration -->
-     <div class="service-card bg-white rounded-xl shadow-lg p-6">
-      <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-handshake text-white text-2xl"></i>
+     <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-handshake text-white text-lg sm:text-2xl"></i>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Collaboration</h3>
-      <p class="text-gray-600 text-center mb-4">Work together on custom beats and original productions</p>
-      <div class="space-y-2 mb-6">
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Custom Beat</span> <span class="font-semibold text-orange-600">₦150,000</span>
+      <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Collaboration</h3>
+      <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Work together on custom beats and original productions</p>
+      <div class="space-y-2 mb-4 sm:mb-6">
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Custom Beat</span> <span class="font-semibold text-orange-600">₦150,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Co-Production</span> <span class="font-semibold text-orange-600">₦250,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Co-Production</span> <span class="font-semibold text-orange-600">₦250,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Full Song Production</span> <span class="font-semibold text-orange-600">₦400,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Full Song Production</span> <span class="font-semibold text-orange-600">₦400,000</span>
        </div>
-      </div><button onclick="contactForService('Collaboration')" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Let's Collaborate </button>
+      </div><button onclick="contactForService('Collaboration')" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Let's Collaborate </button>
      </div><!-- Full Mixing -->
-     <div class="service-card bg-white rounded-xl shadow-lg p-6">
-      <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-music text-white text-2xl"></i>
+     <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-music text-white text-lg sm:text-2xl"></i>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Full Mixing</h3>
-      <p class="text-gray-600 text-center mb-4">Complete mixing services for your recorded tracks</p>
-      <div class="space-y-2 mb-6">
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Single Track Mix</span> <span class="font-semibold text-red-600">₦85,000</span>
+      <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Full Mixing</h3>
+      <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Complete mixing services for your recorded tracks</p>
+      <div class="space-y-2 mb-4 sm:mb-6">
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track Mix</span> <span class="font-semibold text-red-600">₦85,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">EP Mix (3-5 tracks)</span> <span class="font-semibold text-red-600">₦225,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP Mix (3-5 tracks)</span> <span class="font-semibold text-red-600">₦225,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Album Mix (6+ tracks)</span> <span class="font-semibold text-red-600">₦375,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album Mix (6+ tracks)</span> <span class="font-semibold text-red-600">₦375,000</span>
        </div>
-      </div><button onclick="contactForService('Full Mixing')" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Get Quote </button>
+      </div><button onclick="contactForService('Full Mixing')" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
      </div><!-- Mixing & Mastering -->
-     <div class="service-card bg-white rounded-xl shadow-lg p-6">
-      <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-compact-disc text-white text-2xl"></i>
+     <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-compact-disc text-white text-lg sm:text-2xl"></i>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Mixing &amp; Mastering</h3>
-      <p class="text-gray-600 text-center mb-4">Complete package: mixing and mastering in one service</p>
-      <div class="space-y-2 mb-6">
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Single Track</span> <span class="font-semibold text-indigo-600">₦115,000</span>
+      <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Mixing &amp; Mastering</h3>
+      <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Complete package: mixing and mastering in one service</p>
+      <div class="space-y-2 mb-4 sm:mb-6">
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track</span> <span class="font-semibold text-indigo-600">₦115,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-indigo-600">���325,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-indigo-600">₦325,000</span>
        </div>
-       <div class="flex justify-between"><span class="text-sm text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-indigo-600">₦525,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-indigo-600">₦525,000</span>
        </div>
-      </div><button onclick="contactForService('Mixing &amp; Mastering')" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Get Quote </button>
+      </div><button onclick="contactForService('Mixing &amp; Mastering')" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
      </div>
     </div><!-- Service Features -->
-    <div class="mt-12 bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 shadow-inner">
-     <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Why Choose Our Services?</h3>
-     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="mt-8 sm:mt-12 bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-6 sm:p-8 shadow-inner">
+     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Why Choose Our Services?</h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
       <div class="text-center">
-       <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md"><i class="fas fa-award text-white text-xl"></i>
+       <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md"><i class="fas fa-award text-white text-lg sm:text-xl"></i>
        </div>
-       <h4 class="font-semibold text-gray-900 mb-2">Professional Quality</h4>
-       <p class="text-sm text-gray-600">Industry-standard equipment and techniques for the best results</p>
+       <h4 class="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">Professional Quality</h4>
+       <p class="text-xs sm:text-sm text-gray-600">Industry-standard equipment and techniques for the best results</p>
       </div>
       <div class="text-center">
-       <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md"><i class="fas fa-clock text-white text-xl"></i>
+       <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md"><i class="fas fa-clock text-white text-lg sm:text-xl"></i>
        </div>
-       <h4 class="font-semibold text-gray-900 mb-2">Fast Turnaround</h4>
-       <p class="text-sm text-gray-600">Quick delivery without compromising on quality</p>
+       <h4 class="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">Fast Turnaround</h4>
+       <p class="text-xs sm:text-sm text-gray-600">Quick delivery without compromising on quality</p>
       </div>
       <div class="text-center">
-       <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md"><i class="fas fa-redo text-white text-xl"></i>
+       <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md"><i class="fas fa-redo text-white text-lg sm:text-xl"></i>
        </div>
-       <h4 class="font-semibold text-gray-900 mb-2">Unlimited Revisions</h4>
-       <p class="text-sm text-gray-600">We work until you're 100% satisfied with the result</p>
+       <h4 class="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">Unlimited Revisions</h4>
+       <p class="text-xs sm:text-sm text-gray-600">We work until you're 100% satisfied with the result</p>
       </div>
      </div>
     </div>
    </div><!-- About Page -->
    <div id="about-page" style="display: none;">
-    <h2 class="text-3xl font-bold text-gray-900 mb-8">About De Beat Store</h2>
-    <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-8">
-     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-      <div><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&amp;h=400&amp;fit=crop" alt="Music production studio" class="w-full h-64 object-cover rounded-xl shadow-md" onerror="this.style.display='none';">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">About De Beat Store</h2>
+    <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
+      <div><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&amp;h=400&amp;fit=crop" alt="Music production studio" class="w-full h-48 sm:h-64 object-cover rounded-xl shadow-md" onerror="this.style.display='none';">
       </div>
       <div>
-       <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Story</h3>
-       <p class="text-gray-700 mb-4">De Beat Store was founded with a passion for creating high-quality, professional beats that inspire artists worldwide. We specialize in Afrobeat and Amapiano genres, bringing authentic African sounds to the global music scene.</p>
-       <p class="text-gray-700">Our team of experienced producers works tirelessly to craft unique instrumentals that help artists bring their vision to life. Every beat is carefully produced with attention to detail and mixed to industry standards.</p>
+       <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Our Story</h3>
+       <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">De Beat Store was founded with a passion for creating high-quality, professional beats that inspire artists worldwide. We specialize in Afrobeat and Amapiano genres, bringing authentic African sounds to the global music scene.</p>
+       <p class="text-sm sm:text-base text-gray-700">Our team of experienced producers works tirelessly to craft unique instrumentals that help artists bring their vision to life. Every beat is carefully produced with attention to detail and mixed to industry standards.</p>
       </div>
      </div>
-     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-sm">
-       <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-music text-white text-2xl"></i>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-sm">
+       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-music text-white text-lg sm:text-2xl"></i>
        </div>
-       <h4 class="text-xl font-bold text-gray-900 mb-2">Premium Quality</h4>
-       <p class="text-gray-600">All beats are professionally mixed and mastered to industry standards</p>
+       <h4 class="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">Premium Quality</h4>
+       <p class="text-xs sm:text-sm text-gray-600">All beats are professionally mixed and mastered to industry standards</p>
       </div>
-      <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-sm">
-       <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-globe-africa text-white text-2xl"></i>
+      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-sm">
+       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-globe-africa text-white text-lg sm:text-2xl"></i>
        </div>
-       <h4 class="text-xl font-bold text-gray-900 mb-2">Authentic Sounds</h4>
-       <p class="text-gray-600">Specializing in Afrobeat and Amapiano with authentic African influences</p>
+       <h4 class="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">Authentic Sounds</h4>
+       <p class="text-xs sm:text-sm text-gray-600">Specializing in Afrobeat and Amapiano with authentic African influences</p>
       </div>
-      <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-sm">
-       <div class="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-handshake text-white text-2xl"></i>
+      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-sm">
+       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-handshake text-white text-lg sm:text-2xl"></i>
        </div>
-       <h4 class="text-xl font-bold text-gray-900 mb-2">Artist Support</h4>
-       <p class="text-gray-600">Dedicated support to help artists succeed with their projects</p>
+       <h4 class="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">Artist Support</h4>
+       <p class="text-xs sm:text-sm text-gray-600">Dedicated support to help artists succeed with their projects</p>
       </div>
      </div>
-     <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 shadow-inner">
-      <h3 class="text-2xl font-bold text-gray-900 mb-4">License Information</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+     <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-4 sm:p-6 shadow-inner">
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">License Information</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
        <div>
-        <h4 class="text-lg font-semibold text-gray-900 mb-2">Standard Licenses</h4>
-        <ul class="space-y-2 text-gray-700">
+        <h4 class="text-base sm:text-lg font-semibold text-gray-900 mb-2">Standard Licenses</h4>
+        <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base text-gray-700">
          <li><i class="fas fa-check text-green-500 mr-2"></i>MP3 &amp; WAV formats available</li>
          <li><i class="fas fa-check text-green-500 mr-2"></i>Non-exclusive rights</li>
          <li><i class="fas fa-check text-green-500 mr-2"></i>Commercial use allowed</li>
@@ -379,8 +386,8 @@
         </ul>
        </div>
        <div>
-        <h4 class="text-lg font-semibold text-gray-900 mb-2">Premium Features</h4>
-        <ul class="space-y-2 text-gray-700">
+        <h4 class="text-base sm:text-lg font-semibold text-gray-900 mb-2">Premium Features</h4>
+        <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base text-gray-700">
          <li><i class="fas fa-check text-green-500 mr-2"></i>Trackout stems included</li>
          <li><i class="fas fa-check text-green-500 mr-2"></i>Unlimited distribution rights</li>
          <li><i class="fas fa-check text-green-500 mr-2"></i>Radio &amp; broadcasting rights</li>
@@ -392,31 +399,31 @@
     </div>
    </div><!-- Contact Page -->
    <div id="contact-page" style="display: none;">
-    <h2 class="text-3xl font-bold text-gray-900 mb-8">Contact Us</h2>
-    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-8">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Contact Us</h2>
+    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
      <form id="contact-form" onsubmit="handleContactSubmit(event)">
-      <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Name</label> <input type="text" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+      <div class="mb-4 sm:mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Name</label> <input type="text" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
       </div>
-      <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Email</label> <input type="email" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+      <div class="mb-4 sm:mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Email</label> <input type="email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
       </div>
-      <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Message</label> <textarea required rows="5" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"></textarea>
-      </div><button type="submit" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md"> <i class="fas fa-paper-plane mr-2"></i>Send Message </button>
+      <div class="mb-4 sm:mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Message</label> <textarea required rows="5" class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"></textarea>
+      </div><button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"> <i class="fas fa-paper-plane mr-2"></i>Send Message </button>
      </form>
-     <div id="contact-success" style="display: none;" class="mt-4 p-4 bg-green-50 border-2 border-green-200 text-green-700 rounded-xl"><i class="fas fa-check-circle mr-2"></i>Thank you! Your message has been sent successfully.
+     <div id="contact-success" style="display: none;" class="mt-4 p-3 sm:p-4 bg-green-50 border-2 border-green-200 text-green-700 rounded-xl text-sm sm:text-base"><i class="fas fa-check-circle mr-2"></i>Thank you! Your message has been sent successfully.
      </div>
     </div>
    </div>
   </main><!-- Footer -->
-  <footer class="bg-gray-900 text-white mt-16">
-   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+  <footer class="bg-gray-900 text-white mt-12 sm:mt-16">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
      <div>
-      <h3 class="text-xl font-bold mb-4">De Beat Store</h3>
-      <p class="text-gray-400">Premium beats and instrumentals for artists worldwide.</p>
+      <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4">De Beat Store</h3>
+      <p class="text-sm sm:text-base text-gray-400">Premium beats and instrumentals for artists worldwide.</p>
      </div>
      <div>
-      <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-      <ul class="space-y-2">
+      <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
+      <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base">
        <li><a href="#" onclick="showPage('home'); return false;" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
        <li><a href="#" onclick="showPage('tracks'); return false;" class="text-gray-400 hover:text-white transition-colors">Tracks</a></li>
        <li><a href="#" onclick="showPage('services'); return false;" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
@@ -425,36 +432,36 @@
       </ul>
      </div>
      <div>
-      <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
-      <div class="flex space-x-4"><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-2xl transition-colors"> <i class="fab fa-instagram"></i> </a> <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-2xl transition-colors"> <i class="fab fa-youtube"></i> </a> <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-2xl transition-colors"> <i class="fab fa-tiktok"></i> </a>
+      <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Follow Us</h4>
+      <div class="flex space-x-4"><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-xl sm:text-2xl transition-colors"> <i class="fab fa-instagram"></i> </a> <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-xl sm:text-2xl transition-colors"> <i class="fab fa-youtube"></i> </a> <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-xl sm:text-2xl transition-colors"> <i class="fab fa-tiktok"></i> </a>
       </div>
      </div>
     </div>
-    <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+    <div class="border-t border-gray-800 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm">
      <p id="footer-text">© 2024 De Beat Store. All rights reserved.</p>
     </div>
    </div>
   </footer><!-- License Modal -->
   <div id="license-modal" class="modal">
-   <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-8 max-h-[90%] overflow-y-auto shadow-2xl">
-    <div class="flex justify-between items-start mb-6">
+   <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-6 sm:p-8 max-h-[90%] overflow-y-auto shadow-2xl">
+    <div class="flex justify-between items-start mb-4 sm:mb-6">
      <div>
-      <h3 class="text-2xl font-bold text-gray-900" id="modal-beat-title"></h3>
-      <p class="text-gray-600" id="modal-beat-info"></p>
-     </div><button onclick="closeLicenseModal()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-2xl"></i> </button>
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900" id="modal-beat-title"></h3>
+      <p class="text-sm sm:text-base text-gray-600" id="modal-beat-info"></p>
+     </div><button onclick="closeLicenseModal()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
     </div>
-    <div class="space-y-4" id="license-options-container"></div>
+    <div class="space-y-3 sm:space-y-4" id="license-options-container"></div>
    </div>
   </div><!-- Cart Modal -->
   <div id="cart-modal" class="modal">
-   <div class="modal-content bg-white rounded-2xl max-w-2xl w-full mx-4 p-8 shadow-2xl">
-    <div class="flex justify-between items-center mb-6">
-     <h3 class="text-2xl font-bold text-gray-900">Shopping Cart</h3><button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-2xl"></i> </button>
+   <div class="modal-content bg-white rounded-2xl max-w-2xl w-full mx-4 p-6 sm:p-8 shadow-2xl">
+    <div class="flex justify-between items-center mb-4 sm:mb-6">
+     <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Shopping Cart</h3><button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
     </div>
-    <div id="cart-items-container" class="space-y-4 mb-6"></div>
+    <div id="cart-items-container" class="space-y-3 sm:space-y-4 mb-4 sm:mb-6"></div>
     <div class="border-t-2 pt-4">
-     <div class="flex justify-between items-center mb-6"><span class="text-xl font-bold">Total:</span> <span class="text-2xl font-bold price-badge" id="cart-total">₦0</span>
-     </div><button onclick="proceedToCheckout()" class="block w-full btn-primary text-white py-4 rounded-xl font-semibold text-center shadow-md"> <i class="fas fa-credit-card mr-2"></i>Proceed to Checkout </button>
+     <div class="flex justify-between items-center mb-4 sm:mb-6"><span class="text-lg sm:text-xl font-bold">Total:</span> <span class="text-xl sm:text-2xl font-bold price-badge" id="cart-total">₦0</span>
+     </div><button onclick="proceedToCheckout()" class="block w-full btn-primary text-white py-3 sm:py-4 rounded-xl font-semibold text-center shadow-md text-sm sm:text-base"> <i class="fas fa-credit-card mr-2"></i>Proceed to Checkout </button>
     </div>
    </div>
   </div>
@@ -466,8 +473,8 @@
             hero_subtitle: "High-quality instrumentals for your next hit",
             footer_text: "© 2024 De Beat Store. All rights reserved.",
             hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
-            logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
-            paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b"
+            logo_image: "logo.PNG",
+            paystack_public_key: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         };
 
         let currentAudio = null;
@@ -478,30 +485,30 @@
         const beats = [
             {
                 id: 1,
-                title: "Gbona",
+                title: "Sunset Vibes",
                 producer: "De Beat Store",
                 bpm: 128,
                 genre: "Afrobeat",
                 key: "C Minor",
-                price: { mp3: 100, wav: 100, premium: 99999, unlimited: 199999 },
+                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
                 image: "logo.PNG",
                 audioUrl: "New folder/Gbona.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/file/d/1Ic8RQ75j04c2vUXQQxbcqarm4VBHWcsf/view",
-                    wav: "https://drive.google.com/file/d/1yN83sAfaZfvSbr08qZPBLiLOiDIYewrY/view",
+                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_1",
+                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_1",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_1"
                 }
             },
             {
                 id: 2,
-                title: "Lonely",
+                title: "Lagos Nights",
                 producer: "De Beat Store",
                 bpm: 115,
                 genre: "Afrobeat",
                 key: "G Major",
                 price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "logo.PNG",
-                audioUrl: "New folder/Lonely.mp3",
+                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
+                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_2",
                 downloadLinks: {
                     mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
                     wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
@@ -510,14 +517,14 @@
             },
             {
                 id: 3,
-                title: "Palava",
+                title: "Piano Dreams",
                 producer: "De Beat Store",
                 bpm: 112,
                 genre: "Amapiano",
                 key: "A Minor",
                 price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "logo.PNG",
-                audioUrl: "New folder/Palava.mp3",
+                image: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop",
+                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_3",
                 downloadLinks: {
                     mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_3",
                     wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_3",
@@ -578,40 +585,45 @@
             return '₦' + amount.toLocaleString('en-NG');
         }
 
-        function renderBeats(container, beatsToRender) {
-            const html = beatsToRender.map(beat => `
-                <div class="beat-card bg-white rounded-xl shadow-lg p-6 mb-4 flex items-center justify-between">
-                    <div class="flex items-center space-x-4 flex-1">
-                        <div class="relative">
-                            <img src="${beat.image}" alt="${beat.title}" class="w-24 h-24 rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-                            <button onclick="togglePlay(${beat.id}, '${beat.audioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl">
-                                <i class="fas fa-play text-white text-3xl" id="play-icon-${beat.id}"></i>
+        function renderBeats(container, beatsToRender, startIndex = 0, itemsPerPage = 12) {
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedBeats = beatsToRender.slice(startIndex, endIndex);
+            const totalPages = Math.ceil(beatsToRender.length / itemsPerPage);
+            const currentPage = Math.floor(startIndex / itemsPerPage) + 1;
+            
+            const html = paginatedBeats.map(beat => `
+                <div class="beat-card bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                    <div class="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 w-full">
+                        <div class="relative flex-shrink-0">
+                            <img src="${beat.image}" alt="${beat.title}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                            <button onclick="togglePlay(${beat.id}, '${beat.audioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
+                                <i class="fas fa-play text-white text-2xl sm:text-3xl" id="play-icon-${beat.id}"></i>
                             </button>
                         </div>
                         
-                        <div class="flex-1">
-                            <h3 class="text-xl font-bold text-gray-900">${beat.title}</h3>
-                            <p class="text-sm text-gray-600">${beat.producer}</p>
-                            <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-base sm:text-xl font-bold text-gray-900 truncate">${beat.title}</h3>
+                            <p class="text-xs sm:text-sm text-gray-600">${beat.producer}</p>
+                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-1 sm:mt-2 text-xs sm:text-sm text-gray-500">
                                 <span><i class="fas fa-music mr-1"></i>${beat.genre}</span>
                                 <span><i class="fas fa-drum mr-1"></i>${beat.bpm} BPM</span>
                                 <span><i class="fas fa-key mr-1"></i>${beat.key}</span>
                             </div>
-                            <div id="progress-${beat.id}" class="mt-3" style="display: none;">
+                            <div id="progress-${beat.id}" class="mt-2 sm:mt-3 w-full" style="display: none;">
                                 <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beat.id}, event)">
                                     <div class="audio-progress-bar" id="progress-bar-${beat.id}"></div>
                                 </div>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-gray-500">
                                     <div class="flex items-center space-x-2">
                                         <span id="current-time-${beat.id}">0:00</span>
                                         <span>/</span>
                                         <span id="duration-${beat.id}">0:00</span>
                                     </div>
-                                    <div class="flex items-center space-x-3">
-                                        <i class="fas fa-volume-up"></i>
-                                        <input type="range" id="volume-${beat.id}" min="0" max="100" value="50" class="w-20 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" onchange="setVolume(${beat.id}, this.value)">
-                                        <button onclick="shareTrack(${beat.id})" class="text-blue-600 hover:text-blue-700 transition-colors ml-2">
-                                            <i class="fas fa-share-alt"></i>
+                                    <div class="flex items-center space-x-2 sm:space-x-3">
+                                        <i class="fas fa-volume-up text-sm"></i>
+                                        <input type="range" id="volume-${beat.id}" min="0" max="100" value="50" class="w-16 sm:w-20 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" onchange="setVolume(${beat.id}, this.value)">
+                                        <button onclick="shareTrack(${beat.id})" class="text-blue-600 hover:text-blue-700 transition-colors">
+                                            <i class="fas fa-share-alt text-sm"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -619,19 +631,62 @@
                         </div>
                     </div>
                     
-                    <div class="flex items-center space-x-4">
-                        <div class="text-right">
-                            <p class="text-sm text-gray-600">Starting at</p>
-                            <p class="text-2xl font-bold price-badge">${formatNaira(beat.price.mp3)}</p>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                        <div class="text-center sm:text-right">
+                            <p class="text-xs sm:text-sm text-gray-600">Starting at</p>
+                            <p class="text-xl sm:text-2xl font-bold price-badge">${formatNaira(beat.price.mp3)}</p>
                         </div>
-                        <button onclick="openLicenseModal(${beat.id})" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold shadow-md">
+                        <button onclick="openLicenseModal(${beat.id})" class="btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base whitespace-nowrap">
                             <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
                         </button>
                     </div>
                 </div>
             `).join('');
             
-            document.getElementById(container).innerHTML = html;
+            // Add pagination if needed
+            let paginationHtml = '';
+            if (totalPages > 1) {
+                paginationHtml = `
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 p-4 bg-white rounded-xl shadow-md">
+                        <div class="text-xs sm:text-sm text-gray-600 order-2 sm:order-1">
+                            Showing ${startIndex + 1}-${Math.min(endIndex, beatsToRender.length)} of ${beatsToRender.length} beats
+                        </div>
+                        <div class="flex items-center gap-2 order-1 sm:order-2">
+                            <button 
+                                onclick="handlePagination('${container}', ${startIndex - itemsPerPage}, ${itemsPerPage})" 
+                                ${startIndex === 0 ? 'disabled' : ''}
+                                class="px-4 sm:px-6 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base ${startIndex === 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'}"
+                            >
+                                <i class="fas fa-chevron-left mr-1 sm:mr-2"></i><span class="hidden sm:inline">Previous</span><span class="sm:hidden">Prev</span>
+                            </button>
+                            <span class="px-3 sm:px-4 py-2 bg-gray-100 rounded-lg font-semibold text-xs sm:text-base">
+                                ${currentPage} / ${totalPages}
+                            </span>
+                            <button 
+                                onclick="handlePagination('${container}', ${startIndex + itemsPerPage}, ${itemsPerPage})" 
+                                ${endIndex >= beatsToRender.length ? 'disabled' : ''}
+                                class="px-4 sm:px-6 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base ${endIndex >= beatsToRender.length ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'}"
+                            >
+                                <span class="hidden sm:inline">Next</span><span class="sm:hidden">Next</span><i class="fas fa-chevron-right ml-1 sm:ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById(container).innerHTML = html + paginationHtml;
+            
+            // Store current pagination state
+            window.paginationState = window.paginationState || {};
+            window.paginationState[container] = { beatsToRender, startIndex, itemsPerPage };
+        }
+
+        function handlePagination(container, newStartIndex, itemsPerPage) {
+            const state = window.paginationState[container];
+            if (!state) return;
+            
+            renderBeats(container, state.beatsToRender, newStartIndex, itemsPerPage);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function togglePlay(beatId, audioUrl) {
@@ -840,19 +895,19 @@
             ];
             
             const html = licenses.map(license => `
-                <div class="license-option rounded-xl p-6 ${license.type === 'exclusive' ? '' : 'cursor-pointer'}" ${license.type === 'exclusive' ? '' : `onclick="addToCart(${beatId}, '${license.type}')"`}>
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h4 class="text-xl font-bold text-gray-900">${license.name}</h4>
-                            <p class="text-sm text-gray-600 mt-1">${license.terms}</p>
+                <div class="license-option rounded-xl p-4 sm:p-6 ${license.type === 'exclusive' ? '' : 'cursor-pointer'}" ${license.type === 'exclusive' ? '' : `onclick="addToCart(${beatId}, '${license.type}')"`}>
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0 mb-3 sm:mb-4">
+                        <div class="flex-1">
+                            <h4 class="text-lg sm:text-xl font-bold text-gray-900">${license.name}</h4>
+                            <p class="text-xs sm:text-sm text-gray-600 mt-1">${license.terms}</p>
                         </div>
-                        <div class="text-right">
-                            <p class="text-2xl font-bold ${typeof license.price === 'number' ? 'price-badge' : 'text-gray-900'}">${typeof license.price === 'number' ? formatNaira(license.price) : license.price}</p>
+                        <div class="text-left sm:text-right">
+                            <p class="text-xl sm:text-2xl font-bold ${typeof license.price === 'number' ? 'price-badge' : 'text-gray-900'}">${typeof license.price === 'number' ? formatNaira(license.price) : license.price}</p>
                         </div>
                     </div>
-                    <ul class="space-y-2 mb-4">
+                    <ul class="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
                         ${license.features.map(feature => `
-                            <li class="flex items-center text-sm text-gray-700">
+                            <li class="flex items-center text-xs sm:text-sm text-gray-700">
                                 <i class="fas fa-check text-green-500 mr-2"></i>
                                 ${feature}
                             </li>
@@ -860,29 +915,29 @@
                     </ul>
                     ${license.type === 'exclusive' ? `
                         <div id="exclusive-offer-form-${beatId}" class="mt-4">
-                            <div class="space-y-4">
+                            <div class="space-y-3 sm:space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Offer Price</label>
+                                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Offer Price</label>
                                     <div class="relative">
-                                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₦</span>
-                                        <input type="number" id="offer-price-${beatId}" min="1" step="1" placeholder="0" class="w-full pl-8 pr-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₦</span>
+                                        <input type="number" id="offer-price-${beatId}" min="1" step="1" placeholder="0" class="w-full pl-8 pr-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Email</label>
-                                    <input type="email" id="offer-email-${beatId}" placeholder="your@email.com" class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Email</label>
+                                    <input type="email" id="offer-email-${beatId}" placeholder="your@email.com" class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
-                                    <textarea id="offer-message-${beatId}" rows="3" placeholder="Tell us about your project..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
+                                    <textarea id="offer-message-${beatId}" rows="3" placeholder="Tell us about your project..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"></textarea>
                                 </div>
                             </div>
-                            <button onclick="submitExclusiveOffer(${beatId})" class="w-full mt-4 btn-primary text-white py-3 rounded-xl font-semibold shadow-md">
+                            <button onclick="submitExclusiveOffer(${beatId})" class="w-full mt-4 btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">
                                 Submit Offer
                             </button>
                         </div>
                     ` : `
-                        <button class="w-full mt-4 btn-primary text-white py-3 rounded-xl font-semibold shadow-md">
+                        <button class="w-full mt-3 sm:mt-4 btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">
                             Add to Cart
                         </button>
                     `}
@@ -951,23 +1006,23 @@
             const container = document.getElementById('cart-items-container');
             
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-center py-8">Your cart is empty</p>';
+                container.innerHTML = '<p class="text-gray-500 text-center py-8 text-sm sm:text-base">Your cart is empty</p>';
                 document.getElementById('cart-total').textContent = '₦0';
                 return;
             }
             
             const html = cart.map((item, index) => `
-                <div class="border-b-2 pb-4">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="font-semibold text-gray-900">${item.beatTitle}</h4>
-                            <p class="text-sm text-gray-600">${item.licenseName}</p>
-                            <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle mr-1"></i>Download link sent after payment</p>
+                <div class="border-b-2 pb-3 sm:pb-4">
+                    <div class="flex justify-between items-start gap-3">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 text-sm sm:text-base truncate">${item.beatTitle}</h4>
+                            <p class="text-xs sm:text-sm text-gray-600">${item.licenseName}</p>
+                            <p class="text-[10px] sm:text-xs text-gray-500 mt-1"><i class="fas fa-info-circle mr-1"></i>Download link sent after payment</p>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="font-bold price-badge">${formatNaira(item.price)}</span>
+                        <div class="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
+                            <span class="font-bold price-badge text-sm sm:text-base">${formatNaira(item.price)}</span>
                             <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 transition-colors">
-                                <i class="fas fa-trash"></i>
+                                <i class="fas fa-trash text-sm"></i>
                             </button>
                         </div>
                     </div>
@@ -1004,21 +1059,21 @@
             const successModal = document.createElement('div');
             successModal.className = 'modal active';
             successModal.innerHTML = `
-                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-8 text-center shadow-2xl">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-paper-plane text-green-500 text-3xl"></i>
+                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-6 sm:p-8 text-center shadow-2xl">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-paper-plane text-green-500 text-2xl sm:text-3xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Offer Submitted!</h3>
-                    <p class="text-gray-600 mb-4">Your exclusive license offer has been sent successfully.</p>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Offer Submitted!</h3>
+                    <p class="text-sm sm:text-base text-gray-600 mb-4">Your exclusive license offer has been sent successfully.</p>
                     <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-6 text-left">
-                        <h4 class="font-semibold text-gray-900 mb-2">Offer Details:</h4>
-                        <p class="text-sm text-gray-700"><strong>Beat:</strong> ${beat.title}</p>
-                        <p class="text-sm text-gray-700"><strong>Offer Price:</strong> ${formatNaira(parseInt(offerPrice))}</p>
-                        <p class="text-sm text-gray-700"><strong>Email:</strong> ${offerEmail}</p>
-                        ${offerMessage ? `<p class="text-sm text-gray-700"><strong>Message:</strong> ${offerMessage}</p>` : ''}
+                        <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Offer Details:</h4>
+                        <p class="text-xs sm:text-sm text-gray-700"><strong>Beat:</strong> ${beat.title}</p>
+                        <p class="text-xs sm:text-sm text-gray-700"><strong>Offer Price:</strong> ${formatNaira(parseInt(offerPrice))}</p>
+                        <p class="text-xs sm:text-sm text-gray-700"><strong>Email:</strong> ${offerEmail}</p>
+                        ${offerMessage ? `<p class="text-xs sm:text-sm text-gray-700"><strong>Message:</strong> ${offerMessage}</p>` : ''}
                     </div>
-                    <p class="text-sm text-gray-600 mb-6">We'll review your offer and get back to you within 24-48 hours.</p>
-                    <button onclick="closeOfferModal()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md">
+                    <p class="text-xs sm:text-sm text-gray-600 mb-6">We'll review your offer and get back to you within 24-48 hours.</p>
+                    <button onclick="closeOfferModal()" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">
                         Close
                     </button>
                 </div>
@@ -1038,7 +1093,7 @@
         function filterByGenre(genre) {
             currentGenreFilter = genre;
             const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
-            renderBeats('beats-container', filtered);
+            renderBeats('beats-container', filtered, 0, 12);
             
             document.querySelectorAll('.genre-btn').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
@@ -1061,11 +1116,11 @@
                 if (currentQuery) {
                     handleGlobalSearch({ target: { value: currentQuery } });
                 } else {
-                    renderBeats('beats-container', beats);
+                    renderBeats('beats-container', beats, 0, 12);
                 }
             } else if (page === 'tracks') {
                 document.getElementById('tracks-page').style.display = 'block';
-                renderBeats('tracks-beats-container', beats);
+                renderBeats('tracks-beats-container', beats, 0, 12);
             } else if (page === 'services') {
                 document.getElementById('services-page').style.display = 'block';
             } else if (page === 'about') {
@@ -1085,7 +1140,7 @@
             if (query.length === 0) {
                 clearButton.style.display = 'none';
                 searchInfo.style.display = 'none';
-                renderBeats('beats-container', beats);
+                renderBeats('beats-container', beats, 0, 12);
                 return;
             }
             
@@ -1102,26 +1157,26 @@
             searchInfo.style.display = 'block';
             if (filtered.length === 0) {
                 searchInfo.textContent = `No beats found for "${query}"`;
-                searchInfo.className = 'text-center mt-2 text-sm text-red-600 font-medium';
+                searchInfo.className = 'text-center mt-2 text-xs sm:text-sm text-red-600 font-medium';
             } else {
                 searchInfo.textContent = `Found ${filtered.length} beat${filtered.length === 1 ? '' : 's'} for "${query}"`;
-                searchInfo.className = 'text-center mt-2 text-sm text-green-600 font-medium';
+                searchInfo.className = 'text-center mt-2 text-xs sm:text-sm text-green-600 font-medium';
             }
             
-            renderBeats('beats-container', filtered);
+            renderBeats('beats-container', filtered, 0, 12);
         }
 
         function clearSearch() {
             document.getElementById('search-input').value = '';
             document.getElementById('clear-search').style.display = 'none';
             document.getElementById('search-results-info').style.display = 'none';
-            renderBeats('beats-container', beats);
+            renderBeats('beats-container', beats, 0, 12);
         }
 
         function applyTrackFilters() {
             const genre = document.getElementById('genre-filter').value;
             const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
-            renderBeats('tracks-beats-container', filtered);
+            renderBeats('tracks-beats-container', filtered, 0, 12);
         }
 
         function contactForService(serviceName) {
@@ -1166,40 +1221,40 @@
             checkoutModal.className = 'modal active';
             checkoutModal.id = 'checkout-modal';
             checkoutModal.innerHTML = `
-                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-8 shadow-2xl">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900">Checkout</h3>
+                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-6 sm:p-8 shadow-2xl">
+                    <div class="flex justify-between items-center mb-4 sm:mb-6">
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Checkout</h3>
                         <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
-                            <i class="fas fa-times text-2xl"></i>
+                            <i class="fas fa-times text-xl sm:text-2xl"></i>
                         </button>
                     </div>
                     
                     <form id="checkout-form" onsubmit="processPayment(event)">
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                            <input type="email" id="customer-email" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="your@email.com">
-                            <p class="text-xs text-gray-500 mt-1">Download links will be sent to this email</p>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="customer-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
+                            <p class="text-[10px] sm:text-xs text-gray-500 mt-1">Download links will be sent to this email</p>
                         </div>
                         
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                            <input type="text" id="customer-name" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="John Doe">
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="customer-name" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="John Doe">
                         </div>
                         
-                        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-6">
-                            <h4 class="font-semibold text-gray-900 mb-2">Order Summary</h4>
+                        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 sm:mb-6">
+                            <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Order Summary</h4>
                             <div id="checkout-items" class="space-y-2 mb-3"></div>
                             <div class="border-t-2 pt-3 flex justify-between items-center">
-                                <span class="font-bold text-lg">Total:</span>
-                                <span class="text-2xl font-bold price-badge" id="checkout-total"></span>
+                                <span class="font-bold text-base sm:text-lg">Total:</span>
+                                <span class="text-xl sm:text-2xl font-bold price-badge" id="checkout-total"></span>
                             </div>
                         </div>
                         
-                        <button type="submit" id="pay-button" class="w-full btn-primary text-white py-4 rounded-xl font-semibold shadow-md">
+                        <button type="submit" id="pay-button" class="w-full btn-primary text-white py-3 sm:py-4 rounded-xl font-semibold shadow-md text-sm sm:text-base">
                             <i class="fas fa-lock mr-2"></i>Pay with Paystack
                         </button>
                         
-                        <div class="flex items-center justify-center mt-4 text-sm text-gray-500">
+                        <div class="flex items-center justify-center mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500">
                             <i class="fas fa-shield-alt mr-2"></i>
                             Secure payment powered by Paystack
                         </div>
@@ -1211,9 +1266,9 @@
             
             const checkoutItems = document.getElementById('checkout-items');
             const itemsHtml = cart.map(item => `
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-700">${item.beatTitle} - ${item.licenseName}</span>
-                    <span class="font-semibold text-gray-900">${formatNaira(item.price)}</span>
+                <div class="flex justify-between text-xs sm:text-sm">
+                    <span class="text-gray-700 truncate flex-1 pr-2">${item.beatTitle} - ${item.licenseName}</span>
+                    <span class="font-semibold text-gray-900 flex-shrink-0">${formatNaira(item.price)}</span>
                 </div>
             `).join('');
             checkoutItems.innerHTML = itemsHtml;
@@ -1288,60 +1343,60 @@
             const successModal = document.createElement('div');
             successModal.className = 'modal active';
             successModal.innerHTML = `
-                <div class="modal-content bg-white rounded-2xl max-w-lg w-full mx-4 p-8 text-center shadow-2xl">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-check-circle text-green-500 text-5xl"></i>
+                <div class="modal-content bg-white rounded-2xl max-w-lg w-full mx-4 p-6 sm:p-8 text-center shadow-2xl">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check-circle text-green-500 text-4xl sm:text-5xl"></i>
                     </div>
-                    <h3 class="text-3xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
-                    <p class="text-gray-600 mb-4">Thank you for your purchase, ${name}!</p>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
+                    <p class="text-sm sm:text-base text-gray-600 mb-4">Thank you for your purchase, ${name}!</p>
                     
-                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 mb-6 text-left">
-                        <div class="flex items-start mb-4">
-                            <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 text-left">
+                        <div class="flex items-start mb-3 sm:mb-4">
+                            <i class="fas fa-info-circle text-blue-500 text-lg sm:text-xl mr-2 sm:mr-3 mt-1"></i>
                             <div>
-                                <h4 class="font-semibold text-gray-900 mb-2">Next Steps:</h4>
-                                <p class="text-sm text-gray-700 mb-2">Your download links will be sent to:</p>
-                                <p class="text-sm font-semibold text-blue-600 mb-3">${email}</p>
-                                <p class="text-sm text-gray-700">Please check your inbox (and spam folder) within the next 5-10 minutes.</p>
+                                <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Next Steps:</h4>
+                                <p class="text-xs sm:text-sm text-gray-700 mb-2">Your download links will be sent to:</p>
+                                <p class="text-xs sm:text-sm font-semibold text-blue-600 mb-3">${email}</p>
+                                <p class="text-xs sm:text-sm text-gray-700">Please check your inbox (and spam folder) within the next 5-10 minutes.</p>
                             </div>
                         </div>
                         
-                        <div class="border-t-2 pt-4">
-                            <h4 class="font-semibold text-gray-900 mb-3">Order Details:</h4>
+                        <div class="border-t-2 pt-3 sm:pt-4">
+                            <h4 class="font-semibold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">Order Details:</h4>
                             <div class="space-y-2">
                                 ${orderDetails.map(item => `
-                                    <div class="flex justify-between text-sm">
-                                        <span class="text-gray-700">${item.beat}</span>
-                                        <span class="font-semibold">${formatNaira(item.price)}</span>
+                                    <div class="flex justify-between text-xs sm:text-sm">
+                                        <span class="text-gray-700 truncate flex-1 pr-2">${item.beat}</span>
+                                        <span class="font-semibold flex-shrink-0">${formatNaira(item.price)}</span>
                                     </div>
-                                    <p class="text-xs text-gray-500 -mt-1">${item.license}</p>
+                                    <p class="text-[10px] sm:text-xs text-gray-500 -mt-1">${item.license}</p>
                                 `).join('')}
                             </div>
-                            <div class="border-t-2 mt-3 pt-3 flex justify-between">
+                            <div class="border-t-2 mt-3 pt-3 flex justify-between text-sm sm:text-base">
                                 <span class="font-bold">Total Paid:</span>
                                 <span class="font-bold text-green-600">${formatNaira(cart.reduce((sum, item) => sum + item.price, 0))}</span>
                             </div>
                         </div>
                         
-                        <div class="mt-4 text-xs text-gray-600">
+                        <div class="mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-600">
                             <p><strong>Reference:</strong> ${response.reference}</p>
                         </div>
                     </div>
                     
-                    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6 text-left">
+                    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 text-left">
                         <div class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-yellow-600 text-lg mr-3 mt-1"></i>
-                            <div class="text-sm text-gray-700">
+                            <i class="fas fa-exclamation-triangle text-yellow-600 text-base sm:text-lg mr-2 sm:mr-3 mt-1"></i>
+                            <div class="text-xs sm:text-sm text-gray-700">
                                 <p class="font-semibold mb-1">Important Notice:</p>
                                 <p>If you don't receive the email within 15 minutes, please contact us with your reference number.</p>
                             </div>
                         </div>
                     </div>
                     
-                    <button onclick="closeSuccessModal()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md mb-3">
+                    <button onclick="closeSuccessModal()" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md mb-2 sm:mb-3 text-sm sm:text-base">
                         Continue Shopping
                     </button>
-                    <button onclick="showPage('contact'); closeSuccessModal();" class="w-full bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+                    <button onclick="showPage('contact'); closeSuccessModal();" class="w-full bg-gray-200 text-gray-700 py-2.5 sm:py-3 rounded-xl font-semibold hover:bg-gray-300 transition text-sm sm:text-base">
                         Contact Support
                     </button>
                 </div>
@@ -1401,7 +1456,7 @@
             });
         }
 
-        renderBeats('beats-container', beats);
+        renderBeats('beats-container', beats, 0, 12);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a761026e7bb1569',t:'MTc2NDYyODU4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b002a4ad521ed53',t:'MTc2NjA3NjY4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De Beat Store - Premium Beats &amp; Instrumentals</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        .beat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .beat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        
+        .play-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.15);
+            background-color: rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        .license-option {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .license-option:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.03), rgba(147, 51, 234, 0.03));
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .service-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+        }
+        
+        .genre-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .genre-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            overflow-y: auto;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .audio-progress {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .audio-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #3b82f6);
+            width: 0%;
+            transition: width 0.1s linear;
+            border-radius: 4px;
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+        }
+        
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 50;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(59, 130, 246, 0.9));
+            z-index: 1;
+        }
+        
+        .hero-section > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .price-badge {
+            background: linear-gradient(135deg, #3b82f6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="bg-gray-50"><!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-4">
+     <div class="flex items-center space-x-3"><img id="logo-image" src="logo.PNG" alt="De Beat Store Logo" class="w-12 h-12 rounded-xl object-cover shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md" style="display: none;"><i class="fas fa-music text-white text-xl"></i>
+      </div>
+      <div>
+       <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">De Beat Store</h1>
+       <p class="text-xs text-gray-500" id="tagline">Premium Beats</p>
+      </div>
+     </div>
+     <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
+     </nav>
+     <div class="flex items-center space-x-4"><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button>
+     </div>
+    </div><!-- Search Bar -->
+    <div class="pb-4">
+     <div class="relative max-w-2xl mx-auto"><input type="text" id="search-input" placeholder="Search beats by name, genre, or BPM..." class="w-full px-4 py-3 pl-12 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" onkeyup="handleGlobalSearch(event)" oninput="handleGlobalSearch(event)"> <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i> <button onclick="clearSearch()" id="clear-search" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" style="display: none;"> <i class="fas fa-times"></i> </button>
+     </div>
+     <div id="search-results-info" class="text-center mt-2 text-sm text-gray-600 font-medium" style="display: none;"></div>
+    </div>
+   </div>
+  </header><!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home Page -->
+   <div id="home-page"><!-- Hero Section -->
+    <section class="hero-section relative rounded-2xl p-12 mb-12 text-white overflow-hidden min-h-[400px] flex flex-col justify-center shadow-2xl"><img id="hero-image" src="logo.PNG" alt="Hero background" class="absolute inset-0 w-full h-full object-cover" style="z-index: 0;" onerror="this.style.display='none';">
+     <div class="relative z-10">
+      <h2 class="text-5xl font-bold mb-4 drop-shadow-lg" id="hero-title">Discover Premium Beats</h2>
+      <p class="text-xl mb-8 opacity-95 drop-shadow" id="hero-subtitle">High-quality instrumentals for your next hit</p><button onclick="showPage('tracks')" class="btn-primary text-white px-8 py-4 rounded-xl font-semibold shadow-lg"> <i class="fas fa-headphones mr-2"></i>Browse All Tracks </button>
+     </div>
+    </section><!-- Genre Filter -->
+    <div class="mb-8">
+     <h3 class="text-2xl font-bold text-gray-900 mb-4">Browse by Genre</h3>
+     <div class="flex flex-wrap gap-3"><button onclick="filterByGenre('all')" class="genre-btn px-6 py-2 bg-blue-600 text-white rounded-full font-medium shadow-md"> All </button> <button onclick="filterByGenre('Afrobeat')" class="genre-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium"> Afrobeat </button> <button onclick="filterByGenre('Amapiano')" class="genre-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium"> Amapiano </button>
+     </div>
+    </div><!-- Beats List -->
+    <div id="beats-container"></div>
+   </div><!-- Tracks Page -->
+   <div id="tracks-page" style="display: none;">
+    <h2 class="text-3xl font-bold text-gray-900 mb-6">All Tracks</h2>
+    <div class="mb-8"><label class="block text-sm font-medium text-gray-700 mb-2">Filter by Genre</label> <select id="genre-filter" onchange="applyTrackFilters()" class="w-full max-w-md px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"> <option value="all">All Genres</option> <option value="Afrobeat">Afrobeat</option> <option value="Amapiano">Amapiano</option> </select>
+    </div>
+    <div id="tracks-beats-container"></div>
+   </div><!-- Services Page -->
+   <div id="services-page" style="display: none;">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8">Our Services</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Lessons -->
+     <div class="service-card bg-white rounded-xl shadow-lg p-6">
+      <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-graduation-cap text-white text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Music Lessons</h3>
+      <p class="text-gray-600 text-center mb-4">Learn music production, beat making, and mixing techniques</p>
+      <div class="space-y-2 mb-6">
+       <div class="flex justify-between"><span class="text-sm text-gray-600">1-on-1 Session (1hr)</span> <span class="font-semibold text-blue-600">₦75,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Package (5 sessions)</span> <span class="font-semibold text-blue-600">₦325,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Group Session (1hr)</span> <span class="font-semibold text-blue-600">₦45,000/person</span>
+       </div>
+      </div><button onclick="contactForService('Music Lessons')" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md"> Book Now </button>
+     </div><!-- Consultation -->
+     <div class="service-card bg-white rounded-xl shadow-lg p-6">
+      <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-comments text-white text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Consultation</h3>
+      <p class="text-gray-600 text-center mb-4">Get expert advice on your music projects and career</p>
+      <div class="space-y-2 mb-6">
+       <div class="flex justify-between"><span class="text-sm text-gray-600">30-minute Session</span> <span class="font-semibold text-purple-600">₦50,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">1-hour Session</span> <span class="font-semibold text-purple-600">₦85,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Project Review</span> <span class="font-semibold text-purple-600">₦125,000</span>
+       </div>
+      </div><button onclick="contactForService('Consultation')" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Book Now </button>
+     </div><!-- Mastering -->
+     <div class="service-card bg-white rounded-xl shadow-lg p-6">
+      <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-sliders-h text-white text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Mastering</h3>
+      <p class="text-gray-600 text-center mb-4">Professional mastering to make your tracks radio-ready</p>
+      <div class="space-y-2 mb-6">
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Single Track</span> <span class="font-semibold text-green-600">₦45,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-green-600">₦125,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-green-600">₦200,000</span>
+       </div>
+      </div><button onclick="contactForService('Mastering')" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Get Quote </button>
+     </div><!-- Collaboration -->
+     <div class="service-card bg-white rounded-xl shadow-lg p-6">
+      <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-handshake text-white text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Collaboration</h3>
+      <p class="text-gray-600 text-center mb-4">Work together on custom beats and original productions</p>
+      <div class="space-y-2 mb-6">
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Custom Beat</span> <span class="font-semibold text-orange-600">₦150,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Co-Production</span> <span class="font-semibold text-orange-600">₦250,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Full Song Production</span> <span class="font-semibold text-orange-600">₦400,000</span>
+       </div>
+      </div><button onclick="contactForService('Collaboration')" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Let's Collaborate </button>
+     </div><!-- Full Mixing -->
+     <div class="service-card bg-white rounded-xl shadow-lg p-6">
+      <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-music text-white text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Full Mixing</h3>
+      <p class="text-gray-600 text-center mb-4">Complete mixing services for your recorded tracks</p>
+      <div class="space-y-2 mb-6">
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Single Track Mix</span> <span class="font-semibold text-red-600">₦85,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">EP Mix (3-5 tracks)</span> <span class="font-semibold text-red-600">₦225,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Album Mix (6+ tracks)</span> <span class="font-semibold text-red-600">₦375,000</span>
+       </div>
+      </div><button onclick="contactForService('Full Mixing')" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Get Quote </button>
+     </div><!-- Mixing & Mastering -->
+     <div class="service-card bg-white rounded-xl shadow-lg p-6">
+      <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-compact-disc text-white text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Mixing &amp; Mastering</h3>
+      <p class="text-gray-600 text-center mb-4">Complete package: mixing and mastering in one service</p>
+      <div class="space-y-2 mb-6">
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Single Track</span> <span class="font-semibold text-indigo-600">₦115,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-indigo-600">���325,000</span>
+       </div>
+       <div class="flex justify-between"><span class="text-sm text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-indigo-600">₦525,000</span>
+       </div>
+      </div><button onclick="contactForService('Mixing &amp; Mastering')" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-3 rounded-xl font-semibold shadow-md transition-all"> Get Quote </button>
+     </div>
+    </div><!-- Service Features -->
+    <div class="mt-12 bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 shadow-inner">
+     <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Why Choose Our Services?</h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="text-center">
+       <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md"><i class="fas fa-award text-white text-xl"></i>
+       </div>
+       <h4 class="font-semibold text-gray-900 mb-2">Professional Quality</h4>
+       <p class="text-sm text-gray-600">Industry-standard equipment and techniques for the best results</p>
+      </div>
+      <div class="text-center">
+       <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md"><i class="fas fa-clock text-white text-xl"></i>
+       </div>
+       <h4 class="font-semibold text-gray-900 mb-2">Fast Turnaround</h4>
+       <p class="text-sm text-gray-600">Quick delivery without compromising on quality</p>
+      </div>
+      <div class="text-center">
+       <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md"><i class="fas fa-redo text-white text-xl"></i>
+       </div>
+       <h4 class="font-semibold text-gray-900 mb-2">Unlimited Revisions</h4>
+       <p class="text-sm text-gray-600">We work until you're 100% satisfied with the result</p>
+      </div>
+     </div>
+    </div>
+   </div><!-- About Page -->
+   <div id="about-page" style="display: none;">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8">About De Beat Store</h2>
+    <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-8">
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+      <div><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&amp;h=400&amp;fit=crop" alt="Music production studio" class="w-full h-64 object-cover rounded-xl shadow-md" onerror="this.style.display='none';">
+      </div>
+      <div>
+       <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Story</h3>
+       <p class="text-gray-700 mb-4">De Beat Store was founded with a passion for creating high-quality, professional beats that inspire artists worldwide. We specialize in Afrobeat and Amapiano genres, bringing authentic African sounds to the global music scene.</p>
+       <p class="text-gray-700">Our team of experienced producers works tirelessly to craft unique instrumentals that help artists bring their vision to life. Every beat is carefully produced with attention to detail and mixed to industry standards.</p>
+      </div>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-sm">
+       <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-music text-white text-2xl"></i>
+       </div>
+       <h4 class="text-xl font-bold text-gray-900 mb-2">Premium Quality</h4>
+       <p class="text-gray-600">All beats are professionally mixed and mastered to industry standards</p>
+      </div>
+      <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-sm">
+       <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-globe-africa text-white text-2xl"></i>
+       </div>
+       <h4 class="text-xl font-bold text-gray-900 mb-2">Authentic Sounds</h4>
+       <p class="text-gray-600">Specializing in Afrobeat and Amapiano with authentic African influences</p>
+      </div>
+      <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-sm">
+       <div class="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md"><i class="fas fa-handshake text-white text-2xl"></i>
+       </div>
+       <h4 class="text-xl font-bold text-gray-900 mb-2">Artist Support</h4>
+       <p class="text-gray-600">Dedicated support to help artists succeed with their projects</p>
+      </div>
+     </div>
+     <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 shadow-inner">
+      <h3 class="text-2xl font-bold text-gray-900 mb-4">License Information</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+       <div>
+        <h4 class="text-lg font-semibold text-gray-900 mb-2">Standard Licenses</h4>
+        <ul class="space-y-2 text-gray-700">
+         <li><i class="fas fa-check text-green-500 mr-2"></i>MP3 &amp; WAV formats available</li>
+         <li><i class="fas fa-check text-green-500 mr-2"></i>Non-exclusive rights</li>
+         <li><i class="fas fa-check text-green-500 mr-2"></i>Commercial use allowed</li>
+         <li><i class="fas fa-check text-green-500 mr-2"></i>Instant download delivery</li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="text-lg font-semibold text-gray-900 mb-2">Premium Features</h4>
+        <ul class="space-y-2 text-gray-700">
+         <li><i class="fas fa-check text-green-500 mr-2"></i>Trackout stems included</li>
+         <li><i class="fas fa-check text-green-500 mr-2"></i>Unlimited distribution rights</li>
+         <li><i class="fas fa-check text-green-500 mr-2"></i>Radio &amp; broadcasting rights</li>
+         <li><i class="fas fa-check text-green-500 mr-2"></i>Exclusive licensing available</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Contact Page -->
+   <div id="contact-page" style="display: none;">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8">Contact Us</h2>
+    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-8">
+     <form id="contact-form" onsubmit="handleContactSubmit(event)">
+      <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Name</label> <input type="text" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+      </div>
+      <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Email</label> <input type="email" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+      </div>
+      <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Message</label> <textarea required rows="5" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"></textarea>
+      </div><button type="submit" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md"> <i class="fas fa-paper-plane mr-2"></i>Send Message </button>
+     </form>
+     <div id="contact-success" style="display: none;" class="mt-4 p-4 bg-green-50 border-2 border-green-200 text-green-700 rounded-xl"><i class="fas fa-check-circle mr-2"></i>Thank you! Your message has been sent successfully.
+     </div>
+    </div>
+   </div>
+  </main><!-- Footer -->
+  <footer class="bg-gray-900 text-white mt-16">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+     <div>
+      <h3 class="text-xl font-bold mb-4">De Beat Store</h3>
+      <p class="text-gray-400">Premium beats and instrumentals for artists worldwide.</p>
+     </div>
+     <div>
+      <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+      <ul class="space-y-2">
+       <li><a href="#" onclick="showPage('home'); return false;" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+       <li><a href="#" onclick="showPage('tracks'); return false;" class="text-gray-400 hover:text-white transition-colors">Tracks</a></li>
+       <li><a href="#" onclick="showPage('services'); return false;" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+       <li><a href="#" onclick="showPage('about'); return false;" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+       <li><a href="#" onclick="showPage('contact'); return false;" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+      </ul>
+     </div>
+     <div>
+      <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+      <div class="flex space-x-4"><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-2xl transition-colors"> <i class="fab fa-instagram"></i> </a> <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-2xl transition-colors"> <i class="fab fa-youtube"></i> </a> <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-2xl transition-colors"> <i class="fab fa-tiktok"></i> </a>
+      </div>
+     </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+     <p id="footer-text">© 2024 De Beat Store. All rights reserved.</p>
+    </div>
+   </div>
+  </footer><!-- License Modal -->
+  <div id="license-modal" class="modal">
+   <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-8 max-h-[90%] overflow-y-auto shadow-2xl">
+    <div class="flex justify-between items-start mb-6">
+     <div>
+      <h3 class="text-2xl font-bold text-gray-900" id="modal-beat-title"></h3>
+      <p class="text-gray-600" id="modal-beat-info"></p>
+     </div><button onclick="closeLicenseModal()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-2xl"></i> </button>
+    </div>
+    <div class="space-y-4" id="license-options-container"></div>
+   </div>
+  </div><!-- Cart Modal -->
+  <div id="cart-modal" class="modal">
+   <div class="modal-content bg-white rounded-2xl max-w-2xl w-full mx-4 p-8 shadow-2xl">
+    <div class="flex justify-between items-center mb-6">
+     <h3 class="text-2xl font-bold text-gray-900">Shopping Cart</h3><button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-2xl"></i> </button>
+    </div>
+    <div id="cart-items-container" class="space-y-4 mb-6"></div>
+    <div class="border-t-2 pt-4">
+     <div class="flex justify-between items-center mb-6"><span class="text-xl font-bold">Total:</span> <span class="text-2xl font-bold price-badge" id="cart-total">₦0</span>
+     </div><button onclick="proceedToCheckout()" class="block w-full btn-primary text-white py-4 rounded-xl font-semibold text-center shadow-md"> <i class="fas fa-credit-card mr-2"></i>Proceed to Checkout </button>
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            store_name: "De Beat Store",
+            tagline: "Premium Beats & Instrumentals",
+            hero_title: "Discover Premium Beats",
+            hero_subtitle: "High-quality instrumentals for your next hit",
+            footer_text: "© 2024 De Beat Store. All rights reserved.",
+            hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
+            logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
+            paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b"
+        };
+
+        let currentAudio = null;
+        let currentBeatId = null;
+        let cart = [];
+        let currentGenreFilter = 'all';
+
+        const beats = [
+            {
+                id: 1,
+                title: "Gbona",
+                producer: "De Beat Store",
+                bpm: 128,
+                genre: "Afrobeat",
+                key: "C Minor",
+                price: { mp3: 100, wav: 100, premium: 99999, unlimited: 199999 },
+                image: "logo.PNG",
+                audioUrl: "New folder/Gbona.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1Ic8RQ75j04c2vUXQQxbcqarm4VBHWcsf/view",
+                    wav: "https://drive.google.com/file/d/1yN83sAfaZfvSbr08qZPBLiLOiDIYewrY/view",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_1"
+                }
+            },
+            {
+                id: 2,
+                title: "Lonely",
+                producer: "De Beat Store",
+                bpm: 115,
+                genre: "Afrobeat",
+                key: "G Major",
+                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
+                image: "logo.PNG",
+                audioUrl: "New folder/Lonely.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
+                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
+                }
+            },
+            {
+                id: 3,
+                title: "Palava",
+                producer: "De Beat Store",
+                bpm: 112,
+                genre: "Amapiano",
+                key: "A Minor",
+                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
+                image: "logo.PNG",
+                audioUrl: "New folder/Palava.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_3",
+                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_3",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_3"
+                }
+            },
+            {
+                id: 4,
+                title: "Township Groove",
+                producer: "De Beat Store",
+                bpm: 118,
+                genre: "Amapiano",
+                key: "D Minor",
+                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
+                image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
+                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_4",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_4",
+                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_4",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_4"
+                }
+            },
+            {
+                id: 5,
+                title: "Afro Fusion",
+                producer: "De Beat Store",
+                bpm: 125,
+                genre: "Afrobeat",
+                key: "E Minor",
+                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
+                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
+                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
+                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
+                }
+            },
+            {
+                id: 6,
+                title: "Midnight Log",
+                producer: "De Beat Store",
+                bpm: 110,
+                genre: "Amapiano",
+                key: "F Major",
+                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
+                image: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=400&h=400&fit=crop",
+                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_6",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
+                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                }
+            }
+        ];
+
+        function formatNaira(amount) {
+            return '₦' + amount.toLocaleString('en-NG');
+        }
+
+        function renderBeats(container, beatsToRender) {
+            const html = beatsToRender.map(beat => `
+                <div class="beat-card bg-white rounded-xl shadow-lg p-6 mb-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-4 flex-1">
+                        <div class="relative">
+                            <img src="${beat.image}" alt="${beat.title}" class="w-24 h-24 rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                            <button onclick="togglePlay(${beat.id}, '${beat.audioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl">
+                                <i class="fas fa-play text-white text-3xl" id="play-icon-${beat.id}"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900">${beat.title}</h3>
+                            <p class="text-sm text-gray-600">${beat.producer}</p>
+                            <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                                <span><i class="fas fa-music mr-1"></i>${beat.genre}</span>
+                                <span><i class="fas fa-drum mr-1"></i>${beat.bpm} BPM</span>
+                                <span><i class="fas fa-key mr-1"></i>${beat.key}</span>
+                            </div>
+                            <div id="progress-${beat.id}" class="mt-3" style="display: none;">
+                                <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beat.id}, event)">
+                                    <div class="audio-progress-bar" id="progress-bar-${beat.id}"></div>
+                                </div>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <div class="flex items-center space-x-2">
+                                        <span id="current-time-${beat.id}">0:00</span>
+                                        <span>/</span>
+                                        <span id="duration-${beat.id}">0:00</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-volume-up"></i>
+                                        <input type="range" id="volume-${beat.id}" min="0" max="100" value="50" class="w-20 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" onchange="setVolume(${beat.id}, this.value)">
+                                        <button onclick="shareTrack(${beat.id})" class="text-blue-600 hover:text-blue-700 transition-colors ml-2">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                            <p class="text-sm text-gray-600">Starting at</p>
+                            <p class="text-2xl font-bold price-badge">${formatNaira(beat.price.mp3)}</p>
+                        </div>
+                        <button onclick="openLicenseModal(${beat.id})" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold shadow-md">
+                            <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById(container).innerHTML = html;
+        }
+
+        function togglePlay(beatId, audioUrl) {
+            const playIcon = document.getElementById(`play-icon-${beatId}`);
+            const progressContainer = document.getElementById(`progress-${beatId}`);
+            const progressBar = document.getElementById(`progress-bar-${beatId}`);
+            const currentTimeEl = document.getElementById(`current-time-${beatId}`);
+            const durationEl = document.getElementById(`duration-${beatId}`);
+            const volumeSlider = document.getElementById(`volume-${beatId}`);
+            
+            if (currentAudio && currentBeatId === beatId) {
+                if (currentAudio.paused) {
+                    currentAudio.play();
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                } else {
+                    currentAudio.pause();
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                }
+            } else {
+                if (currentAudio) {
+                    currentAudio.pause();
+                    const oldIcon = document.getElementById(`play-icon-${currentBeatId}`);
+                    const oldProgress = document.getElementById(`progress-${currentBeatId}`);
+                    if (oldIcon) {
+                        oldIcon.classList.remove('fa-pause');
+                        oldIcon.classList.add('fa-play');
+                    }
+                    if (oldProgress) {
+                        oldProgress.style.display = 'none';
+                    }
+                }
+                
+                currentAudio = new Audio(audioUrl);
+                currentBeatId = beatId;
+                
+                currentAudio.volume = volumeSlider.value / 100;
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                
+                currentAudio.addEventListener('loadedmetadata', () => {
+                    durationEl.textContent = formatTime(currentAudio.duration);
+                });
+                
+                currentAudio.addEventListener('timeupdate', () => {
+                    const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+                    progressBar.style.width = progress + '%';
+                    currentTimeEl.textContent = formatTime(currentAudio.currentTime);
+                });
+                
+                currentAudio.addEventListener('ended', () => {
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                    progressBar.style.width = '0%';
+                    currentTimeEl.textContent = '0:00';
+                    progressContainer.style.display = 'none';
+                });
+                
+                currentAudio.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            }
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function seekAudio(beatId, event) {
+            if (!currentAudio || currentBeatId !== beatId) return;
+            
+            const progressContainer = event.currentTarget;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            const newTime = percentage * currentAudio.duration;
+            
+            currentAudio.currentTime = newTime;
+        }
+
+        function setVolume(beatId, volume) {
+            if (currentAudio && currentBeatId === beatId) {
+                currentAudio.volume = volume / 100;
+            }
+        }
+
+        function shareTrack(beatId) {
+            const beat = beats.find(b => b.id === beatId);
+            if (!beat) return;
+            
+            const shareData = {
+                title: `${beat.title} - ${beat.producer}`,
+                text: `Check out this ${beat.genre} beat: "${beat.title}" - ${beat.bpm} BPM in ${beat.key}`,
+                url: window.location.href + `#beat-${beatId}`
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData).catch(err => {
+                    fallbackShare(shareData);
+                });
+            } else {
+                fallbackShare(shareData);
+            }
+        }
+
+        function fallbackShare(shareData) {
+            const shareModal = document.createElement('div');
+            shareModal.className = 'modal active';
+            shareModal.innerHTML = `
+                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-6 shadow-2xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Share Track</h3>
+                        <button onclick="this.closest('.modal').remove()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Share Link</label>
+                        <div class="flex">
+                            <input type="text" value="${shareData.url}" readonly class="flex-1 px-3 py-2 border-2 border-gray-300 rounded-l-xl bg-gray-50 text-sm" id="share-url">
+                            <button onclick="copyToClipboard('share-url')" class="px-4 py-2 btn-primary text-white rounded-r-xl">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center px-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition shadow-sm">
+                            <i class="fab fa-twitter mr-2"></i>Twitter
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-sm">
+                            <i class="fab fa-facebook mr-2"></i>Facebook
+                        </a>
+                        <a href="https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition shadow-sm">
+                            <i class="fab fa-whatsapp mr-2"></i>WhatsApp
+                        </a>
+                        <button onclick="copyToClipboard('share-url')" class="flex items-center justify-center px-4 py-2 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition shadow-sm">
+                            <i class="fas fa-link mr-2"></i>Copy Link
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(shareModal);
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            element.select();
+            element.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            
+            const message = document.createElement('div');
+            message.className = 'fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+            message.innerHTML = '<i class="fas fa-check mr-2"></i>Link copied to clipboard!';
+            document.body.appendChild(message);
+            setTimeout(() => message.remove(), 2000);
+        }
+
+        function openLicenseModal(beatId) {
+            const beat = beats.find(b => b.id === beatId);
+            document.getElementById('modal-beat-title').textContent = beat.title;
+            document.getElementById('modal-beat-info').textContent = `${beat.genre} • ${beat.bpm} BPM • ${beat.key}`;
+            
+            const licenses = [
+                {
+                    name: "MP3 License",
+                    type: "mp3",
+                    price: beat.price.mp3,
+                    features: ["MP3 Format", "Non-Exclusive Rights", "Online Streaming", "Music Videos"],
+                    terms: "Standard license for online distribution and streaming. Non-exclusive rights."
+                },
+                {
+                    name: "WAV License",
+                    type: "wav",
+                    price: beat.price.wav,
+                    features: ["MP3 & WAV Formats", "Non-Exclusive Rights", "Radio Airplay", "Paid Performances"],
+                    terms: "Enhanced license with high-quality WAV files. Non-exclusive rights with radio airplay."
+                },
+                {
+                    name: "Premium Plus License",
+                    type: "premium",
+                    price: beat.price.premium,
+                    features: ["STEMS, MP3 & WAV", "Non-Exclusive Rights", "Unlimited Distribution", "Commercial Use"],
+                    terms: "Professional license with trackout stems for full mixing control. Non-exclusive commercial rights."
+                },
+                {
+                    name: "Unlimited License",
+                    type: "unlimited",
+                    price: beat.price.unlimited,
+                    features: ["STEMS, MP3 & WAV", "Non-Exclusive Rights", "Unlimited Streams", "Broadcasting Rights"],
+                    terms: "Premium license with unlimited distribution and broadcasting rights. Non-exclusive."
+                },
+                {
+                    name: "Exclusive License",
+                    type: "exclusive",
+                    price: "NEGOTIATE",
+                    features: ["Full Ownership", "Exclusive Rights", "Remove from Store", "Custom Terms"],
+                    terms: "Full exclusive ownership. Beat will be removed from store. Contact for pricing."
+                }
+            ];
+            
+            const html = licenses.map(license => `
+                <div class="license-option rounded-xl p-6 ${license.type === 'exclusive' ? '' : 'cursor-pointer'}" ${license.type === 'exclusive' ? '' : `onclick="addToCart(${beatId}, '${license.type}')"`}>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-900">${license.name}</h4>
+                            <p class="text-sm text-gray-600 mt-1">${license.terms}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-bold ${typeof license.price === 'number' ? 'price-badge' : 'text-gray-900'}">${typeof license.price === 'number' ? formatNaira(license.price) : license.price}</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 mb-4">
+                        ${license.features.map(feature => `
+                            <li class="flex items-center text-sm text-gray-700">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                ${feature}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    ${license.type === 'exclusive' ? `
+                        <div id="exclusive-offer-form-${beatId}" class="mt-4">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Offer Price</label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₦</span>
+                                        <input type="number" id="offer-price-${beatId}" min="1" step="1" placeholder="0" class="w-full pl-8 pr-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Email</label>
+                                    <input type="email" id="offer-email-${beatId}" placeholder="your@email.com" class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
+                                    <textarea id="offer-message-${beatId}" rows="3" placeholder="Tell us about your project..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                </div>
+                            </div>
+                            <button onclick="submitExclusiveOffer(${beatId})" class="w-full mt-4 btn-primary text-white py-3 rounded-xl font-semibold shadow-md">
+                                Submit Offer
+                            </button>
+                        </div>
+                    ` : `
+                        <button class="w-full mt-4 btn-primary text-white py-3 rounded-xl font-semibold shadow-md">
+                            Add to Cart
+                        </button>
+                    `}
+                </div>
+            `).join('');
+            
+            document.getElementById('license-options-container').innerHTML = html;
+            document.getElementById('license-modal').classList.add('active');
+        }
+
+        function closeLicenseModal() {
+            document.getElementById('license-modal').classList.remove('active');
+        }
+
+        function addToCart(beatId, licenseType) {
+            const beat = beats.find(b => b.id === beatId);
+            const licenses = {
+                mp3: { name: "MP3 License", price: beat.price.mp3, files: ['mp3'] },
+                wav: { name: "WAV License", price: beat.price.wav, files: ['mp3', 'wav'] },
+                premium: { name: "Premium Plus License", price: beat.price.premium, files: ['mp3', 'wav', 'zip'] },
+                unlimited: { name: "Unlimited License", price: beat.price.unlimited, files: ['mp3', 'wav', 'zip'] }
+            };
+            
+            const license = licenses[licenseType];
+            cart.push({
+                beatId: beat.id,
+                beatTitle: beat.title,
+                licenseName: license.name,
+                licenseType: licenseType,
+                price: license.price,
+                downloadLinks: beat.downloadLinks,
+                allowedFiles: license.files
+            });
+            
+            updateCartBadge();
+            closeLicenseModal();
+            
+            const message = document.createElement('div');
+            message.className = 'fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+            message.innerHTML = '<i class="fas fa-check mr-2"></i>Added to cart!';
+            document.body.appendChild(message);
+            setTimeout(() => message.remove(), 2000);
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            if (cart.length > 0) {
+                badge.textContent = cart.length;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            } else {
+                renderCart();
+                modal.classList.add('active');
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Your cart is empty</p>';
+                document.getElementById('cart-total').textContent = '₦0';
+                return;
+            }
+            
+            const html = cart.map((item, index) => `
+                <div class="border-b-2 pb-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-semibold text-gray-900">${item.beatTitle}</h4>
+                            <p class="text-sm text-gray-600">${item.licenseName}</p>
+                            <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle mr-1"></i>Download link sent after payment</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="font-bold price-badge">${formatNaira(item.price)}</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('cart-total').textContent = formatNaira(total);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartBadge();
+            renderCart();
+        }
+
+        function submitExclusiveOffer(beatId) {
+            const beat = beats.find(b => b.id === beatId);
+            const offerPrice = document.getElementById(`offer-price-${beatId}`).value;
+            const offerEmail = document.getElementById(`offer-email-${beatId}`).value;
+            const offerMessage = document.getElementById(`offer-message-${beatId}`).value;
+            
+            if (!offerPrice || !offerEmail) {
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+                errorMessage.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Please fill in both price and email fields';
+                document.body.appendChild(errorMessage);
+                setTimeout(() => errorMessage.remove(), 3000);
+                return;
+            }
+            
+            const successModal = document.createElement('div');
+            successModal.className = 'modal active';
+            successModal.innerHTML = `
+                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-8 text-center shadow-2xl">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-paper-plane text-green-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Offer Submitted!</h3>
+                    <p class="text-gray-600 mb-4">Your exclusive license offer has been sent successfully.</p>
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-6 text-left">
+                        <h4 class="font-semibold text-gray-900 mb-2">Offer Details:</h4>
+                        <p class="text-sm text-gray-700"><strong>Beat:</strong> ${beat.title}</p>
+                        <p class="text-sm text-gray-700"><strong>Offer Price:</strong> ${formatNaira(parseInt(offerPrice))}</p>
+                        <p class="text-sm text-gray-700"><strong>Email:</strong> ${offerEmail}</p>
+                        ${offerMessage ? `<p class="text-sm text-gray-700"><strong>Message:</strong> ${offerMessage}</p>` : ''}
+                    </div>
+                    <p class="text-sm text-gray-600 mb-6">We'll review your offer and get back to you within 24-48 hours.</p>
+                    <button onclick="closeOfferModal()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(successModal);
+            closeLicenseModal();
+        }
+
+        function closeOfferModal() {
+            const modal = document.querySelector('.modal.active');
+            if (modal && modal.querySelector('.fa-paper-plane')) {
+                modal.remove();
+            }
+        }
+
+        function filterByGenre(genre) {
+            currentGenreFilter = genre;
+            const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
+            renderBeats('beats-container', filtered);
+            
+            document.querySelectorAll('.genre-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+        }
+
+        function showPage(page) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('tracks-page').style.display = 'none';
+            document.getElementById('services-page').style.display = 'none';
+            document.getElementById('about-page').style.display = 'none';
+            document.getElementById('contact-page').style.display = 'none';
+            
+            if (page === 'home') {
+                document.getElementById('home-page').style.display = 'block';
+                const currentQuery = document.getElementById('search-input').value;
+                if (currentQuery) {
+                    handleGlobalSearch({ target: { value: currentQuery } });
+                } else {
+                    renderBeats('beats-container', beats);
+                }
+            } else if (page === 'tracks') {
+                document.getElementById('tracks-page').style.display = 'block';
+                renderBeats('tracks-beats-container', beats);
+            } else if (page === 'services') {
+                document.getElementById('services-page').style.display = 'block';
+            } else if (page === 'about') {
+                document.getElementById('about-page').style.display = 'block';
+            } else if (page === 'contact') {
+                document.getElementById('contact-page').style.display = 'block';
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        function handleGlobalSearch(event) {
+            const query = event.target.value.toLowerCase().trim();
+            const clearButton = document.getElementById('clear-search');
+            const searchInfo = document.getElementById('search-results-info');
+            
+            if (query.length === 0) {
+                clearButton.style.display = 'none';
+                searchInfo.style.display = 'none';
+                renderBeats('beats-container', beats);
+                return;
+            }
+            
+            clearButton.style.display = 'block';
+            
+            const filtered = beats.filter(beat => 
+                beat.title.toLowerCase().includes(query) ||
+                beat.genre.toLowerCase().includes(query) ||
+                beat.producer.toLowerCase().includes(query) ||
+                beat.key.toLowerCase().includes(query) ||
+                beat.bpm.toString().includes(query)
+            );
+            
+            searchInfo.style.display = 'block';
+            if (filtered.length === 0) {
+                searchInfo.textContent = `No beats found for "${query}"`;
+                searchInfo.className = 'text-center mt-2 text-sm text-red-600 font-medium';
+            } else {
+                searchInfo.textContent = `Found ${filtered.length} beat${filtered.length === 1 ? '' : 's'} for "${query}"`;
+                searchInfo.className = 'text-center mt-2 text-sm text-green-600 font-medium';
+            }
+            
+            renderBeats('beats-container', filtered);
+        }
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('clear-search').style.display = 'none';
+            document.getElementById('search-results-info').style.display = 'none';
+            renderBeats('beats-container', beats);
+        }
+
+        function applyTrackFilters() {
+            const genre = document.getElementById('genre-filter').value;
+            const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
+            renderBeats('tracks-beats-container', filtered);
+        }
+
+        function contactForService(serviceName) {
+            showPage('contact');
+            
+            setTimeout(() => {
+                const messageField = document.querySelector('#contact-form textarea');
+                if (messageField) {
+                    messageField.value = `Hi! I'm interested in your ${serviceName} service. Please provide more details about pricing and availability.`;
+                }
+                
+                const message = document.createElement('div');
+                message.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+                message.innerHTML = `<i class="fas fa-info-circle mr-2"></i>Contact form opened for ${serviceName}`;
+                document.body.appendChild(message);
+                setTimeout(() => message.remove(), 3000);
+            }, 100);
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            document.getElementById('contact-form').style.display = 'none';
+            document.getElementById('contact-success').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('contact-form').style.display = 'block';
+                document.getElementById('contact-success').style.display = 'none';
+                document.getElementById('contact-form').reset();
+            }, 3000);
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                const message = document.createElement('div');
+                message.className = 'fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+                message.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Your cart is empty';
+                document.body.appendChild(message);
+                setTimeout(() => message.remove(), 2000);
+                return;
+            }
+
+            const checkoutModal = document.createElement('div');
+            checkoutModal.className = 'modal active';
+            checkoutModal.id = 'checkout-modal';
+            checkoutModal.innerHTML = `
+                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-8 shadow-2xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-900">Checkout</h3>
+                        <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    
+                    <form id="checkout-form" onsubmit="processPayment(event)">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="customer-email" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="your@email.com">
+                            <p class="text-xs text-gray-500 mt-1">Download links will be sent to this email</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="customer-name" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="John Doe">
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-6">
+                            <h4 class="font-semibold text-gray-900 mb-2">Order Summary</h4>
+                            <div id="checkout-items" class="space-y-2 mb-3"></div>
+                            <div class="border-t-2 pt-3 flex justify-between items-center">
+                                <span class="font-bold text-lg">Total:</span>
+                                <span class="text-2xl font-bold price-badge" id="checkout-total"></span>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="pay-button" class="w-full btn-primary text-white py-4 rounded-xl font-semibold shadow-md">
+                            <i class="fas fa-lock mr-2"></i>Pay with Paystack
+                        </button>
+                        
+                        <div class="flex items-center justify-center mt-4 text-sm text-gray-500">
+                            <i class="fas fa-shield-alt mr-2"></i>
+                            Secure payment powered by Paystack
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(checkoutModal);
+            
+            const checkoutItems = document.getElementById('checkout-items');
+            const itemsHtml = cart.map(item => `
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-700">${item.beatTitle} - ${item.licenseName}</span>
+                    <span class="font-semibold text-gray-900">${formatNaira(item.price)}</span>
+                </div>
+            `).join('');
+            checkoutItems.innerHTML = itemsHtml;
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('checkout-total').textContent = formatNaira(total);
+        }
+
+        function closeCheckoutModal() {
+            const modal = document.getElementById('checkout-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('customer-email').value;
+            const name = document.getElementById('customer-name').value;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const publicKey = config.paystack_public_key || defaultConfig.paystack_public_key;
+            
+            const payButton = document.getElementById('pay-button');
+            payButton.disabled = true;
+            payButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+            
+            const handler = PaystackPop.setup({
+                key: publicKey,
+                email: email,
+                amount: total * 100,
+                currency: 'NGN',
+                ref: 'DBSTORE-' + Math.floor((Math.random() * 1000000000) + 1),
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Customer Name",
+                            variable_name: "customer_name",
+                            value: name
+                        },
+                        {
+                            display_name: "Order Items",
+                            variable_name: "order_items",
+                            value: cart.map(item => `${item.beatTitle} (${item.licenseName})`).join(', ')
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    handlePaymentSuccess(response, email, name);
+                },
+                onClose: function() {
+                    payButton.disabled = false;
+                    payButton.innerHTML = '<i class="fas fa-lock mr-2"></i>Pay with Paystack';
+                }
+            });
+            
+            handler.openIframe();
+        }
+
+        function handlePaymentSuccess(response, email, name) {
+            closeCheckoutModal();
+            toggleCart();
+            
+            const orderDetails = cart.map(item => ({
+                beat: item.beatTitle,
+                license: item.licenseName,
+                price: item.price
+            }));
+            
+            const successModal = document.createElement('div');
+            successModal.className = 'modal active';
+            successModal.innerHTML = `
+                <div class="modal-content bg-white rounded-2xl max-w-lg w-full mx-4 p-8 text-center shadow-2xl">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check-circle text-green-500 text-5xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
+                    <p class="text-gray-600 mb-4">Thank you for your purchase, ${name}!</p>
+                    
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 mb-6 text-left">
+                        <div class="flex items-start mb-4">
+                            <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Next Steps:</h4>
+                                <p class="text-sm text-gray-700 mb-2">Your download links will be sent to:</p>
+                                <p class="text-sm font-semibold text-blue-600 mb-3">${email}</p>
+                                <p class="text-sm text-gray-700">Please check your inbox (and spam folder) within the next 5-10 minutes.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t-2 pt-4">
+                            <h4 class="font-semibold text-gray-900 mb-3">Order Details:</h4>
+                            <div class="space-y-2">
+                                ${orderDetails.map(item => `
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-700">${item.beat}</span>
+                                        <span class="font-semibold">${formatNaira(item.price)}</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 -mt-1">${item.license}</p>
+                                `).join('')}
+                            </div>
+                            <div class="border-t-2 mt-3 pt-3 flex justify-between">
+                                <span class="font-bold">Total Paid:</span>
+                                <span class="font-bold text-green-600">${formatNaira(cart.reduce((sum, item) => sum + item.price, 0))}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-xs text-gray-600">
+                            <p><strong>Reference:</strong> ${response.reference}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6 text-left">
+                        <div class="flex items-start">
+                            <i class="fas fa-exclamation-triangle text-yellow-600 text-lg mr-3 mt-1"></i>
+                            <div class="text-sm text-gray-700">
+                                <p class="font-semibold mb-1">Important Notice:</p>
+                                <p>If you don't receive the email within 15 minutes, please contact us with your reference number.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="closeSuccessModal()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold shadow-md mb-3">
+                        Continue Shopping
+                    </button>
+                    <button onclick="showPage('contact'); closeSuccessModal();" class="w-full bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+                        Contact Support
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(successModal);
+            
+            cart = [];
+            updateCartBadge();
+        }
+
+        function closeSuccessModal() {
+            const modal = document.querySelector('.modal.active');
+            if (modal && modal.querySelector('.fa-check-circle')) {
+                modal.remove();
+            }
+        }
+
+        async function onConfigChange(config) {
+            const storeName = config.store_name || defaultConfig.store_name;
+            const tagline = config.tagline || defaultConfig.tagline;
+            const heroTitle = config.hero_title || defaultConfig.hero_title;
+            const heroSubtitle = config.hero_subtitle || defaultConfig.hero_subtitle;
+            const footerText = config.footer_text || defaultConfig.footer_text;
+            const heroImage = config.hero_image || defaultConfig.hero_image;
+            const logoImage = config.logo_image || defaultConfig.logo_image;
+
+            document.getElementById('store-name').textContent = storeName;
+            document.getElementById('tagline').textContent = tagline;
+            document.getElementById('hero-title').textContent = heroTitle;
+            document.getElementById('hero-subtitle').textContent = heroSubtitle;
+            document.getElementById('footer-text').textContent = footerText;
+            document.getElementById('hero-image').src = heroImage;
+            document.getElementById('logo-image').src = logoImage;
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["store_name", config.store_name || defaultConfig.store_name],
+                    ["tagline", config.tagline || defaultConfig.tagline],
+                    ["hero_title", config.hero_title || defaultConfig.hero_title],
+                    ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+                    ["footer_text", config.footer_text || defaultConfig.footer_text],
+                    ["hero_image", config.hero_image || defaultConfig.hero_image],
+                    ["logo_image", config.logo_image || defaultConfig.logo_image],
+                    ["paystack_public_key", config.paystack_public_key || defaultConfig.paystack_public_key]
+                ])
+            });
+        }
+
+        renderBeats('beats-container', beats);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a761026e7bb1569',t:'MTc2NDYyODU4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -174,6 +174,64 @@
             transform: translateY(-2px);
         }
         
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+        
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            color: #374151;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .mobile-menu-item:hover {
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+            border-left-color: #3b82f6;
+            color: #2563eb;
+        }
+        
+        .mobile-menu-item i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
         @media (max-width: 640px) {
             .modal-content {
                 max-height: 90vh;
@@ -198,7 +256,7 @@
      </div>
      <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
      </nav>
-     <div class="flex items-center space-x-4"><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button>
+     <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
      </div>
     </div><!-- Search Bar -->
     <div class="pb-3 sm:pb-4">
@@ -207,7 +265,24 @@
      <div id="search-results-info" class="text-center mt-2 text-xs sm:text-sm text-gray-600 font-medium" style="display: none;"></div>
     </div>
    </div>
-  </header><!-- Main Content -->
+  </header><!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="toggleMobileMenu()"></div><!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+   <div class="p-6 border-b border-gray-200">
+    <div class="flex justify-between items-center mb-4">
+     <h2 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Menu</h2><button onclick="toggleMobileMenu()" class="p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-times text-2xl"></i> </button>
+    </div>
+   </div>
+   <nav class="py-4"><a href="#" class="mobile-menu-item" onclick="showPage('home'); toggleMobileMenu(); return false;"> <i class="fas fa-home"></i> <span>Home</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('tracks'); toggleMobileMenu(); return false;"> <i class="fas fa-music"></i> <span>Tracks</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('services'); toggleMobileMenu(); return false;"> <i class="fas fa-briefcase"></i> <span>Services</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('about'); toggleMobileMenu(); return false;"> <i class="fas fa-info-circle"></i> <span>About</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('contact'); toggleMobileMenu(); return false;"> <i class="fas fa-envelope"></i> <span>Contact</span> </a>
+   </nav>
+   <div class="p-6 border-t border-gray-200">
+    <div class="text-center">
+     <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg"><i class="fas fa-music text-white text-2xl"></i>
+     </div>
+     <p class="text-sm text-gray-600" id="mobile-menu-tagline">Premium Beats &amp; Instrumentals</p>
+    </div>
+   </div>
+  </div><!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8"><!-- Home Page -->
    <div id="home-page"><!-- Hero Section -->
     <section class="hero-section relative rounded-2xl p-6 sm:p-12 mb-6 sm:mb-12 text-white overflow-hidden min-h-[250px] sm:min-h-[400px] flex flex-col justify-center shadow-2xl"><img id="hero-image" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&amp;h=400&amp;fit=crop" alt="Hero background" class="absolute inset-0 w-full h-full object-cover" style="z-index: 0;" onerror="this.style.display='none';">
@@ -473,7 +548,7 @@
             hero_subtitle: "High-quality instrumentals for your next hit",
             footer_text: "© 2024 De Beat Store. All rights reserved.",
             hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
-            logo_image: "logo.PNG",
+            logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
             paystack_public_key: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         };
 
@@ -481,6 +556,28 @@
         let currentBeatId = null;
         let cart = [];
         let currentGenreFilter = 'all';
+
+        // Load cart from localStorage on page load
+        function loadCartFromStorage() {
+            try {
+                const savedCart = localStorage.getItem('debeat_cart');
+                if (savedCart) {
+                    cart = JSON.parse(savedCart);
+                    updateCartBadge();
+                }
+            } catch (error) {
+                console.error('Error loading cart:', error);
+            }
+        }
+
+        // Save cart to localStorage
+        function saveCartToStorage() {
+            try {
+                localStorage.setItem('debeat_cart', JSON.stringify(cart));
+            } catch (error) {
+                console.error('Error saving cart:', error);
+            }
+        }
 
         const beats = [
             {
@@ -564,166 +661,6 @@
                 }
             },
             {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Afro Fusion",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
-                id: 5,
-                title: "Amapiano",
-                producer: "De Beat Store",
-                bpm: 125,
-                genre: "Afrobeat",
-                key: "E Minor",
-                price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_5",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
-                }
-            },
-            {
                 id: 6,
                 title: "Midnight Log",
                 producer: "De Beat Store",
@@ -737,10 +674,8 @@
                     mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
                     wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
-                }    
+                }
             }
-            
-
         ];
 
         function formatNaira(amount) {
@@ -1134,6 +1069,7 @@
                 allowedFiles: license.files
             });
             
+            saveCartToStorage();
             updateCartBadge();
             closeLicenseModal();
             
@@ -1142,6 +1078,25 @@
             message.innerHTML = '<i class="fas fa-check mr-2"></i>Added to cart!';
             document.body.appendChild(message);
             setTimeout(() => message.remove(), 2000);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if (menu.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+                document.body.style.overflow = '';
+            }
         }
 
         function updateCartBadge() {
@@ -1199,6 +1154,7 @@
 
         function removeFromCart(index) {
             cart.splice(index, 1);
+            saveCartToStorage();
             updateCartBadge();
             renderCart();
         }
@@ -1567,6 +1523,7 @@
             document.body.appendChild(successModal);
             
             cart = [];
+            saveCartToStorage();
             updateCartBadge();
         }
 
@@ -1593,6 +1550,7 @@
             document.getElementById('footer-text').textContent = footerText;
             document.getElementById('hero-image').src = heroImage;
             document.getElementById('logo-image').src = logoImage;
+            document.getElementById('mobile-menu-tagline').textContent = tagline;
         }
 
         if (window.elementSdk) {
@@ -1618,7 +1576,9 @@
             });
         }
 
+        // Load cart and render beats on page load
+        loadCartFromStorage();
         renderBeats('beats-container', beats, 0, 12);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b002a4ad521ed53',t:'MTc2NjA3NjY4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b005905d1120e73',t:'MTc2NjA3ODYwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

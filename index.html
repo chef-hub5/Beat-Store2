@@ -477,12 +477,12 @@
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Contact Us</h2>
     <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
      <form id="contact-form" onsubmit="handleContactSubmit(event)">
-      <div class="mb-4 sm:mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Name</label> <input type="text" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+      <div class="mb-4 sm:mb-6"><label for="contact-name" class="block text-sm font-medium text-gray-700 mb-2">Name</label> <input type="text" id="contact-name" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
       </div>
-      <div class="mb-4 sm:mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Email</label> <input type="email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+      <div class="mb-4 sm:mb-6"><label for="contact-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label> <input type="email" id="contact-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
       </div>
-      <div class="mb-4 sm:mb-6"><label class="block text-sm font-medium text-gray-700 mb-2">Message</label> <textarea required rows="5" class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"></textarea>
-      </div><button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"> <i class="fas fa-paper-plane mr-2"></i>Send Message </button>
+      <div class="mb-4 sm:mb-6"><label for="contact-message" class="block text-sm font-medium text-gray-700 mb-2">Message</label> <textarea id="contact-message" required rows="5" class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"></textarea>
+      </div><button type="submit" id="contact-submit-btn" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"> <i class="fas fa-paper-plane mr-2"></i>Send Message </button>
      </form>
      <div id="contact-success" style="display: none;" class="mt-4 p-3 sm:p-4 bg-green-50 border-2 border-green-200 text-green-700 rounded-xl text-sm sm:text-base"><i class="fas fa-check-circle mr-2"></i>Thank you! Your message has been sent successfully.
      </div>
@@ -549,7 +549,8 @@
             footer_text: "© 2024 De Beat Store. All rights reserved.",
             hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
             logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
-            paystack_public_key: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b",
+            google_apps_script_url: "https://script.google.com/macros/s/AKfycbygcRNOrAjeW-4ngKyxO3_Y5mfTz3Qx_jjQbikAGyrxnW74osApdE677tQ6f0k2UTvLFg/exec"
         };
 
         let currentAudio = null;
@@ -582,13 +583,13 @@
         const beats = [
             {
                 id: 1,
-                title: "Sunset Vibes",
-                producer: "De Beat Store",
+                title: "Gbona",
+                producer: "De Beat Chef",
                 bpm: 128,
                 genre: "Afrobeat",
                 key: "C Minor",
                 price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "logo.PNG",
+                image: "photo/WhatsApp Image 2025-12-20 at 21.55.43_1f7419df.jpg",
                 audioUrl: "New folder/Gbona.mp3",
                 downloadLinks: {
                     mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_1",
@@ -598,14 +599,14 @@
             },
             {
                 id: 2,
-                title: "Lagos Nights",
-                producer: "De Beat Store",
+                title: "Lonely",
+                producer: "De Beat Chef",
                 bpm: 115,
                 genre: "Afrobeat",
                 key: "G Major",
                 price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_2",
+                image: "photo/WhatsApp Image 2025-12-20 at 21.55.43_373e98e5.jpg",
+                audioUrl: "New folder/Lonely.mp3",
                 downloadLinks: {
                     mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
                     wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
@@ -614,14 +615,14 @@
             },
             {
                 id: 3,
-                title: "Piano Dreams",
-                producer: "De Beat Store",
+                title: "Palava",
+                producer: "De Beat Chef",
                 bpm: 112,
                 genre: "Amapiano",
                 key: "A Minor",
                 price: { mp3: 29999, wav: 49999, premium: 99999, unlimited: 199999 },
-                image: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop",
-                audioUrl: "https://drive.google.com/uc?export=download&id=YOUR_PREVIEW_AUDIO_ID_3",
+                image: "photo/WhatsApp Image 2025-12-20 at 22.13.16_88a10c2f.jpg",
+                audioUrl: "New folder/Palava.mp3",
                 downloadLinks: {
                     mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_3",
                     wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_3",
@@ -941,11 +942,18 @@
             element.setSelectionRange(0, 99999);
             document.execCommand('copy');
             
-            const message = document.createElement('div');
-            message.className = 'fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
-            message.innerHTML = '<i class="fas fa-check mr-2"></i>Link copied to clipboard!';
-            document.body.appendChild(message);
-            setTimeout(() => message.remove(), 2000);
+            showToast('Link copied to clipboard!', 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            const icon = type === 'success' ? 'fa-check' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            
+            const toast = document.createElement('div');
+            toast.className = `fixed top-20 right-4 ${bgColor} text-white px-6 py-3 rounded-xl shadow-lg z-50`;
+            toast.innerHTML = `<i class="fas ${icon} mr-2"></i>${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
         function openLicenseModal(beatId) {
@@ -1014,18 +1022,18 @@
                         <div id="exclusive-offer-form-${beatId}" class="mt-4">
                             <div class="space-y-3 sm:space-y-4">
                                 <div>
-                                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Offer Price</label>
+                                    <label for="offer-price-${beatId}" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Offer Price</label>
                                     <div class="relative">
                                         <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₦</span>
                                         <input type="number" id="offer-price-${beatId}" min="1" step="1" placeholder="0" class="w-full pl-8 pr-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Email</label>
+                                    <label for="offer-email-${beatId}" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Email</label>
                                     <input type="email" id="offer-email-${beatId}" placeholder="your@email.com" class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                 </div>
                                 <div>
-                                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
+                                    <label for="offer-message-${beatId}" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
                                     <textarea id="offer-message-${beatId}" rows="3" placeholder="Tell us about your project..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"></textarea>
                                 </div>
                             </div>
@@ -1072,12 +1080,7 @@
             saveCartToStorage();
             updateCartBadge();
             closeLicenseModal();
-            
-            const message = document.createElement('div');
-            message.className = 'fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
-            message.innerHTML = '<i class="fas fa-check mr-2"></i>Added to cart!';
-            document.body.appendChild(message);
-            setTimeout(() => message.remove(), 2000);
+            showToast('Added to cart!', 'success');
         }
 
         function toggleMobileMenu() {
@@ -1159,21 +1162,66 @@
             renderCart();
         }
 
-        function submitExclusiveOffer(beatId) {
+        async function submitExclusiveOffer(beatId) {
             const beat = beats.find(b => b.id === beatId);
             const offerPrice = document.getElementById(`offer-price-${beatId}`).value;
             const offerEmail = document.getElementById(`offer-email-${beatId}`).value;
             const offerMessage = document.getElementById(`offer-message-${beatId}`).value;
             
             if (!offerPrice || !offerEmail) {
-                const errorMessage = document.createElement('div');
-                errorMessage.className = 'fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
-                errorMessage.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Please fill in both price and email fields';
-                document.body.appendChild(errorMessage);
-                setTimeout(() => errorMessage.remove(), 3000);
+                showToast('Please fill in both price and email fields', 'error');
                 return;
             }
-            
+
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+
+            if (!scriptUrl) {
+                showSuccessModal(beat, offerPrice, offerEmail, offerMessage);
+                return;
+            }
+
+            // Show loading state
+            const submitButton = event.target;
+            const originalText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+
+            try {
+                const response = await fetch(scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        type: 'exclusive_offer',
+                        beatTitle: beat.title,
+                        beatGenre: beat.genre,
+                        beatBpm: beat.bpm,
+                        beatKey: beat.key,
+                        offerPrice: offerPrice,
+                        offerEmail: offerEmail,
+                        offerMessage: offerMessage || 'No message provided',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (response.ok) {
+                    showSuccessModal(beat, offerPrice, offerEmail, offerMessage);
+                } else {
+                    showToast('Failed to send offer. Please try again.', 'error');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
+            } catch (error) {
+                console.error('Error submitting offer:', error);
+                showToast('Network error. Please check your connection.', 'error');
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
+            }
+        }
+
+        function showSuccessModal(beat, offerPrice, offerEmail, offerMessage) {
             const successModal = document.createElement('div');
             successModal.className = 'modal active';
             successModal.innerHTML = `
@@ -1301,37 +1349,86 @@
             showPage('contact');
             
             setTimeout(() => {
-                const messageField = document.querySelector('#contact-form textarea');
+                const messageField = document.getElementById('contact-message');
                 if (messageField) {
                     messageField.value = `Hi! I'm interested in your ${serviceName} service. Please provide more details about pricing and availability.`;
                 }
-                
-                const message = document.createElement('div');
-                message.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
-                message.innerHTML = `<i class="fas fa-info-circle mr-2"></i>Contact form opened for ${serviceName}`;
-                document.body.appendChild(message);
-                setTimeout(() => message.remove(), 3000);
+                showToast(`Contact form opened for ${serviceName}`, 'info');
             }, 100);
         }
 
-        function handleContactSubmit(event) {
+        async function handleContactSubmit(event) {
             event.preventDefault();
-            document.getElementById('contact-form').style.display = 'none';
-            document.getElementById('contact-success').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('contact-form').style.display = 'block';
-                document.getElementById('contact-success').style.display = 'none';
-                document.getElementById('contact-form').reset();
-            }, 3000);
+            
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+
+            const submitButton = document.getElementById('contact-submit-btn');
+            const originalText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+
+            if (!scriptUrl) {
+                // Show success without sending
+                setTimeout(() => {
+                    document.getElementById('contact-form').style.display = 'none';
+                    document.getElementById('contact-success').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('contact-form').style.display = 'block';
+                        document.getElementById('contact-success').style.display = 'none';
+                        document.getElementById('contact-form').reset();
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                    }, 3000);
+                }, 500);
+                return;
+            }
+
+            try {
+                const response = await fetch(scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        type: 'contact',
+                        name: name,
+                        email: email,
+                        message: message,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('contact-form').style.display = 'none';
+                    document.getElementById('contact-success').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('contact-form').style.display = 'block';
+                        document.getElementById('contact-success').style.display = 'none';
+                        document.getElementById('contact-form').reset();
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                    }, 3000);
+                } else {
+                    showToast('Failed to send message. Please try again.', 'error');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
+            } catch (error) {
+                console.error('Error submitting contact form:', error);
+                showToast('Network error. Please check your connection.', 'error');
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
+            }
         }
 
         function proceedToCheckout() {
             if (cart.length === 0) {
-                const message = document.createElement('div');
-                message.className = 'fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
-                message.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Your cart is empty';
-                document.body.appendChild(message);
-                setTimeout(() => message.remove(), 2000);
+                showToast('Your cart is empty', 'error');
                 return;
             }
 
@@ -1349,13 +1446,13 @@
                     
                     <form id="checkout-form" onsubmit="processPayment(event)">
                         <div class="mb-4">
-                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <label for="customer-email" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Email Address</label>
                             <input type="email" id="customer-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
                             <p class="text-[10px] sm:text-xs text-gray-500 mt-1">Download links will be sent to this email</p>
                         </div>
                         
                         <div class="mb-4">
-                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <label for="customer-name" class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Full Name</label>
                             <input type="text" id="customer-name" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="John Doe">
                         </div>
                         
@@ -1571,7 +1668,8 @@
                     ["footer_text", config.footer_text || defaultConfig.footer_text],
                     ["hero_image", config.hero_image || defaultConfig.hero_image],
                     ["logo_image", config.logo_image || defaultConfig.logo_image],
-                    ["paystack_public_key", config.paystack_public_key || defaultConfig.paystack_public_key]
+                    ["paystack_public_key", config.paystack_public_key || defaultConfig.paystack_public_key],
+                    ["google_apps_script_url", config.google_apps_script_url || defaultConfig.google_apps_script_url]
                 ])
             });
         }
@@ -1580,5 +1678,5 @@
         loadCartFromStorage();
         renderBeats('beats-container', beats, 0, 12);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b005905d1120e73',t:'MTc2NjA3ODYwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b00703d63b5ed2b',t:'MTc2NjA3OTU1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

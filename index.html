@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>De Beat Store - Premium Beats &amp; Instrumentals</title>
+  <title>Beat Bro - Premium Beats &amp; Instrumentals</title>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -79,6 +79,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
             animation: fadeIn 0.2s ease;
         }
         
@@ -88,6 +89,9 @@
         }
         
         .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+            overscroll-behavior: contain;
             animation: slideUp 0.3s ease;
         }
         
@@ -147,7 +151,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(59, 130, 246, 0.9));
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.45), rgba(59, 130, 246, 0.45));
             z-index: 1;
         }
         
@@ -159,7 +163,7 @@
         .price-badge {
             background: linear-gradient(135deg, #3b82f6, #3b82f6);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-color: transparent;   
             background-clip: text;
         }
         
@@ -250,10 +254,95 @@
       <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md" style="display: none;"><i class="fas fa-music text-white text-lg sm:text-xl"></i>
       </div>
       <div>
-       <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">De Beat Store</h1>
+       <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">Beat Bro</h1>
        <p class="text-[10px] sm:text-xs text-gray-500" id="tagline">Premium Beats &amp; Instrumentals</p>
       </div>
      </div>
+        <div id="premium-license-preview-modal" class="modal">
+         <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-6 sm:p-8 max-h-[90%] overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-start mb-4 sm:mb-6">
+             <div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Premium Plus License Preview</h3>
+                <p class="text-sm sm:text-base text-gray-600">Contract Preview Only</p>
+             </div>
+             <button onclick="closePremiumLicensePreview()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
+            </div>
+            <div class="space-y-4 text-sm sm:text-base text-gray-700">
+             <p><strong>License Preview</strong></p>
+             <p>This Non-Exclusive <strong>Premium Plus License (Contract Preview Only)</strong> License Agreement (the "Agreement"), having been made on and effective as of <strong><span class="nigeria-datetime">Loading...</span></strong> (the "Effective Date") by and between <strong>Preview Only p/k/a Preview Only (the “Producer” or “Licensor”)</strong> p/k/a <strong>Preview Only</strong> (the "Producer" or "Licensor"); and <strong>Licensee</strong> residing at <strong>[N/A]</strong> ("You" or "Licensee"), sets forth the terms and conditions of the Licensee's use, and the rights granted in, the Producer's instrumental music file entitled <strong>Preview Track Only</strong> (the "Beat") in consideration for Licensee's payment of <strong>₦155,000</strong> (the "License Fee"), on a so-called <strong>"Premium Plus License (Contract Preview Only)"</strong> basis.</p>
+             <p>This Agreement is issued solely in connection with and for Licensee's use of the Beat pursuant and subject to all terms and conditions set forth herein.</p>
+             <ol class="list-decimal list-inside space-y-2">
+                <li><strong>License Fee:</strong> The Licensee to shall make payment of the License Fee to Licensor on the date of this Agreement. All rights granted to Licensee by Producer in the Beat are conditional upon Licensee's timely payment of the License Fee. The License Fee is a one-time payment for the rights granted to Licensee and this Agreement is not valid until the License Fee has been paid.</li>
+                <li><strong>Delivery of the Beat:</strong>
+                 <ul class="list-disc list-inside ml-5 space-y-2">
+                    <li>Licensor agrees to deliver the Beat as a high-quality <strong>WAV, MP3, Track Stems,</strong> as such terms are understood in the music industry.</li>
+                    <li>Licensor shall use commercially reasonable efforts to deliver the Beat to Licensee immediately after payment of the License Fee is made. Licensee will receive the Beat via email, to the email address Licensee provided to Licensor.</li>
+                 </ul>
+                </li>
+                <li><strong>Term:</strong> The Term of this Agreement shall be ten (10) years and this license shall expire on the ten (10) year anniversary of the Effective Date.</li>
+                <li><strong>Use of the Beat:</strong>
+                 <ul class="list-disc list-inside ml-5 space-y-2">
+                    <li>In consideration for Licensee's payment of the License Fee, the Producer hereby grants Licensee a limited <strong>non-exclusive, nontransferable</strong> license and the right to incorporate, include and/or use the Beat in the preparation of one (1) new song or to incorporate the Beat into a new piece of instrumental music created by the Licensee. Licensee may create the new song or new instrumental music by recording his/her written lyrics over the Beat and/or by incorporating portions/samples of the Beat into pre-existing instrumental music written, produced and/or owned by Licensee. The new song or piece of instrumental music created by the Licensee which incorporates some or all of the Beat shall be referred to as the "New Song". Permission is granted to Licensee to modify the arrangement, length, tempo, or pitch of the Beat in preparation of the New Song for public release.</li>
+                    <li>This License grants Licensee a worldwide, non-exclusive license to use the Beat as incorporated in the New Song in the manners and for the purposes expressly provided for herein, subject to the sale restrictions, limitations and prohibited uses stated in this Agreement. Licensee acknowledges and agrees that any and all rights granted to Licensee in the Beat pursuant to this Agreement are on a <strong>NON-EXCLUSIVE</strong> basis and Producer shall continue to license the Beat upon the same or similar terms and conditions as this Agreement to other potential third-party licensees.</li>
+                 </ul>
+                </li>
+             </ol>
+             <ul class="list-disc list-inside ml-5 space-y-2">
+                <li>The New Song may be used for any promotional purposes, including but not limited to, a release in a single format, for inclusion in a mixtape or free compilation of music bundled together (EP or album), and/or promotional, non-monetized digital streaming;</li>
+                <li>Licensee <strong>true</strong> perform the song publicly for-profit performances and for an <strong>Unlimited</strong> non-profit performances, including but not limited to, at a live performance (i.e. concert, festival, nightclub etc.), on terrestrial or satellite radio, and/or on the internet via third-party streaming services (Spotify, YouTube, iTunes Radio etc.). The New Song may be played on <strong>2</strong> terrestrial or satellite radio stations;</li>
+                <li>The Licensee may use the New Song in synchronization with <strong>One</strong> (<strong>1</strong>) audiovisual work no longer than five (5) minutes in length (a "Video"). In the event that the New Song itself is longer than five (5) minutes in length, the Video may not play for longer than the length of the New Song. The Video may be broadcast on any television network and/or uploaded to the internet for digital streaming and/or free download by the public including but not limited to on YouTube and/or Vevo. Producer grants no other synchronization rights to Licensee;</li>
+                <li>The Licensee may make the New Song available for sale in physical and/or digital form and sell <strong>500000</strong> downloads/physical music products and are allowed <strong>500000</strong> monetized audio streams, <strong>1</strong> monetized video streams, <strong></strong> non-monetized video streams and are allowed <strong>Unlimited</strong> free downloads. The New Song may be available for sale as a single and/or included in a compilation of other songs bundled together by Licensee as an EP or a full-length Album. The New Song may be sold via digital retailers for permanent digital download in mp3 format and/or physical format, including compact disc and vinyl records. For clarity and avoidance of doubt, the Licensee does NOT have the right to sell the Beat in the form that it was delivered to Licensee. The Licensee must create a New Song (or instrumental as detailed above) for its rights under this provision to a vest. Any sale of the Beat in its original form by Licensee shall be a material breach of this Agreement and the Licensee shall be liable to the Licensor for damages as provided hereunder.</li>
+             </ul>
+             <ol class="list-decimal list-inside space-y-2 mt-4">
+                <li>Subject to the Licensee's compliance with the terms and conditions of this Agreement, Licensee shall not be required to account or pay to Producer any royalties, fees, or monies paid to or collected by the Licensee (expressly excluding mechanical royalties), or which would otherwise be payable to Producer in connection with the use/exploitation of the New Song as set forth in this Agreement.</li>
+                <li><strong>Restrictions on the Use of the Beat:</strong> Licensee hereby agrees and acknowledges that it is expressly prohibited from taking any action(s) and from engaging in any use of the Beat or New Song in the manners, or for the purposes, set forth below:
+                 <ul class="list-disc list-inside ml-5 space-y-2">
+                    <li>The rights granted to Licensee are <strong>NON-TRANSFERABLE</strong> and that Licensee may not transfer or assign any of its rights hereunder to any third-party;</li>
+                    <li>The Licensee shall not synchronize, or permit third parties to synchronize, the Beat or New Song with any audiovisual works EXCEPT as expressly provided for and pursuant to Paragraph 4(b)(iii) of this Agreement for use in one (1) Video. This restriction includes, but is not limited to, use of the Beat and/or New Song in television, commercials, film/movies, theatrical works, video games, and in any other form on the Internet which is not expressly permitted herein.</li>
+                    <li>The Licensee shall not have the right to license or sublicense any use of the Beat or of the New Song, in whole or in part, for any so-called "samples".</li>
+                    <li>Licensee shall not engage in any unlawful copying, streaming, duplicating, selling, lending, renting, hiring, broadcasting, uploading, or downloading to any database, servers, computers, peer to peer sharing, or other file-sharing services, posting on websites, or distribution of the Beat in the form, or a substantially similar form, as delivered to Licensee. Licensee may send the Beat file to any individual musician, engineer, studio manager or other people who are working on the New Song.</li>
+                    <li>THE LICENSEE IS EXPRESSLY PROHIBITED FROM REGISTERING THE BEAT AND/OR NEW SONG WITH ANY CONTENT IDENTIFICATION SYSTEM, SERVICE PROVIDER, MUSIC DISTRIBUTOR, RECORD LABEL OR DIGITAL AGGREGATOR (for example TuneCore or CDBaby, and any other provider of user-generated content identification services). The purpose of this restriction is to prevent you from receiving a copyright infringement takedown notice from a third party who also received a non-exclusive license to use the Beat in a New Song. The Beat has already been tagged for Content Identification (as that term is used in the music industry) by Producer as a pre-emptive measure to protect all interested parties in the New Song. If you do not adhere to this policy, you are in violation of the terms of this License and your license to use the Beat and/or New Song may be revoked without notice or compensation to you.</li>
+                    <li>As applicable to both the underlying composition in the Beat and to the master recording of the Beat: (i) The parties acknowledge and agree that the New Song is a "derivative work", as that term is used in the United States Copyright Act; (ii) As applicable to the Beat and/or the New Song, there is no intention by the parties to create a joint work; and (iii) There is no intention by the Licensor to grant any rights in and/or to any other derivative works that may have been created by other third-party licensees.</li>
+                 </ul>
+                </li>
+                <li><strong>Ownership:</strong>
+                 <ul class="list-disc list-inside ml-5 space-y-2">
+                    <li>The Producer is and shall remain the sole owner and holder of all rights, title, and interest in the Beat, including all copyrights to and in the sound recording and the underlying musical compositions written and composed by Producer. Nothing contained herein shall constitute an assignment by Producer to Licensee of any of the foregoing rights. Licensee may not, under any circumstances, register or attempt to register the New Song and/or the Beat with the U.S. Copyright Office. The aforementioned right to register the New Song and/or the Beat shall be strictly limited to Producer. Licensee will, upon request, execute, acknowledge and deliver to Producer such additional documents as Producer may deem necessary to evidence and effectuate Producer's rights hereunder, and Licensee hereby grants to Producer the right as attorney-in-fact to execute, acknowledge, deliver and record in the U.S. Copyright Office or elsewhere any and all such documents if Licensee shall fail to execute same within five (5) days after so requested by Producer.</li>
+                    <li>For the avoidance of doubt, you do not own the master or the sound recording rights in the New Song. You have been licensed the right to use the Beat in the New Song and to commercially exploit the New Song based on the terms and conditions of this Agreement.</li>
+                 </ul>
+                 <p class="mt-2">Notwithstanding the above, you do own the lyrics or other original musical components of the New Song that were written or composed solely by you.</p>
+                </li>
+                <li>With respect to the publishing rights and ownership of the underlying composition embodied in the New Song, the Licensee, and the Producer hereby acknowledge and agree that the underlying composition shall be owned/split between them as follows:</li>
+             </ol>
+             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                <p class="text-sm text-gray-800"><strong>Writer Share Licensor Name (Licensor) 50% Licensee Name (Licensee) 50%</strong></p>
+                <ul class="list-disc list-inside ml-5 space-y-2 mt-3">
+                 <li>Producer shall own, control, and administer Fifty Percent (50%) of the so-called "Publisher's Share" of the underlying composition.</li>
+                 <li>In the event that Licensee wishes to register his/her interests and rights to the underlying composition of the New Song with their Performing Rights Organization ("PRO"), Licensee must simultaneously identify and register the Producer's share and ownership interest in the composition to indicate that Producer wrote and owns 50% of the composition in the New Song and as the owner of 50% of the Publisher's share of the New Song.</li>
+                </ul>
+             </div>
+             <ol class="list-decimal list-inside space-y-2 mt-4">
+                <li>The licensee shall be deemed to have signed, affirmed and ratified its acceptance of the terms of this Agreement by virtue of its payment of the License Fee to Licensor and its electronic acceptance of its terms and conditions at the time Licensee made payment of the License Fee.</li>
+                <li><strong>Mechanical License:</strong> If any selection or musical composition, or any portion thereof, recorded in the New Song hereunder is written or composed by Producer, in whole or in part, alone or in collaboration with others, or is owned or controlled, in whole or in part, directly or indirectly, by Producer or any person, firm, or corporation in which Producer has a direct or indirect interest, then such selection and/or musical composition shall be hereinafter referred to as a "Controlled Composition". Producer hereby agrees to issue or cause to be issued, as applicable, to Licensee, mechanical licenses in respect of each Controlled Composition, which are embodied on the New Song. For that license, on the United States and Canada sales, Licensee will pay mechanical royalties at one hundred percent (100%) of the minimum statutory rate, subject to no cap of that rate for albums and/or EPs. For license outside the United States and Canada, the mechanical royalty rate will be the rate prevailing on an industry-wide basis in the country concerned on the date that this agreement has been entered into.</li>
+                <li><strong>Credit:</strong> Licensee shall have the right to use and permit others to use Producer's approved name, approved likeness, and other approved identification and approved biographical material concerning the Producer solely for purposes of trade and otherwise without restriction solely in connection with the New Song recorded hereunder. Licensee shall use best efforts to have Producer credited as a "producer" and shall give Producer appropriate production and songwriting credit on all compact discs, record, music video, and digital labels or any other record configuration manufactured which is now known or created in the future that embodies the New Song created hereunder and on all cover liner notes, any records containing the New Song and on the front and/or back cover of any album listing the New Song and other musician credits. The licensee shall use its best efforts to ensure that Producer is properly credited and Licensee shall check all proofs for the accuracy of credits, and shall use its best efforts to cure any mistakes regarding Producer's credit. In the event of any failure by Licensee to issue the credit to Producer, Licensee must use reasonable efforts to correct any such failure immediately and on a prospective basis. Such credit shall be in the substantial form: "Produced by Preview Only".</li>
+                <li><strong>Licensor's Option:</strong> Licensor shall have the option, at Licensor's sole discretion, to terminate this License at any time within three (3) years of the date of this Agreement upon written notice to Licensee. In the event that Licensor exercises this option, Licensor shall pay to Licensee a sum equal to Two Hundred Percent (200%) of the License Fee paid by Licensee. Upon Licensor's exercise of the option, Licensee must immediately remove the New Song from any and all digital and physical distribution channels and must immediately cease access to any streams and/or downloads of the New Song by the general public.</li>
+                <li><strong>Breach by Licensee:</strong>
+                 <ul class="list-disc list-inside ml-5 space-y-2">
+                    <li>The licensee shall have five (5) business days from its receipt of written notice by Producer and/or Producer's authorized representative to cure any alleged breach of this Agreement by Licensee. Licensee's failure to cure the alleged breach within five (5) business days shall result in Licensee's default of its obligations, its breach of this Agreement, and at Producer's sole discretion, the termination of Licensee's rights hereunder.</li>
+                    <li>If Licensee engages in the commercial exploitation and/or sale of the Beat or New Song outside of the manner and amount expressly provided for in this Agreement, Licensee shall be liable to Producer for monetary damages in an amount equal to any and all monies paid, collected by, or received by Licensee, or any third party on its behalf, in connection with such unauthorized commercial exploitation of the Beat and/or New Song.</li>
+                    <li>Licensee recognizes and agrees that a breach or threatened breach of this Agreement by Licensee give rise to irreparable injury to Producer, which may not be adequately compensated by damages. Accordingly, in the event of a breach or threatened breach by the Licensee of the provisions of this Agreement, Producer may seek and shall be entitled to a temporary restraining order and a preliminary injunction restraining the Licensee from violating the provisions of this Agreement. Nothing herein shall prohibit Producer from pursuing any other available legal or equitable remedy from such breach or threatened breach, including but not limited to the recovery of damages from Licensee. The Licensee shall be responsible for all costs, expenses or damages that Producer incurs as a result of any violation by the Licensee of any provision of this Agreement. Licensee' obligation shall include court costs, litigation expenses, and reasonable attorneys' fees.</li>
+                 </ul>
+                </li>
+                <li><strong>Warranties, Representations, and Indemnification:</strong>
+                 <ul class="list-disc list-inside ml-5 space-y-2">
+                    <li>Licensee hereby agrees that Licensor has not made any guarantees or promises that the Beat fits the particular creative use or musical purpose intended or desired by the Licensee. The Beat, its sound recording, and the underlying musical composition embodied therein are licensed to the Licensee "as is" without warranties of any kind or fitness for a particular purpose.</li>
+                    <li>Parties hereto shall indemnify and hold each other harmless from any and all third party claims, liabilities, costs, losses, damages or expenses as are actually incurred by the non-defaulting party and shall hold the non-defaulting party, free, safe, and harmless against and from any and all claims, suits, demands, costs, liabilities, loss, damages, judgments, recoveries, costs, and expenses; (including, without limitation, reasonable attorneys' fees), which may be made or brought, paid, or incurred by reason of any breach or claim of breach of the warranties and representations hereunder by the defaulting party, their agents, heirs, successors, assigns and employees, which have been reduced to final judgment; provided that prior to final judgment, arising out of any breach of any representations or warranties of the defaulting party contained in this agreement or any failure by defaulting party to perform any obligations on its part to be performed hereunder the non-defaulting party has given the defaulting party prompt written notice of all claims and the right to participate in the defense with counsel of its choice at its sole expense. In no event shall Artist be entitled to seek injunctive or any other equitable relief for any breach or non-compliance with any provision of this agreement.</li>
+                 </ul>
+                </li>
+                <li><strong>Miscellaneous:</strong> This Agreement constitutes the entire understanding of the parties and is intended as a final expression of their agreement and cannot be altered, modified, amended or waived, in whole or in part, except by written instrument (email being sufficient) signed by both parties hereto. This agreement supersedes all prior agreements between the parties, whether oral or written. Should any provision of this agreement be held to be void, invalid or inoperative, such decision shall not affect any other provision hereof, and the remainder of this agreement shall be effective as though such void, invalid or inoperative provision had not been contained herein. No failure by Licensor hereto to perform any of its obligations hereunder shall be deemed a material breach of this agreement until the Licensee gives Licensor written notice of its failure to perform, and such failure has not been corrected within thirty (30) days from and after the service of such notice, or, if such breach is not reasonably capable of being cured within such thirty (30) day period, Licensor does not commence to cure such breach within said time period, and proceed with reasonable diligence to complete the curing of such breach thereafter. This agreement shall be governed by and interpreted in accordance with the laws of the **Abuja,Nigeria** applicable to agreements entered into and wholly performed in said State, without regard to any conflict of laws principles. You hereby agree that the exclusive jurisdiction and venue for any action, suit or proceeding based upon any matter, claim or controversy arising hereunder or relating hereto shall be in the state or federal courts located in the **Abuja,Nigeria**. You shall not be entitled to any monies in connection with the Master(s) other than as specifically set forth herein. All notices pursuant to this agreement shall be in writing and shall be given by registered or certified mail, return receipt requested (prepaid) at the respective addresses hereinabove set forth or such other address or addresses as may be designated by either party. Such notices shall be deemed given when received. Any notice mailed will be deemed to have been received five (5) business days after it is mailed; any notice dispatched by expedited delivery service will be deemed to be received two (2) business days after it is dispatched. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE READ THIS AGREEMENT AND HAVE BEEN ADVISED BY US OF THE SIGNIFICANT IMPORTANCE OF RETAINING AN INDEPENDENT ATTORNEY OF YOUR CHOICE TO REVIEW THIS AGREEMENT ON YOUR BEHALF. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE HAD THE UNRESTRICTED OPPORTUNITY TO BE REPRESENTED BY AN INDEPENDENT ATTORNEY. IN THE EVENT OF YOUR FAILURE TO OBTAIN AN INDEPENDENT ATTORNEY OR WAIVER THEREOF, YOU HEREBY WARRANT AND REPRESENT THAT YOU WILL NOT ATTEMPT TO USE SUCH FAILURE AND/OR WAIVER as a basis to avoid any obligations under this agreement, or to invalidate this agreement or To render this agreement or any part thereof unenforceable. This agreement may be executed in counterparts, each of which shall be deemed an original, and said counterparts shall constitute one and the same instrument. In addition, a signed copy of this agreement transmitted by facsimile or scanned into an image file and transmitted via email shall, for all purposes, be treated as if it was delivered containing an original manual signature of the party whose signature appears thereon and shall be binding upon such party as though an originally signed document had been delivered. Notwithstanding the foregoing, in the event that you do not sign this Agreement, your acknowledgment that you have reviewed the terms and conditions of this Agreement and your payment of the License Fee shall serve as your signature and acceptance of the terms and conditions of this Agreement.
+            </div>
+         </div>
+        </div>
      <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
      </nav>
      <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
@@ -301,6 +390,9 @@
    <div id="tracks-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">All Tracks</h2>
     <div class="mb-6 sm:mb-8"><label class="block text-sm font-medium text-gray-700 mb-2">Filter by Genre</label> <select id="genre-filter" onchange="applyTrackFilters()" class="w-full max-w-md px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"> <option value="all">All Genres</option> <option value="Afrobeat">Afrobeat</option> <option value="Amapiano">Amapiano</option> </select>
+    </div>
+    <div id="bulk-discount-banner" class="hidden mb-6 rounded-2xl border border-blue-300 bg-blue-50 p-4 text-sm sm:text-base text-blue-800">
+      Add 2 more tracks with Unlimited License to your cart to activate the Buy 2 Tracks, Get 2 Free bulk discount.
     </div>
     <div id="tracks-beats-container"></div>
    </div><!-- Services Page -->
@@ -417,14 +509,14 @@
     </div>
    </div><!-- About Page -->
    <div id="about-page" style="display: none;">
-    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">About De Beat Store</h2>
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">About Beat Bro</h2>
     <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
       <div><img src="logo.PNG" alt="Music production studio" class="w-full h-48 sm:h-64 object-cover rounded-xl shadow-md" onerror="this.style.display='none';">
       </div>
       <div>
        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Our Story</h3>
-       <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">De Beat Store was founded with a passion for creating high-quality, professional beats that inspire artists worldwide. We specialize in Afrobeat and Amapiano genres, bringing authentic African sounds to the global music scene.</p>
+       <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">Beat Bro was founded with a passion for creating high-quality, professional beats that inspire artists worldwide. We specialize in Afrobeat and Amapiano genres, bringing authentic African sounds to the global music scene.</p>
        <p class="text-sm sm:text-base text-gray-700">Our team of experienced producers works tirelessly to craft unique instrumentals that help artists bring their vision to life. Every beat is carefully produced with attention to detail and mixed to industry standards.</p>
       </div>
      </div>
@@ -488,12 +580,145 @@
      </div>
     </div>
    </div>
+   <div id="license-page" style="display: none;">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Licensing Info</h2>
+    <div class="max-w-6xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+     <p class="text-sm sm:text-base text-gray-700 mb-6">Choose the license that fits your release plan. Each option is clearly defined so you know what you can do with the track.</p>
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6">
+      <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-200">
+       <div class="flex items-center justify-between mb-4">
+        <div>
+         <h3 class="text-xl font-bold text-gray-900">MP3 License</h3>
+         <p class="text-sm text-gray-500">₦38,000</p>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">MP3 only</span>
+       </div>
+       <ul class="space-y-2 text-sm sm:text-base text-gray-700 mb-4">
+        <li>• MP3 file</li>
+        <li>• Personal Use</li>
+        <li>• Limited 50,000 Streams</li>
+        <li>• Limited 2 Performing Rights</li>
+        <li>• Limited 2 Broadcasting Rights</li>
+       </ul>
+    <button id="mp3-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm">Read License</button>
+      </div>
+      <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-200">
+       <div class="flex items-center justify-between mb-4">
+        <div>
+         <h3 class="text-xl font-bold text-gray-900">WAV License</h3>
+         <p class="text-sm text-gray-500">₦77,000</p>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">WAV + MP3</span>
+       </div>
+       <ul class="space-y-2 text-sm sm:text-base text-gray-700 mb-4">
+        <li>• MP3, WAV files</li>
+        <li>• Personal Use</li>
+        <li>• Terms don't expire</li>
+        <li>• Limited 100,000 Streams</li>
+        <li>• Limited 4 Broadcasting Rights</li>
+        <li>• Limited 4 Performing Rights</li>
+        <li>• YouTube Monetize</li>
+        <li>• Beat Bro retains full rights</li>
+       </ul>
+    <button id="wav-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm">Read License</button>
+      </div>
+     </div>
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6">
+      <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl p-6 shadow-xl border border-purple-700">
+       <div class="flex items-center justify-between mb-4">
+        <div>
+         <h3 class="text-xl font-bold">POPULAR Premium Plus License</h3>
+         <p class="text-sm text-purple-100">₦155,000</p>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-white bg-opacity-20 px-3 py-1 text-xs font-semibold uppercase tracking-wide">Popular</span>
+       </div>
+       <ul class="space-y-2 text-sm sm:text-base text-purple-100 mb-4">
+        <li>• MP3, WAV, STEM files</li>
+        <li>• Personal/Commercial Use</li>
+        <li>• Terms don't expire</li>
+        <li>• Limited 500,000 Streams</li>
+        <li>• Limited 10 Broadcasting Rights</li>
+        <li>• Limited 10 Performing Rights</li>
+        <li>• YouTube Monetize</li>
+        <li>• Streaming Service Release (Spotify, Apple Music etc.)</li>
+        <li>• Beat Bro retains full rights</li>
+       </ul>
+    <button id="premium-read-license-btn" type="button" class="w-full bg-white text-purple-700 py-2.5 rounded-xl font-semibold text-sm">Read License</button>
+      </div>
+      <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-200">
+       <div class="flex items-center justify-between mb-4">
+        <div>
+         <h3 class="text-xl font-bold text-gray-900">Unlimited License</h3>
+         <p class="text-sm text-gray-500">₦230,000</p>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Bulk deal</span>
+       </div>
+       <ul class="space-y-2 text-sm sm:text-base text-gray-700 mb-4">
+        <li>• MP3, WAV, STEM files</li>
+        <li>• Personal/Commercial Use</li>
+        <li>• Unlimited Streams</li>
+        <li>• Unlimited Broadcasting Rights</li>
+        <li>• Unlimited Performing Rights</li>
+        <li>• YouTube Monetize</li>
+        <li>• Streaming Service Release (Spotify, Apple Music etc.)</li>
+        <li>• Beat Bro retains full rights</li>
+       </ul>
+       <div class="mb-4 text-sm font-semibold text-gray-900">Bulk deals: BUY 2 TRACKS, GET 2 FREE!</div>
+       <button id="unlimited-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm">Read License</button>
+      </div>
+     </div>
+     <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div class="flex items-center justify-between mb-4">
+       <div>
+        <h3 class="text-xl font-bold text-gray-900">Exclusive License</h3>
+        <p class="text-sm text-gray-500">MAKE AN OFFER</p>
+       </div>
+       <span class="inline-flex items-center rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 uppercase">Exclusive</span>
+      </div>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700 mb-4">
+       <li>• Used for Music Recording</li>
+       <li>• Distribute up to UNLIMITED copies</li>
+       <li>• UNLIMITED Online Audio Streams</li>
+       <li>• UNLIMITED Music Video</li>
+       <li>• For Profit Live Performances</li>
+       <li>• Radio Broadcasting rights (UNLIMITED Stations)</li>
+      </ul>
+      <button id="exclusive-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm">Read License</button>
+     </div>
+    </div>
+   </div>
+   <div id="terms-page" style="display: none;">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Terms of Use</h2>
+    <div class="max-w-5xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+     <p class="text-sm sm:text-base text-gray-700 mb-4">By accessing and using this website, you agree to our terms outlined below. Please read carefully before purchasing or downloading beats.</p>
+     <ul class="space-y-3 text-sm sm:text-base text-gray-700">
+      <li><strong>License compliance:</strong> You must purchase the appropriate license before using any beat commercially.</li>
+      <li><strong>Restrictions:</strong> Beats may not be resold, sublicensed, or distributed as standalone products.</li>
+      <li><strong>Payment terms:</strong> All sales are final once completed. Refunds are handled on a case-by-case basis.</li>
+      <li><strong>Intellectual property:</strong> Producers retain ownership of the original compositions.</li>
+      <li><strong>Site usage:</strong> You agree not to misuse the website, upload harmful content, or attempt to access restricted areas.</li>
+     </ul>
+    </div>
+   </div>
+   <div id="privacy-page" style="display: none;">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Privacy Policy</h2>
+    <div class="max-w-5xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+     <p class="text-sm sm:text-base text-gray-700 mb-4">We respect your privacy and are committed to protecting your personal information. This policy explains how we collect, use, and safeguard your data.</p>
+     <ul class="space-y-3 text-sm sm:text-base text-gray-700">
+      <li><strong>Data collection:</strong> We collect only the information necessary to process orders, respond to inquiries, and improve the user experience.</li>
+      <li><strong>Usage:</strong> Information is used for order processing, support, marketing, and site analytics.</li>
+      <li><strong>Security:</strong> We store your data securely and do not sell it to third parties.</li>
+      <li><strong>Cookies:</strong> Cookies may be used to remember preferences and improve site performance.</li>
+      <li><strong>Contact:</strong> If you have privacy concerns, please reach out through our contact page.</li>
+     </ul>
+    </div>
+   </div>
   </main><!-- Footer -->
   <footer class="bg-gray-900 text-white mt-12 sm:mt-16">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
      <div>
-      <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4">De Beat Store</h3>
+      <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Beat Bro</h3>
       <p class="text-sm sm:text-base text-gray-400">Premium beats and instrumentals for artists worldwide.</p>
      </div>
      <div>
@@ -504,6 +729,9 @@
        <li><a href="#" onclick="showPage('services'); return false;" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
        <li><a href="#" onclick="showPage('about'); return false;" class="text-gray-400 hover:text-white transition-colors">About</a></li>
        <li><a href="#" onclick="showPage('contact'); return false;" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+       <li><a href="#" onclick="showPage('license'); return false;" class="text-gray-400 hover:text-white transition-colors">Licensing Info</a></li>
+       <li><a href="#" onclick="showPage('terms'); return false;" class="text-gray-400 hover:text-white transition-colors">Terms of Use</a></li>
+       <li><a href="#" onclick="showPage('privacy'); return false;" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
       </ul>
      </div>
      <div>
@@ -513,7 +741,7 @@
      </div>
     </div>
     <div class="border-t border-gray-800 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm">
-     <p id="footer-text">© 2025 De Beat Store. All rights reserved.</p>
+     <p id="footer-text">© 2026 Beat Bro. All rights reserved.</p>
     </div>
    </div>
   </footer><!-- License Modal -->
@@ -527,9 +755,296 @@
     </div>
     <div class="space-y-3 sm:space-y-4" id="license-options-container"></div>
    </div>
-  </div><!-- Cart Modal -->
+  </div>
+  <div id="mp3-license-preview-modal" class="modal">
+   <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-6 sm:p-8 max-h-[90%] overflow-y-auto shadow-2xl">
+    <div class="flex justify-between items-start mb-4 sm:mb-6">
+     <div>
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900">MP3 License Preview</h3>
+      <p class="text-sm sm:text-base text-gray-600">Contract Preview Only</p>
+     </div><button onclick="closeMp3LicensePreview()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
+    </div>
+    <div class="space-y-4 text-sm sm:text-base text-gray-700">
+     <p><strong>License Preview</strong></p>
+     <p>This Non-Exclusive <strong>MP3 LICENSE (Contract Preview Only)</strong> License Agreement (the "Agreement"), having been made on and effective as of <strong><span class="nigeria-datetime">Loading...</span></strong> (the "Effective Date") by and between <strong>Preview Only p/k/a Preview Only (the “Producer” or “Licensor”)</strong> p/k/a <strong>Preview Only</strong> (the "Producer" or "Licensor"); and <strong>Licensee</strong> residing at <strong>[N/A]</strong> ("You" or "Licensee"), sets forth the terms and conditions of the Licensee's use, and the rights granted in, the Producer's instrumental music file entitled <strong>Preview Track Only</strong> (the "Beat") in consideration for Licensee's payment of <strong>₦38,000</strong> (the "License Fee"), on a so-called <strong>"MP3 LICENSE (Contract Preview Only)"</strong> basis.</p>
+     <p>This Agreement is issued solely in connection with and for Licensee's use of the Beat pursuant and subject to all terms and conditions set forth herein.</p>
+     <ol class="list-decimal list-inside space-y-2">
+      <li><strong>License Fee:</strong> The Licensee to shall make payment of the License Fee to Licensor on the date of this Agreement. All rights granted to Licensee by Producer in the Beat are conditional upon Licensee's timely payment of the License Fee. The License Fee is a one-time payment for the rights granted to Licensee and this Agreement is not valid until the License Fee has been paid.</li>
+      <li><strong>Delivery of the Beat:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>Licensor agrees to deliver the Beat as a high-quality <strong>MP3,</strong> as such terms are understood in the music industry.</li>
+        <li>Licensor shall use commercially reasonable efforts to deliver the Beat to Licensee immediately after payment of the License Fee is made. Licensee will receive the Beat via email, to the email address Licensee provided to Licensor.</li>
+       </ul>
+      </li>
+      <li><strong>Term:</strong> The Term of this Agreement shall be ten (10) years and this license shall expire on the ten (10) year anniversary of the Effective Date.</li>
+      <li><strong>Use of the Beat:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>In consideration for Licensee's payment of the License Fee, the Producer hereby grants Licensee a limited <strong>non-exclusive, nontransferable</strong> license and the right to incorporate, include and/or use the Beat in the preparation of one (1) new song or to incorporate the Beat into a new piece of instrumental music created by the Licensee. Licensee may create the new song or new instrumental music by recording his/her written lyrics over the Beat and/or by incorporating portions/samples of the Beat into pre-existing instrumental music written, produced and/or owned by Licensee. The new song or piece of instrumental music created by the Licensee which incorporates some or all of the Beat shall be referred to as the "New Song". Permission is granted to Licensee to modify the arrangement, length, tempo, or pitch of the Beat in preparation of the New Song for public release.</li>
+        <li>This License grants Licensee a worldwide, non-exclusive license to use the Beat as incorporated in the New Song in the manners and for the purposes expressly provided for herein, subject to the sale restrictions, limitations and prohibited uses stated in this Agreement. Licensee acknowledges and agrees that any and all rights granted to Licensee in the Beat pursuant to this Agreement are on a <strong>NON-EXCLUSIVE</strong> basis and Producer shall continue to license the Beat upon the same or similar terms and conditions as this Agreement to other potential third-party licensees.</li>
+       </ul>
+      </li>
+     </ol>
+     <ul class="list-disc list-inside ml-5 space-y-2">
+      <li>The New Song may be used for any promotional purposes, including but not limited to, a release in a single format, for inclusion in a mixtape or free compilation of music bundled together (EP or album), and/or promotional, non-monetized digital streaming;</li>
+      <li>Licensee <strong>false</strong> perform the song publicly for-profit performances and for an <strong>Unlimited</strong> non-profit performances, including but not limited to, at a live performance (i.e. concert, festival, nightclub etc.), on terrestrial or satellite radio, and/or on the internet via third-party streaming services (Spotify, YouTube, iTunes Radio etc.). The New Song may be played on <strong>2</strong> terrestrial or satellite radio stations;</li>
+      <li>The Licensee may use the New Song in synchronization with <strong>Zero</strong> (<strong>0</strong>) audiovisual work no longer than five (5) minutes in length (a "Video"). In the event that the New Song itself is longer than five (5) minutes in length, the Video may not play for longer than the length of the New Song. The Video may be broadcast on any television network and/or uploaded to the internet for digital streaming and/or free download by the public including but not limited to on YouTube and/or Vevo. Producer grants no other synchronization rights to Licensee;</li>
+      <li>The Licensee may make the New Song available for sale in physical and/or digital form and sell <strong>0</strong> downloads/physical music products and are allowed <strong>50000</strong> monetized audio streams, <strong>0</strong> monetized video streams, <strong></strong> non-monetized video streams and are allowed <strong>Unlimited</strong> free downloads. The New Song may be available for sale as a single and/or included in a compilation of other songs bundled together by Licensee as an EP or a full-length Album. The New Song may be sold via digital retailers for permanent digital download in mp3 format and/or physical format, including compact disc and vinyl records. For clarity and avoidance of doubt, the Licensee does NOT have the right to sell the Beat in the form that it was delivered to Licensee. The Licensee must create a New Song (or instrumental as detailed above) for its rights under this provision to a vest. Any sale of the Beat in its original form by Licensee shall be a material breach of this Agreement and the Licensee shall be liable to the Licensor for damages as provided hereunder.</li>
+     </ul>
+     <ol class="list-decimal list-inside space-y-2">
+      <li>Subject to the Licensee's compliance with the terms and conditions of this Agreement, Licensee shall not be required to account or pay to Producer any royalties, fees, or monies paid to or collected by the Licensee (expressly excluding mechanical royalties), or which would otherwise be payable to Producer in connection with the use/exploitation of the New Song as set forth in this Agreement.</li>
+      <li><strong>Restrictions on the Use of the Beat:</strong> Licensee hereby agrees and acknowledges that it is expressly prohibited from taking any action(s) and from engaging in any use of the Beat or New Song in the manners, or for the purposes, set forth below:
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The rights granted to Licensee are <strong>NON-TRANSFERABLE</strong> and that Licensee may not transfer or assign any of its rights hereunder to any third-party;</li>
+        <li>The Licensee shall not synchronize, or permit third parties to synchronize, the Beat or New Song with any audiovisual works EXCEPT as expressly provided for and pursuant to Paragraph 4(b)(iii) of this Agreement for use in one (1) Video. This restriction includes, but is not limited to, use of the Beat and/or New Song in television, commercials, film/movies, theatrical works, video games, and in any other form on the Internet which is not expressly permitted herein.</li>
+        <li>The Licensee shall not have the right to license or sublicense any use of the Beat or of the New Song, in whole or in part, for any so-called "samples".</li>
+        <li>Licensee shall not engage in any unlawful copying, streaming, duplicating, selling, lending, renting, hiring, broadcasting, uploading, or downloading to any database, servers, computers, peer to peer sharing, or other file-sharing services, posting on websites, or distribution of the Beat in the form, or a substantially similar form, as delivered to Licensee. Licensee may send the Beat file to any individual musician, engineer, studio manager or other people who are working on the New Song.</li>
+        <li>THE LICENSEE IS EXPRESSLY PROHIBITED FROM REGISTERING THE BEAT AND/OR NEW SONG WITH ANY CONTENT IDENTIFICATION SYSTEM, SERVICE PROVIDER, MUSIC DISTRIBUTOR, RECORD LABEL OR DIGITAL AGGREGATOR (for example TuneCore or CDBaby, and any other provider of user-generated content identification services). The purpose of this restriction is to prevent you from receiving a copyright infringement takedown notice from a third party who also received a non-exclusive license to use the Beat in a New Song. The Beat has already been tagged for Content Identification (as that term is used in the music industry) by Producer as a pre-emptive measure to protect all interested parties in the New Song. If you do not adhere to this policy, you are in violation of the terms of this License and your license to use the Beat and/or New Song may be revoked without notice or compensation to you.</li>
+        <li>As applicable to both the underlying composition in the Beat and to the master recording of the Beat: (i) The parties acknowledge and agree that the New Song is a "derivative work", as that term is used in the United States Copyright Act; (ii) As applicable to the Beat and/or the New Song, there is no intention by the parties to create a joint work; and (iii) There is no intention by the Licensor to grant any rights in and/or to any other derivative works that may have been created by other third-party licensees.</li>
+       </ul>
+      </li>
+      <li><strong>Ownership:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The Producer is and shall remain the sole owner and holder of all rights, title, and interest in the Beat, including all copyrights to and in the sound recording and the underlying musical compositions written and composed by Producer. Nothing contained herein shall constitute an assignment by Producer to Licensee of any of the foregoing rights. Licensee may not, under any circumstances, register or attempt to register the New Song and/or the Beat with the U.S. Copyright Office. The aforementioned right to register the New Song and/or the Beat shall be strictly limited to Producer. Licensee will, upon request, execute, acknowledge and deliver to Producer such additional documents as Producer may deem necessary to evidence and effectuate Producer's rights hereunder, and Licensee hereby grants to Producer the right as attorney-in-fact to execute, acknowledge, deliver and record in the U.S. Copyright Office or elsewhere any and all such documents if Licensee shall fail to execute same within five (5) days after so requested by Producer.</li>
+        <li>For the avoidance of doubt, you do not own the master or the sound recording rights in the New Song. You have been licensed the right to use the Beat in the New Song and to commercially exploit the New Song based on the terms and conditions of this Agreement.</li>
+       </ul>
+       <p class="mt-2">Notwithstanding the above, you do own the lyrics or other original musical components of the New Song that were written or composed solely by you.</p>
+      </li>
+      <li>With respect to the publishing rights and ownership of the underlying composition embodied in the New Song, the Licensee, and the Producer hereby acknowledge and agree that the underlying composition shall be owned/split between them as follows:</li>
+     </ol>
+     <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+      <p class="text-sm text-gray-800"><strong>Writer Share Licensor Name (Licensor) 50% Licensee Name (Licensee) 50%</strong></p>
+      <ul class="list-disc list-inside ml-5 space-y-2 mt-3">
+       <li>Producer shall own, control, and administer Fifty Percent (50%) of the so-called "Publisher's Share" of the underlying composition.</li>
+       <li>In the event that Licensee wishes to register his/her interests and rights to the underlying composition of the New Song with their Performing Rights Organization ("PRO"), Licensee must simultaneously identify and register the Producer's share and ownership interest in the composition to indicate that Producer wrote and owns 50% of the composition in the New Song and as the owner of 50% of the Publisher's share of the New Song.</li>
+      </ul>
+     </div>
+     <ol class="list-decimal list-inside space-y-2 mt-4">
+      <li>The licensee shall be deemed to have signed, affirmed and ratified its acceptance of the terms of this Agreement by virtue of its payment of the License Fee to Licensor and its electronic acceptance of its terms and conditions at the time Licensee made payment of the License Fee.</li>
+      <li><strong>Mechanical License:</strong> If any selection or musical composition, or any portion thereof, recorded in the New Song hereunder is written or composed by Producer, in whole or in part, alone or in collaboration with others, or is owned or controlled, in whole or in part, directly or indirectly, by Producer or any person, firm, or corporation in which Producer has a direct or indirect interest, then such selection and/or musical composition shall be hereinafter referred to as a "Controlled Composition". Producer hereby agrees to issue or cause to be issued, as applicable, to Licensee, mechanical licenses in respect of each Controlled Composition, which are embodied on the New Song. For that license, on the United States and Canada sales, Licensee will pay mechanical royalties at one hundred percent (100%) of the minimum statutory rate, subject to no cap of that rate for albums and/or EPs. For license outside the United States and Canada, the mechanical royalty rate will be the rate prevailing on an industry-wide basis in the country concerned on the date that this agreement has been entered into.</li>
+      <li><strong>Credit:</strong> Licensee shall have the right to use and permit others to use Producer's approved name, approved likeness, and other approved identification and approved biographical material concerning the Producer solely for purposes of trade and otherwise without restriction solely in connection with the New Song recorded hereunder. Licensee shall use best efforts to have Producer credited as a "producer" and shall give Producer appropriate production and songwriting credit on all compact discs, record, music video, and digital labels or any other record configuration manufactured which is now known or created in the future that embodies the New Song created hereunder and on all cover liner notes, any records containing the New Song and on the front and/or back cover of any album listing the New Song and other musician credits. The licensee shall use its best efforts to ensure that Producer is properly credited and Licensee shall check all proofs for the accuracy of credits, and shall use its best efforts to cure any mistakes regarding Producer's credit. In the event of any failure by Licensee to issue the credit to Producer, Licensee must use reasonable efforts to correct any such failure immediately and on a prospective basis. Such credit shall be in the substantial form: "Produced by Preview Only".</li>
+      <li><strong>Licensor's Option:</strong> Licensor shall have the option, at Licensor's sole discretion, to terminate this License at any time within three (3) years of the date of this Agreement upon written notice to Licensee. In the event that Licensor exercises this option, Licensor shall pay to Licensee a sum equal to Two Hundred Percent (200%) of the License Fee paid by Licensee. Upon Licensor's exercise of the option, Licensee must immediately remove the New Song from any and all digital and physical distribution channels and must immediately cease access to any streams and/or downloads of the New Song by the general public.</li>
+      <li><strong>Breach by Licensee:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The licensee shall have five (5) business days from its receipt of written notice by Producer and/or Producer's authorized representative to cure any alleged breach of this Agreement by Licensee. Licensee's failure to cure the alleged breach within five (5) business days shall result in Licensee's default of its obligations, its breach of this Agreement, and at Producer's sole discretion, the termination of Licensee's rights hereunder.</li>
+        <li>If Licensee engages in the commercial exploitation and/or sale of the Beat or New Song outside of the manner and amount expressly provided for in this Agreement, Licensee shall be liable to Producer for monetary damages in an amount equal to any and all monies paid, collected by, or received by Licensee, or any third party on its behalf, in connection with such unauthorized commercial exploitation of the Beat and/or New Song.</li>
+        <li>Licensee recognizes and agrees that a breach or threatened breach of this Agreement by Licensee give rise to irreparable injury to Producer, which may not be adequately compensated by damages. Accordingly, in the event of a breach or threatened breach by the Licensee of the provisions of this Agreement, Producer may seek and shall be entitled to a temporary restraining order and a preliminary injunction restraining the Licensee from violating the provisions of this Agreement. Nothing herein shall prohibit Producer from pursuing any other available legal or equitable remedy from such breach or threatened breach, including but not limited to the recovery of damages from Licensee. The Licensee shall be responsible for all costs, expenses or damages that Producer incurs as a result of any violation by the Licensee of any provision of this Agreement. Licensee' obligation shall include court costs, litigation expenses, and reasonable attorneys' fees.</li>
+       </ul>
+      </li>
+      <li><strong>Warranties, Representations, and Indemnification:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>Licensee hereby agrees that Licensor has not made any guarantees or promises that the Beat fits the particular creative use or musical purpose intended or desired by the Licensee. The Beat, its sound recording, and the underlying musical composition embodied therein are licensed to the Licensee "as is" without warranties of any kind or fitness for a particular purpose.</li>
+        <li>1. Parties hereto shall indemnify and hold each other harmless from any and all third party claims, liabilities, costs, losses, damages or expenses as are actually incurred by the non-defaulting party and shall hold the non-defaulting party, free, safe, and harmless against and from any and all claims, suits, demands, costs, liabilities, loss, damages, judgments, recoveries, costs, and expenses; (including, without limitation, reasonable attorneys' fees), which may be made or brought, paid, or incurred by reason of any breach or claim of breach of the warranties and representations hereunder by the defaulting party, their agents, heirs, successors, assigns and employees, which have been reduced to final judgment; provided that prior to final judgment, arising out of any breach of any representations or warranties of the defaulting party contained in this agreement or any failure by defaulting party to perform any obligations on its part to be performed hereunder the non-defaulting party has given the defaulting party prompt written notice of all claims and the right to participate in the defense with counsel of its choice at its sole expense. In no event shall Artist be entitled to seek injunctive or any other equitable relief for any breach or non-compliance with any provision of this agreement.</li>
+       </ul>
+      </li>
+      <li><strong>Miscellaneous:</strong> This Agreement constitutes the entire understanding of the parties and is intended as a final expression of their agreement and cannot be altered, modified, amended or waived, in whole or in part, except by written instrument (email being sufficient) signed by both parties hereto. This agreement supersedes all prior agreements between the parties, whether oral or written. Should any provision of this agreement be held to be void, invalid or inoperative, such decision shall not affect any other provision hereof, and the remainder of this agreement shall be effective as though such void, invalid or inoperative provision had not been contained herein. No failure by Licensor hereto to perform any of its obligations hereunder shall be deemed a material breach of this agreement until the Licensee gives Licensor written notice of its failure to perform, and such failure has not been corrected within thirty (30) days from and after the service of such notice, or, if such breach is not reasonably capable of being cured within such thirty (30) day period, Licensor does not commence to cure such breach within said time period, and proceed with reasonable diligence to complete the curing of such breach thereafter. This agreement shall be governed by and interpreted in accordance with the laws of the <strong>Lagos,Nigeria</strong> applicable to agreements entered into and wholly performed in said State, without regard to any conflict of laws principles. You hereby agree that the exclusive jurisdiction and venue for any action, suit or proceeding based upon any matter, claim or controversy arising hereunder or relating hereto shall be in the state or federal courts located in the <strong>Lagos,Nigeria</strong>. You shall not be entitled to any monies in connection with the Master(s) other than as specifically set forth herein. All notices pursuant to this agreement shall be in writing and shall be given by registered or certified mail, return receipt requested (prepaid) at the respective addresses hereinabove set forth or such other address or addresses as may be designated by either party. Such notices shall be deemed given when received. Any notice mailed will be deemed to have been received five (5) business days after it is mailed; any notice dispatched by expedited delivery service will be deemed to be received two (2) business days after it is dispatched. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE READ THIS AGREEMENT AND HAVE BEEN ADVISED BY US OF THE SIGNIFICANT IMPORTANCE OF RETAINING AN INDEPENDENT ATTORNEY OF YOUR CHOICE TO REVIEW THIS AGREEMENT ON YOUR BEHALF. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE HAD THE UNRESTRICTED OPPORTUNITY TO BE REPRESENTED BY AN INDEPENDENT ATTORNEY. IN THE EVENT OF YOUR FAILURE TO OBTAIN AN INDEPENDENT ATTORNEY OR WAIVER THEREOF, YOU HEREBY WARRANT AND REPRESENT THAT YOU WILL NOT ATTEMPT TO USE SUCH FAILURE AND/OR WAIVER as a basis to avoid any obligations under this agreement, or to invalidate this agreement or To render this agreement or any part thereof unenforceable. This agreement may be executed in counterparts, each of which shall be deemed an original, and said counterparts shall constitute one and the same instrument. In addition, a signed copy of this agreement transmitted by facsimile or scanned into an image file and transmitted via email shall, for all purposes, be treated as if it was delivered containing an original manual signature of the party whose signature appears thereon and shall be binding upon such party as though an originally signed document had been delivered. Notwithstanding the foregoing, in the event that you do not sign this Agreement, your acknowledgment that you have reviewed the terms and conditions of this Agreement and your payment of the License Fee shall serve as your signature and acceptance of the terms and conditions of this Agreement.</li>
+     </ol>
+   </div>
+  </div>
+  <div id="wav-license-preview-modal" class="modal">
+   <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-6 sm:p-8 max-h-[90%] overflow-y-auto shadow-2xl">
+    <div class="flex justify-between items-start mb-4 sm:mb-6">
+     <div>
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900">WAV License Preview</h3>
+      <p class="text-sm sm:text-base text-gray-600">Contract Preview Only</p>
+     </div><button onclick="closeWavLicensePreview()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
+    </div>
+    <div class="space-y-4 text-sm sm:text-base text-gray-700">
+     <p><strong>License Preview</strong></p>
+     <p>This Non-Exclusive <strong>WAV License (Contract Preview Only)</strong> License Agreement (the "Agreement"), having been made on and effective as of <strong><span class="nigeria-datetime">Loading...</span></strong> (the "Effective Date") by and between <strong>Preview Only p/k/a Preview Only (the “Producer” or “Licensor”)</strong> p/k/a <strong>Preview Only</strong> (the "Producer" or "Licensor"); and <strong>Licensee</strong> residing at <strong>[N/A]</strong> ("You" or "Licensee"), sets forth the terms and conditions of the Licensee's use, and the rights granted in, the Producer's instrumental music file entitled <strong>Preview Track Only</strong> (the "Beat") in consideration for Licensee's payment of <strong>₦77,000</strong> (the "License Fee"), on a so-called <strong>"WAV License (Contract Preview Only)"</strong> basis.</p>
+     <p>This Agreement is issued solely in connection with and for Licensee's use of the Beat pursuant and subject to all terms and conditions set forth herein.</p>
+     <ol class="list-decimal list-inside space-y-2">
+      <li><strong>License Fee:</strong> The Licensee to shall make payment of the License Fee to Licensor on the date of this Agreement. All rights granted to Licensee by Producer in the Beat are conditional upon Licensee's timely payment of the License Fee. The License Fee is a one-time payment for the rights granted to Licensee and this Agreement is not valid until the License Fee has been paid.</li>
+      <li><strong>Delivery of the Beat:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>Licensor agrees to deliver the Beat as a high-quality <strong>WAV, MP3,</strong> as such terms are understood in the music industry.</li>
+        <li>Licensor shall use commercially reasonable efforts to deliver the Beat to Licensee immediately after payment of the License Fee is made. Licensee will receive the Beat via email, to the email address Licensee provided to Licensor.</li>
+       </ul>
+      </li>
+      <li><strong>Term:</strong> The Term of this Agreement shall be ten (10) years and this license shall expire on the ten (10) year anniversary of the Effective Date.</li>
+      <li><strong>Use of the Beat:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>In consideration for Licensee's payment of the License Fee, the Producer hereby grants Licensee a limited <strong>non-exclusive, nontransferable</strong> license and the right to incorporate, include and/or use the Beat in the preparation of one (1) new song or to incorporate the Beat into a new piece of instrumental music created by the Licensee. Licensee may create the new song or new instrumental music by recording his/her written lyrics over the Beat and/or by incorporating portions/samples of the Beat into pre-existing instrumental music written, produced and/or owned by Licensee. The new song or piece of instrumental music created by the Licensee which incorporates some or all of the Beat shall be referred to as the "New Song". Permission is granted to Licensee to modify the arrangement, length, tempo, or pitch of the Beat in preparation of the New Song for public release.</li>
+        <li>This License grants Licensee a worldwide, non-exclusive license to use the Beat as incorporated in the New Song in the manners and for the purposes expressly provided for herein, subject to the sale restrictions, limitations and prohibited uses stated in this Agreement. Licensee acknowledges and agrees that any and all rights granted to Licensee in the Beat pursuant to this Agreement are on a <strong>NON-EXCLUSIVE</strong> basis and Producer shall continue to license the Beat upon the same or similar terms and conditions as this Agreement to other potential third-party licensees.</li>
+       </ul>
+      </li>
+     </ol>
+     <ul class="list-disc list-inside ml-5 space-y-2">
+      <li>The New Song may be used for any promotional purposes, including but not limited to, a release in a single format, for inclusion in a mixtape or free compilation of music bundled together (EP or album), and/or promotional, non-monetized digital streaming;</li>
+      <li>Licensee <strong>false</strong> perform the song publicly for-profit performances and for an <strong>Unlimited</strong> non-profit performances, including but not limited to, at a live performance (i.e. concert, festival, nightclub etc.), on terrestrial or satellite radio, and/or on the internet via third-party streaming services (Spotify, YouTube, iTunes Radio etc.). The New Song may be played on <strong>2</strong> terrestrial or satellite radio stations;</li>
+      <li>The Licensee may use the New Song in synchronization with <strong>One</strong> (<strong>1</strong>) audiovisual work no longer than five (5) minutes in length (a "Video"). In the event that the New Song itself is longer than five (5) minutes in length, the Video may not play for longer than the length of the New Song. The Video may be broadcast on any television network and/or uploaded to the internet for digital streaming and/or free download by the public including but not limited to on YouTube and/or Vevo. Producer grants no other synchronization rights to Licensee;</li>
+      <li>The Licensee may make the New Song available for sale in physical and/or digital form and sell <strong>2000</strong> downloads/physical music products and are allowed <strong>100000</strong> monetized audio streams, <strong>1</strong> monetized video streams, <strong></strong> non-monetized video streams and are allowed <strong>Unlimited</strong> free downloads. The New Song may be available for sale as a single and/or included in a compilation of other songs bundled together by Licensee as an EP or a full-length Album. The New Song may be sold via digital retailers for permanent digital download in mp3 format and/or physical format, including compact disc and vinyl records. For clarity and avoidance of doubt, the Licensee does NOT have the right to sell the Beat in the form that it was delivered to Licensee. The Licensee must create a New Song (or instrumental as detailed above) for its rights under this provision to a vest. Any sale of the Beat in its original form by Licensee shall be a material breach of this Agreement and the Licensee shall be liable to the Licensor for damages as provided hereunder.</li>
+     </ul>
+     <ol class="list-decimal list-inside space-y-2">
+      <li>Subject to the Licensee's compliance with the terms and conditions of this Agreement, Licensee shall not be required to account or pay to Producer any royalties, fees, or monies paid to or collected by the Licensee (expressly excluding mechanical royalties), or which would otherwise be payable to Producer in connection with the use/exploitation of the New Song as set forth in this Agreement.</li>
+      <li><strong>Restrictions on the Use of the Beat:</strong> Licensee hereby agrees and acknowledges that it is expressly prohibited from taking any action(s) and from engaging in any use of the Beat or New Song in the manners, or for the purposes, set forth below:
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The rights granted to Licensee are <strong>NON-TRANSFERABLE</strong> and that Licensee may not transfer or assign any of its rights hereunder to any third-party;</li>
+        <li>The Licensee shall not synchronize, or permit third parties to synchronize, the Beat or New Song with any audiovisual works EXCEPT as expressly provided for and pursuant to Paragraph 4(b)(iii) of this Agreement for use in one (1) Video. This restriction includes, but is not limited to, use of the Beat and/or New Song in television, commercials, film/movies, theatrical works, video games, and in any other form on the Internet which is not expressly permitted herein.</li>
+        <li>The Licensee shall not have the right to license or sublicense any use of the Beat or of the New Song, in whole or in part, for any so-called "samples".</li>
+        <li>Licensee shall not engage in any unlawful copying, streaming, duplicating, selling, lending, renting, hiring, broadcasting, uploading, or downloading to any database, servers, computers, peer to peer sharing, or other file-sharing services, posting on websites, or distribution of the Beat in the form, or a substantially similar form, as delivered to Licensee. Licensee may send the Beat file to any individual musician, engineer, studio manager or other people who are working on the New Song.</li>
+        <li>THE LICENSEE IS EXPRESSLY PROHIBITED FROM REGISTERING THE BEAT AND/OR NEW SONG WITH ANY CONTENT IDENTIFICATION SYSTEM, SERVICE PROVIDER, MUSIC DISTRIBUTOR, RECORD LABEL OR DIGITAL AGGREGATOR (for example TuneCore or CDBaby, and any other provider of user-generated content identification services). The purpose of this restriction is to prevent you from receiving a copyright infringement takedown notice from a third party who also received a non-exclusive license to use the Beat in a New Song. The Beat has already been tagged for Content Identification (as that term is used in the music industry) by Producer as a pre-emptive measure to protect all interested parties in the New Song. If you do not adhere to this policy, you are in violation of the terms of this License and your license to use the Beat and/or New Song may be revoked without notice or compensation to you.</li>
+        <li>As applicable to both the underlying composition in the Beat and to the master recording of the Beat: (i) The parties acknowledge and agree that the New Song is a "derivative work", as that term is used in the United States Copyright Act; (ii) As applicable to the Beat and/or the New Song, there is no intention by the parties to create a joint work; and (iii) There is no intention by the Licensor to grant any rights in and/or to any other derivative works that may have been created by other third-party licensees.</li>
+       </ul>
+      </li>
+      <li><strong>Ownership:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The Producer is and shall remain the sole owner and holder of all rights, title, and interest in the Beat, including all copyrights to and in the sound recording and the underlying musical compositions written and composed by Producer. Nothing contained herein shall constitute an assignment by Producer to Licensee of any of the foregoing rights. Licensee may not, under any circumstances, register or attempt to register the New Song and/or the Beat with the U.S. Copyright Office. The aforementioned right to register the New Song and/or the Beat shall be strictly limited to Producer. Licensee will, upon request, execute, acknowledge and deliver to Producer such additional documents as Producer may deem necessary to evidence and effectuate Producer's rights hereunder, and Licensee hereby grants to Producer the right as attorney-in-fact to execute, acknowledge, deliver and record in the U.S. Copyright Office or elsewhere any and all such documents if Licensee shall fail to execute same within five (5) days after so requested by Producer.</li>
+        <li>For the avoidance of doubt, you do not own the master or the sound recording rights in the New Song. You have been licensed the right to use the Beat in the New Song and to commercially exploit the New Song based on the terms and conditions of this Agreement.</li>
+       </ul>
+       <p class="mt-2">Notwithstanding the above, you do own the lyrics or other original musical components of the New Song that were written or composed solely by you.</p>
+      </li>
+      <li>With respect to the publishing rights and ownership of the underlying composition embodied in the New Song, the Licensee, and the Producer hereby acknowledge and agree that the underlying composition shall be owned/split between them as follows:</li>
+     </ol>
+     <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+      <p class="text-sm text-gray-800"><strong>Writer Share Licensor Name (Licensor) 50% Licensee Name (Licensee) 50%</strong></p>
+      <ul class="list-disc list-inside ml-5 space-y-2 mt-3">
+       <li>Producer shall own, control, and administer Fifty Percent (50%) of the so-called "Publisher's Share" of the underlying composition.</li>
+       <li>In the event that Licensee wishes to register his/her interests and rights to the underlying composition of the New Song with their Performing Rights Organization ("PRO"), Licensee must simultaneously identify and register the Producer's share and ownership interest in the composition to indicate that Producer wrote and owns 50% of the composition in the New Song and as the owner of 50% of the Publisher's share of the New Song.</li>
+      </ul>
+     </div>
+     <ol class="list-decimal list-inside space-y-2 mt-4">
+      <li>The licensee shall be deemed to have signed, affirmed and ratified its acceptance of the terms of this Agreement by virtue of its payment of the License Fee to Licensor and its electronic acceptance of its terms and conditions at the time Licensee made payment of the License Fee.</li>
+      <li><strong>Mechanical License:</strong> If any selection or musical composition, or any portion thereof, recorded in the New Song hereunder is written or composed by Producer, in whole or in part, alone or in collaboration with others, or is owned or controlled, in whole or in part, directly or indirectly, by Producer or any person, firm, or corporation in which Producer has a direct or indirect interest, then such selection and/or musical composition shall be hereinafter referred to as a "Controlled Composition". Producer hereby agrees to issue or cause to be issued, as applicable, to Licensee, mechanical licenses in respect of each Controlled Composition, which are embodied on the New Song. For that license, on the United States and Canada sales, Licensee will pay mechanical royalties at one hundred percent (100%) of the minimum statutory rate, subject to no cap of that rate for albums and/or EPs. For license outside the United States and Canada, the mechanical royalty rate will be the rate prevailing on an industry-wide basis in the country concerned on the date that this agreement has been entered into.</li>
+      <li><strong>Credit:</strong> Licensee shall have the right to use and permit others to use Producer's approved name, approved likeness, and other approved identification and approved biographical material concerning the Producer solely for purposes of trade and otherwise without restriction solely in connection with the New Song recorded hereunder. Licensee shall use best efforts to have Producer credited as a "producer" and shall give Producer appropriate production and songwriting credit on all compact discs, record, music video, and digital labels or any other record configuration manufactured which is now known or created in the future that embodies the New Song created hereunder and on all cover liner notes, any records containing the New Song and on the front and/or back cover of any album listing the New Song and other musician credits. The licensee shall use its best efforts to ensure that Producer is properly credited and Licensee shall check all proofs for the accuracy of credits, and shall use its best efforts to cure any mistakes regarding Producer's credit. In the event of any failure by Licensee to issue the credit to Producer, Licensee must use reasonable efforts to correct any such failure immediately and on a prospective basis. Such credit shall be in the substantial form: "Produced by Preview Only".</li>
+      <li><strong>Licensor's Option:</strong> Licensor shall have the option, at Licensor's sole discretion, to terminate this License at any time within three (3) years of the date of this Agreement upon written notice to Licensee. In the event that Licensor exercises this option, Licensor shall pay to Licensee a sum equal to Two Hundred Percent (200%) of the License Fee paid by Licensee. Upon Licensor's exercise of the option, Licensee must immediately remove the New Song from any and all digital and physical distribution channels and must immediately cease access to any streams and/or downloads of the New Song by the general public.</li>
+      <li><strong>Breach by Licensee:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The licensee shall have five (5) business days from its receipt of written notice by Producer and/or Producer's authorized representative to cure any alleged breach of this Agreement by Licensee. Licensee's failure to cure the alleged breach within five (5) business days shall result in Licensee's default of its obligations, its breach of this Agreement, and at Producer's sole discretion, the termination of Licensee's rights hereunder.</li>
+        <li>If Licensee engages in the commercial exploitation and/or sale of the Beat or New Song outside of the manner and amount expressly provided for in this Agreement, Licensee shall be liable to Producer for monetary damages in an amount equal to any and all monies paid, collected by, or received by Licensee, or any third party on its behalf, in connection with such unauthorized commercial exploitation of the Beat and/or New Song.</li>
+        <li>Licensee recognizes and agrees that a breach or threatened breach of this Agreement by Licensee give rise to irreparable injury to Producer, which may not be adequately compensated by damages. Accordingly, in the event of a breach or threatened breach by the Licensee of the provisions of this Agreement, Producer may seek and shall be entitled to a temporary restraining order and a preliminary injunction restraining the Licensee from violating the provisions of this Agreement. Nothing herein shall prohibit Producer from pursuing any other available legal or equitable remedy from such breach or threatened breach, including but not limited to the recovery of damages from Licensee. The Licensee shall be responsible for all costs, expenses or damages that Producer incurs as a result of any violation by the Licensee of any provision of this Agreement. Licensee' obligation shall include court costs, litigation expenses, and reasonable attorneys' fees.</li>
+       </ul>
+      </li>
+      <li><strong>Warranties, Representations, and Indemnification:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>Licensee hereby agrees that Licensor has not made any guarantees or promises that the Beat fits the particular creative use or musical purpose intended or desired by the Licensee. The Beat, its sound recording, and the underlying musical composition embodied therein are licensed to the Licensee "as is" without warranties of any kind or fitness for a particular purpose.</li>
+        <li>1. Parties hereto shall indemnify and hold each other harmless from any and all third party claims, liabilities, costs, losses, damages or expenses as are actually incurred by the non-defaulting party and shall hold the non-defaulting party, free, safe, and harmless against and from any and all claims, suits, demands, costs, liabilities, loss, damages, judgments, recoveries, costs, and expenses; (including, without limitation, reasonable attorneys' fees), which may be made or brought, paid, or incurred by reason of any breach or claim of breach of the warranties and representations hereunder by the defaulting party, their agents, heirs, successors, assigns and employees, which have been reduced to final judgment; provided that prior to final judgment, arising out of any breach of any representations or warranties of the defaulting party contained in this agreement or any failure by defaulting party to perform any obligations on its part to be performed hereunder the non-defaulting party has given the defaulting party prompt written notice of all claims and the right to participate in the defense with counsel of its choice at its sole expense. In no event shall Artist be entitled to seek injunctive or any other equitable relief for any breach or non-compliance with any provision of this agreement.</li>
+       </ul>
+      </li>
+      <li><strong>Miscellaneous:</strong> This Agreement constitutes the entire understanding of the parties and is intended as a final expression of their agreement and cannot be altered, modified, amended or waived, in whole or in part, except by written instrument (email being sufficient) signed by both parties hereto. This agreement supersedes all prior agreements between the parties, whether oral or written. Should any provision of this agreement be held to be void, invalid or inoperative, such decision shall not affect any other provision hereof, and the remainder of this agreement shall be effective as though such void, invalid or inoperative provision had not been contained herein. No failure by Licensor hereto to perform any of its obligations hereunder shall be deemed a material breach of this agreement until the Licensee gives Licensor written notice of its failure to perform, and such failure has not been corrected within thirty (30) days from and after the service of such notice, or, if such breach is not reasonably capable of being cured within such thirty (30) day period, Licensor does not commence to cure such breach within said time period, and proceed with reasonable diligence to complete the curing of such breach thereafter. This agreement shall be governed by and interpreted in accordance with the laws of the <strong>Lagos,Nigeria</strong> applicable to agreements entered into and wholly performed in said State, without regard to any conflict of laws principles. You hereby agree that the exclusive jurisdiction and venue for any action, suit or proceeding based upon any matter, claim or controversy arising hereunder or relating hereto shall be in the state or federal courts located in the <strong>Lagos,Nigeria</strong>. You shall not be entitled to any monies in connection with the Master(s) other than as specifically set forth herein. All notices pursuant to this agreement shall be in writing and shall be given by registered or certified mail, re [truncated]
+     </ol>
+   </div>
+  </div>
+  <div id="unlimited-license-preview-modal" class="modal">
+   <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-6 sm:p-8 max-h-[90%] overflow-y-auto shadow-2xl">
+    <div class="flex justify-between items-start mb-4 sm:mb-6">
+     <div>
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Unlimited License Preview</h3>
+      <p class="text-sm sm:text-base text-gray-600">Contract Preview Only</p>
+     </div><button onclick="closeUnlimitedLicensePreview()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
+    </div>
+    <div class="space-y-4 text-sm sm:text-base text-gray-700">
+     <p><strong>License Preview</strong></p>
+     <p>This Non-Exclusive <strong>Unlimited License (Contract Preview Only)</strong> License Agreement (the "Agreement"), having been made on and effective as of <strong><span class="nigeria-datetime">Loading...</span></strong> (the "Effective Date") by and between <strong>Preview Only p/k/a Preview Only (the “Producer” or “Licensor”)</strong> p/k/a <strong>Preview Only</strong> (the "Producer" or "Licensor"); and <strong>Licensee</strong> residing at <strong>[N/A]</strong> ("You" or "Licensee"), sets forth the terms and conditions of the Licensee's use, and the rights granted in, the Producer's instrumental music file entitled <strong>Preview Track Only</strong> (the "Beat") in consideration for Licensee's payment of <strong>₦230,000</strong> (the "License Fee"), on a so-called <strong>"Unlimited License (Contract Preview Only)"</strong> basis.</p>
+     <p>This Agreement is issued solely in connection with and for Licensee's use of the Beat pursuant and subject to all terms and conditions set forth herein.</p>
+     <ol class="list-decimal list-inside space-y-2">
+      <li><strong>License Fee:</strong> The Licensee to shall make payment of the License Fee to Licensor on the date of this Agreement. All rights granted to Licensee by Producer in the Beat are conditional upon Licensee's timely payment of the License Fee. The License Fee is a one-time payment for the rights granted to Licensee and this Agreement is not valid until the License Fee has been paid.</li>
+      <li><strong>Delivery of the Beat:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>Licensor agrees to deliver the Beat as a high-quality <strong>WAV, MP3, Track Stems,</strong> as such terms are understood in the music industry.</li>
+        <li>Licensor shall use commercially reasonable efforts to deliver the Beat to Licensee immediately after payment of the License Fee is made. Licensee will receive the Beat via email, to the email address Licensee provided to Licensor.</li>
+       </ul>
+      </li>
+      <li><strong>Term:</strong> The Term of this Agreement shall be unlimited and this license shall not expire.</li>
+      <li><strong>Use of the Beat:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>In consideration for Licensee's payment of the License Fee, the Producer hereby grants Licensee a limited <strong>non-exclusive, nontransferable</strong> license and the right to incorporate, include and/or use the Beat in the preparation of one (1) new song or to incorporate the Beat into a new piece of instrumental music created by the Licensee. Licensee may create the new song or new instrumental music by recording his/her written lyrics over the Beat and/or by incorporating portions/samples of the Beat into pre-existing instrumental music written, produced and/or owned by Licensee. The new song or piece of instrumental music created by the Licensee which incorporates some or all of the Beat shall be referred to as the "New Song". Permission is granted to Licensee to modify the arrangement, length, tempo, or pitch of the Beat in preparation of the New Song for public release.</li>
+        <li>This License grants Licensee a worldwide, non-exclusive license to use the Beat as incorporated in the New Song in the manners and for the purposes expressly provided for herein, subject to the sale restrictions, limitations and prohibited uses stated in this Agreement. Licensee acknowledges and agrees that any and all rights granted to Licensee in the Beat pursuant to this Agreement are on a <strong>NON-EXCLUSIVE</strong> basis and Producer shall continue to license the Beat upon the same or similar terms and conditions as this Agreement to other potential third-party licensees.</li>
+       </ul>
+      </li>
+     </ol>
+     <ul class="list-disc list-inside ml-5 space-y-2">
+      <li>The New Song may be used for any promotional purposes, including but not limited to, a release in a single format, for inclusion in a mixtape or free compilation of music bundled together (EP or album), and/or promotional, non-monetized digital streaming;</li>
+      <li>Licensee <strong>true</strong> perform the song publicly for-profit performances and for an <strong>Unlimited</strong> non-profit performances, including but not limited to, at a live performance (i.e. concert, festival, nightclub etc.), on terrestrial or satellite radio, and/or on the internet via third-party streaming services (Spotify, YouTube, iTunes Radio etc.). The New Song may be played on <strong>Unlimited</strong> terrestrial or satellite radio stations;</li>
+      <li>The Licensee may use the New Song in synchronization with <strong>One</strong> (<strong>1</strong>) audiovisual work no longer than five (5) minutes in length (a "Video"). In the event that the New Song itself is longer than five (5) minutes in length, the Video may not play for longer than the length of the New Song. The Video may be broadcast on any television network and/or uploaded to the internet for digital streaming and/or free download by the public including but not limited to on YouTube and/or Vevo. Producer grants no other synchronization rights to Licensee;</li>
+      <li>The Licensee may make the New Song available for sale in physical and/or digital form and sell <strong>Unlimited</strong> downloads/physical music products and are allowed <strong>Unlimited</strong> monetized audio streams, <strong>1</strong> monetized video streams, <strong></strong> non-monetized video streams and are allowed <strong>Unlimited</strong> free downloads. The New Song may be available for sale as a single and/or included in a compilation of other songs bundled together by Licensee as an EP or a full-length Album. The New Song may be sold via digital retailers for permanent digital download in mp3 format and/or physical format, including compact disc and vinyl records. For clarity and avoidance of doubt, the Licensee does NOT have the right to sell the Beat in the form that it was delivered to Licensee. The Licensee must create a New Song (or instrumental as detailed above) for its rights under this provision to a vest. Any sale of the Beat in its original form by Licensee shall be a material breach of this Agreement and the Licensee shall be liable to the Licensor for damages as provided hereunder.</li>
+     </ul>
+     <ol class="list-decimal list-inside space-y-2">
+      <li>Subject to the Licensee's compliance with the terms and conditions of this Agreement, Licensee shall not be required to account or pay to Producer any royalties, fees, or monies paid to or collected by the Licensee (expressly excluding mechanical royalties), or which would otherwise be payable to Producer in connection with the use/exploitation of the New Song as set forth in this Agreement.</li>
+      <li><strong>Restrictions on the Use of the Beat:</strong> Licensee hereby agrees and acknowledges that it is expressly prohibited from taking any action(s) and from engaging in any use of the Beat or New Song in the manners, or for the purposes, set forth below:
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The rights granted to Licensee are <strong>NON-TRANSFERABLE</strong> and that Licensee may not transfer or assign any of its rights hereunder to any third-party;</li>
+        <li>The Licensee shall not synchronize, or permit third parties to synchronize, the Beat or New Song with any audiovisual works EXCEPT as expressly provided for and pursuant to Paragraph 4(b)(iii) of this Agreement for use in one (1) Video. This restriction includes, but is not limited to, use of the Beat and/or New Song in television, commercials, film/movies, theatrical works, video games, and in any other form on the Internet which is not expressly permitted herein.</li>
+        <li>The Licensee shall not have the right to license or sublicense any use of the Beat or of the New Song, in whole or in part, for any so-called "samples".</li>
+        <li>Licensee shall not engage in any unlawful copying, streaming, duplicating, selling, lending, renting, hiring, broadcasting, uploading, or downloading to any database, servers, computers, peer to peer sharing, or other file-sharing services, posting on websites, or distribution of the Beat in the form, or a substantially similar form, as delivered to Licensee. Licensee may send the Beat file to any individual musician, engineer, studio manager or other people who are working on the New Song.</li>
+        <li>THE LICENSEE IS EXPRESSLY PROHIBITED FROM REGISTERING THE BEAT AND/OR NEW SONG WITH ANY CONTENT IDENTIFICATION SYSTEM, SERVICE PROVIDER, MUSIC DISTRIBUTOR, RECORD LABEL OR DIGITAL AGGREGATOR (for example TuneCore or CDBaby, and any other provider of user-generated content identification services). The purpose of this restriction is to prevent you from receiving a copyright infringement takedown notice from a third party who also received a non-exclusive license to use the Beat in a New Song. The Beat has already been tagged for Content Identification (as that term is used in the music industry) by Producer as a pre-emptive measure to protect all interested parties in the New Song. If you do not adhere to this policy, you are in violation of the terms of this License and your license to use the Beat and/or New Song may be revoked without notice or compensation to you.</li>
+        <li>As applicable to both the underlying composition in the Beat and to the master recording of the Beat: (i) The parties acknowledge and agree that the New Song is a "derivative work", as that term is used in the United States Copyright Act; (ii) As applicable to the Beat and/or the New Song, there is no intention by the parties to create a joint work; and (iii) There is no intention by the Licensor to grant any rights in and/or to any other derivative works that may have been created by other third-party licensees.</li>
+       </ul>
+      </li>
+      <li><strong>Ownership:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The Producer is and shall remain the sole owner and holder of all rights, title, and interest in the Beat, including all copyrights to and in the sound recording and the underlying musical compositions written and composed by Producer. Nothing contained herein shall constitute an assignment by Producer to Licensee of any of the foregoing rights. Licensee may not, under any circumstances, register or attempt to register the New Song and/or the Beat with the U.S. Copyright Office. The aforementioned right to register the New Song and/or the Beat shall be strictly limited to Producer. Licensee will, upon request, execute, acknowledge and deliver to Producer such additional documents as Producer may deem necessary to evidence and effectuate Producer's rights hereunder, and Licensee hereby grants to Producer the right as attorney-in-fact to execute, acknowledge, deliver and record in the U.S. Copyright Office or elsewhere any and all such documents if Licensee shall fail to execute same within five (5) days after so requested by Producer.</li>
+        <li>For the avoidance of doubt, you do not own the master or the sound recording rights in the New Song. You have been licensed the right to use the Beat in the New Song and to commercially exploit the New Song based on the terms and conditions of this Agreement.</li>
+       </ul>
+       <p class="mt-2">Notwithstanding the above, you do own the lyrics or other original musical components of the New Song that were written or composed solely by you.</p>
+      </li>
+      <li>With respect to the publishing rights and ownership of the underlying composition embodied in the New Song, the Licensee, and the Producer hereby acknowledge and agree that the underlying composition shall be owned/split between them as follows:</li>
+     </ol>
+     <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+      <p class="text-sm text-gray-800"><strong>Writer Share Licensor Name (Licensor) 50% Licensee Name (Licensee) 50%</strong></p>
+      <ul class="list-disc list-inside ml-5 space-y-2 mt-3">
+       <li>Producer shall own, control, and administer Fifty Percent (50%) of the so-called "Publisher's Share" of the underlying composition.</li>
+       <li>In the event that Licensee wishes to register his/her interests and rights to the underlying composition of the New Song with their Performing Rights Organization ("PRO"), Licensee must simultaneously identify and register the Producer's share and ownership interest in the composition to indicate that Producer wrote and owns 50% of the composition in the New Song and as the owner of 50% of the Publisher's share of the New Song.</li>
+      </ul>
+     </div>
+     <ol class="list-decimal list-inside space-y-2 mt-4">
+      <li>The licensee shall be deemed to have signed, affirmed and ratified its acceptance of the terms of this Agreement by virtue of its payment of the License Fee to Licensor and its electronic acceptance of its terms and conditions at the time Licensee made payment of the License Fee.</li>
+      <li><strong>Mechanical License:</strong> If any selection or musical composition, or any portion thereof, recorded in the New Song hereunder is written or composed by Producer, in whole or in part, alone or in collaboration with others, or is owned or controlled, in whole or in part, directly or indirectly, by Producer or any person, firm, or corporation in which Producer has a direct or indirect interest, then such selection and/or musical composition shall be hereinafter referred to as a "Controlled Composition". Producer hereby agrees to issue or cause to be issued, as applicable, to Licensee, mechanical licenses in respect of each Controlled Composition, which are embodied on the New Song. For that license, on the United States and Canada sales, Licensee will pay mechanical royalties at one hundred percent (100%) of the minimum statutory rate, subject to no cap of that rate for albums and/or EPs. For license outside the United States and Canada, the mechanical royalty rate will be the rate prevailing on an industry-wide basis in the country concerned on the date that this agreement has been entered into.</li>
+      <li><strong>Credit:</strong> Licensee shall have the right to use and permit others to use Producer's approved name, approved likeness, and other approved identification and approved biographical material concerning the Producer solely for purposes of trade and otherwise without restriction solely in connection with the New Song recorded hereunder. Licensee shall use best efforts to have Producer credited as a "producer" and shall give Producer appropriate production and songwriting credit on all compact discs, record, music video, and digital labels or any other record configuration manufactured which is now known or created in the future that embodies the New Song created hereunder and on all cover liner notes, any records containing the New Song and on the front and/or back cover of any album listing the New Song and other musician credits. The licensee shall use its best efforts to ensure that Producer is properly credited and Licensee shall check all proofs for the accuracy of credits, and shall use its best efforts to cure any mistakes regarding Producer's credit. In the event of any failure by Licensee to issue the credit to Producer, Licensee must use reasonable efforts to correct any such failure immediately and on a prospective basis. Such credit shall be in the substantial form: "Produced by Preview Only".</li>
+      <li><strong>Licensor's Option:</strong> Licensor shall have the option, at Licensor's sole discretion, to terminate this License at any time within three (3) years of the date of this Agreement upon written notice to Licensee. In the event that Licensor exercises this option, Licensor shall pay to Licensee a sum equal to Two Hundred Percent (200%) of the License Fee paid by Licensee. Upon Licensor's exercise of the option, Licensee must immediately remove the New Song from any and all digital and physical distribution channels and must immediately cease access to any streams and/or downloads of the New Song by the general public.</li>
+      <li><strong>Breach by Licensee:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>The licensee shall have five (5) business days from its receipt of written notice by Producer and/or Producer's authorized representative to cure any alleged breach of this Agreement by Licensee. Licensee's failure to cure the alleged breach within five (5) business days shall result in Licensee's default of its obligations, its breach of this Agreement, and at Producer's sole discretion, the termination of Licensee's rights hereunder.</li>
+        <li>If Licensee engages in the commercial exploitation and/or sale of the Beat or New Song outside of the manner and amount expressly provided for in this Agreement, Licensee shall be liable to Producer for monetary damages in an amount equal to any and all monies paid, collected by, or received by Licensee, or any third party on its behalf, in connection with such unauthorized commercial exploitation of the Beat and/or New Song.</li>
+        <li>Licensee recognizes and agrees that a breach or threatened breach of this Agreement by Licensee give rise to irreparable injury to Producer, which may not be adequately compensated by damages. Accordingly, in the event of a breach or threatened breach by the Licensee of the provisions of this Agreement, Producer may seek and shall be entitled to a temporary restraining order and a preliminary injunction restraining the Licensee from violating the provisions of this Agreement. Nothing herein shall prohibit Producer from pursuing any other available legal or equitable remedy from such breach or threatened breach, including but not limited to the recovery of damages from Licensee. The Licensee shall be responsible for all costs, expenses or damages that Producer incurs as a result of any violation by the Licensee of any provision of this Agreement. Licensee' obligation shall include court costs, litigation expenses, and reasonable attorneys' fees.</li>
+       </ul>
+      </li>
+      <li><strong>Warranties, Representations, and Indemnification:</strong>
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li>Licensee hereby agrees that Licensor has not made any guarantees or promises that the Beat fits the particular creative use or musical purpose intended or desired by the Licensee. The Beat, its sound recording, and the underlying musical composition embodied therein are licensed to the Licensee "as is" without warranties of any kind or fitness for a particular purpose.</li>
+        <li>Parties hereto shall indemnify and hold each other harmless from any and all third party claims, liabilities, costs, losses, damages or expenses as are actually incurred by the non-defaulting party and shall hold the non-defaulting party, free, safe, and harmless against and from any and all claims, suits, demands, costs, liabilities, loss, damages, judgments, recoveries, costs, and expenses; (including, without limitation, reasonable attorneys' fees), which may be made or brought, paid, or incurred by reason of any breach or claim of breach of the warranties and representations hereunder by the defaulting party, their agents, heirs, successors, assigns and employees, which have been reduced to final judgment; provided that prior to final judgment, arising out of any breach of any representations or warranties of the defaulting party contained in this agreement or any failure by defaulting party to perform any obligations on its part to be performed hereunder the non-defaulting party has given the defaulting party prompt written notice of all claims and the right to participate in the defense with counsel of its choice at its sole expense. In no event shall Artist be entitled to seek injunctive or any other equitable relief for any breach or non-compliance with any provision of this agreement.</li>
+       </ul>
+      </li>
+      <li><strong>Miscellaneous:</strong> This Agreement constitutes the entire understanding of the parties and is intended as a final expression of their agreement and cannot be altered, modified, amended or waived, in whole or in part, except by written instrument (email being sufficient) signed by both parties hereto. This agreement supersedes all prior agreements between the parties, whether oral or written. Should any provision of this agreement be held to be void, invalid or inoperative, such decision shall not affect any other provision hereof, and the remainder of this agreement shall be effective as though such void, invalid or inoperative provision had not been contained herein. No failure by Licensor hereto to perform any of its obligations hereunder shall be deemed a material breach of this agreement until the Licensee gives Licensor written notice of its failure to perform, and such failure has not been corrected within thirty (30) days from and after the service of such notice, or, if such breach is not reasonably capable of being cured within such thirty (30) day period, Licensor does not commence to cure such breach within said time period, and proceed with reasonable diligence to complete the curing of such breach thereafter. This agreement shall be governed by and interpreted in accordance with the laws of the **Abuja,Nigeria** applicable to agreements entered into and wholly performed in said State, without regard to any conflict of laws principles. You hereby agree that the exclusive jurisdiction and venue for any action, suit or proceeding based upon any matter, claim or controversy arising hereunder or relating hereto shall be in the state or federal courts located in the **Abuja,Nigeria**. You shall not be entitled to any monies in connection with the Master(s) other than as specifically set forth herein. All notices pursuant to this agreement shall be in writing and shall be given by registered or certified mail, return receipt requested (prepaid) at the respective addresses hereinabove set forth or such other address or addresses as may be designated by either party. Such notices shall be deemed given when received. Any notice mailed will be deemed to have been received five (5) business days after it is mailed; any notice dispatched by expedited delivery service will be deemed to be received two (2) business days after it is dispatched. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE READ THIS AGREEMENT AND HAVE BEEN ADVISED BY US OF THE SIGNIFICANT IMPORTANCE OF RETAINING AN INDEPENDENT ATTORNEY OF YOUR CHOICE TO REVIEW THIS AGREEMENT ON YOUR BEHALF. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE HAD THE UNRESTRICTED OPPORTUNITY TO BE REPRESENTED BY AN INDEPENDENT ATTORNEY. IN THE EVENT OF YOUR FAILURE TO OBTAIN AN INDEPENDENT ATTORNEY OR WAIVER THEREOF, YOU HEREBY WARRANT AND REPRESENT THAT YOU WILL NOT ATTEMPT TO USE SUCH FAILURE AND/OR WAIVER as a basis to avoid any obligations under this agreement, or to invalidate this agreement or To render this agreement or any part thereof unenforceable.</li>
+     </ol>
+    </div>
+   </div>
+  </div>
+  <div id="exclusive-license-preview-modal" class="modal">
+   <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-6 sm:p-8 max-h-[90%] overflow-y-auto shadow-2xl">
+    <div class="flex justify-between items-start mb-4 sm:mb-6">
+     <div>
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Exclusive License Preview</h3>
+      <p class="text-sm sm:text-base text-gray-600">Agreement Preview Only</p>
+     </div><button onclick="closeExclusiveLicensePreview()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
+    </div>
+    <div class="space-y-4 text-sm sm:text-base text-gray-700">
+     <p><strong>Preview Only -w- Licensee / Producer Agreement / "Preview Track Only"</strong></p>
+     <p>The following sets forth the material terms and conditions with respect to <strong>Preview Only</strong> ("Producer", "me", "we", or the like) producing certain recording(s) embodying the musical performance of <strong>Licensee</strong> ("Artist", "you", "your", or the like). In the event the number of master recordings hereunder is no more than one (1), then all references to "Masters" hereunder shall be read and deemed to refer to one (1) "Master." For good and valuable consideration (the receipt and sufficiency of which is hereby acknowledged), the parties hereby agree as follows:</p>
+     <ol class="list-decimal list-inside space-y-2">
+      <li><strong>Product Commitment:</strong> Producer shall produce one (1) musical composition entitled "<strong>Preview Track Only</strong>" (the "Composition") embodying Artist's featured performance of a yet-to-be-titled master recording (the "Master") for delivery to Artist for, among other exploitations, the manufacture and distribution of records. For the avoidance of doubt, the Composition provided by Producer to create the Master shall be solely retained and owned by Producer as a pre-existing composition, and the composition made by Artist hereunder is a derivative. The territory of this agreement shall be the Universe. Artist acknowledges the satisfactory delivery, receipt, and acceptance of the Master.</li>
+      <li><strong>Rights:</strong> The Master (expressly excluding the underlying musical composition), from the inception of creation, shall be considered a "work made for hire" for Artist (or Artist's designees) within the meaning of the Copyright Act of 1976 (Title 17, U.S.C.). If it is determined that any Master does not so qualify, then that Master, together with all rights therein (including the sound recording copyright(s) but excluding the underlying musical composition) shall hereby be deemed transferred to Artist. Subject to the terms and conditions contained in this agreement, Artist shall have the sole and exclusive right in perpetuity and throughout the universe, including, without limitation: (i) to manufacture, advertise, sell, license or, otherwise dispose of the Master and derivatives derived therefrom in any manner or media whatsoever upon such terms, and under such trademarks, as Artist elects, or, in Artist's sole discretion, to refrain therefrom; (ii) to perform the Master publicly and to permit the public performance thereof by any method now or hereafter known; and (iii) to include Producer's audio performance in an audio-visual production ("Video"). Notwithstanding the foregoing, Artist (or its designees) shall have no right to make any edits/changes to Producer's composition; no right to use Producer's composition apart from the Master; and no right to use Producer's composition in a way to imply any sort of endorsement.</li>
+      <li><strong>Fee:</strong> Artist shall pay to Producer a non-returnable, non-recoupable fee in the amount of <strong>₦0.00</strong> (the "Fee"). The Fee shall be payable upon the full execution of this agreement.</li>
+      <li><strong>Controlled Compositions:</strong> If any selection or musical composition, or any portion thereof, recorded in the Masters hereunder is written or composed by Producer, in whole or in part, alone or in collaboration with others, or is owned or controlled, in whole or in part, directly or indirectly, by Producer or any person, firm, or corporation in which Producer has a direct or indirect interest, then such selection and/or musical composition shall be hereinafter referred to as a "Controlled Composition". Producer hereby agrees to issue or cause to be issued, as applicable, to Artist, or Artist's designees, mechanical licenses (including, without limitation, any "first use" mechanical licenses) and other licenses in respect of each Controlled Composition subject to the same terms and conditions as are applicable to selections and musical compositions written, composed, owned, or controlled, in whole or in part, directly or indirectly, by Artist, which are embodied on the Master or any recording recorded under this agreement. For that license, on the United States and Canada sales, Artist will pay mechanical royalties at one hundred percent (100%) of the minimum statutory rate, subject to no cap of that rate for albums and/or EPs. For license outside the United States and Canada, the mechanical royalty rate will be the rate prevailing on an industry-wide basis in the country concerned on the date that this agreement has been entered into. Producer hereby grants Artist a license to reproduce Controlled Compositions that are embodied on the Master produced hereunder in synchronization with and in time relation to visual images featuring Artist's performances in so-called promotional "video programs", on a royalty-free basis and in so-called commercial "video programs", in being understood that Producer shall be entitled to Producer's pro-rata share of any royalties attributable to such commercial "video programs". Upon Artist's request Producer shall execute or cause Producer's publishing designee to execute and deliver to Artist, as applicable, all documents required by Artist, as applicable, to effectuate the purpose of this paragraph.</li>
+      <li><strong>Publishing Rights:</strong> With respect to the publishing rights and ownership of the underlying composition embodied in the Master, the Artist, and the Producer hereby acknowledge and agree that the underlying composition shall be owned/split between them as follows:
+       <ul class="list-disc list-inside ml-5 space-y-2">
+        <li><strong>LICENSEE</strong> OWNS <strong>50%</strong> OF PUBLISHING RIGHTS While Producer Myhah Owns <strong>50%</strong></li>
+       </ul>
+      </li>
+      <li><strong>Credit and Likeness:</strong> Artist shall have the right to use and permit others to use Producer's approved name, approved likeness, and other approved identification and approved biographical material concerning the Producer for purposes of trade and otherwise without restriction solely in connection with the Masters recorded hereunder. Artist shall accord (or shall cause to accord) Producer a credit on (i) labels and liner notes of the Master, where applicable, (ii) in all configurations (including in applicable meta-data) derived from the Master, (iii) in all trade and consumer advertisements, including Billboard Magazine strip ads, which pertain exclusively to the Masters hereunder, that are one-quarter (1/4) page or larger in size, placed directly by Artist, and appear in so-called "nationwide" trade publications in the United States. Artist shall ensure that Producer is properly credited and Artist shall check all proofs for the accuracy of credits, and shall cure any mistakes regarding Producer's credit. Such credit shall be in the substantial form: "Produced by <strong>Preview Only</strong>".</li>
+     </ol>
+     <ol class="list-decimal list-inside space-y-2 mt-4">
+      <li><strong>Warranties, Representations, and Indemnification:</strong></li>
+      <li>Artist hereby agrees that Producer has not made any guarantees or promises that the Master fits the particular creative use or musical purpose intended or desired by the Artist. The Master, its sound recording, and the Composition embodied therein are delivered to the Artist "as is" without warranties of any kind of fitness for a particular purpose. Artist further acknowledges and agrees that the Composition produced by Producer may previously have been licensed to third parties on a non-exclusive basis. Any licenses granted by Producer, which precede this agreement, shall remain in effect and shall not be affected by this agreement. Artist waives any claims against Producer for any pre-existing licenses for the Composition. Artist further agrees that Artist will not submit any claims against the third-party licensees for their non-exclusive use of the Composition.</li>
+      <li>Parties hereto shall indemnify and hold each other harmless from any and all third party claims, liabilities, costs, losses, damages or expenses as are actually incurred by the non-defaulting party and shall hold the non-defaulting party, free, safe, and harmless against and from any and all claims, suits, demands, costs, liabilities, loss, damages, judgments, recoveries, costs, and expenses; (including, without limitation, reasonable outside attorneys' fees), which may be made or brought, paid, or incurred by reason of any breach or claim of breach of the warranties and representations hereunder by the defaulting party, their agents, heirs, successors, assigns and employees, which have been reduced to final judgment; provided that prior to final judgment, arising out of any breach of any representations or warranties of the defaulting party contained in this agreement or any failure by defaulting party to perform any obligations on its part to be performed hereunder the non-defaulting party has given the defaulting party prompt written notice of all claims and the right to participate in the defense with counsel of its choice at its sole expense. In no event shall Artist be entitled to seek injunctive or any other equitable relief for any breach or non-compliance with any provision of this agreement.</li>
+     </ol>
+     <p class="text-sm text-gray-700">8. <strong>Miscellaneous:</strong> This agreement has been entered into in the <strong>LAGOS STATE,Nigeria</strong> and the validity, interpretation, and legal effect of this agreement shall be governed by the laws of the <strong>LAGOS STATE,Nigeria</strong> applicable to contracts entered into and performed entirely within such State. The courts of <strong>LAGOS STATE,Nigeria</strong> , <strong>LAGOS STATE,Nigeria</strong> (state and federal) only will have jurisdiction of any controversies regarding this agreement and the parties hereto consent to the jurisdiction of said courts. All notices, statements, and payments to be sent to any party hereunder shall be addressed to such party at the applicable address set forth on the first page hereof or at such other address as is designated in writing by the applicable party from time to time. All notices shall be in writing and shall either be served by personal delivery (with a written receipt of such delivery) or certified or registered mail, return receipt requested, all charges prepaid, except statements may be sent by regular U.S. mail. Except as otherwise provided herein, notices delivered in accordance with the foregoing shall be deemed given when personally delivered, or five (5) days after mailing, except that notices of change of address shall be effective only after actual receipt. Where approvals are required hereunder, such approval or consent shall not be unreasonably withheld and the parties acknowledge and agree that email confirmations/responses shall suffice. Producer shall not be entitled to any monies in connection with the Master(s) other than as specifically set forth herein. Producer shall have the right to assign this agreement to any parent, subsidiary, or affiliate, or any individual or entity owning or acquiring a substantial portion of Producer's stock or assets provided that Producer remains secondary liable. Artist may not assign any of Artist's rights or obligations hereunder without Producer's prior written consent and any such purported assignment shall be null and void ab initio. Both parties agree and acknowledge that this agreement (a) will be binding upon and inure to the benefit of the parties hereto and their respective successors, permitted assigns, heirs, estates, administrators, and executors; (b) embodies the sole and entire agreement of the parties in respect of, and supersedes all prior oral or written understandings between them concerning the subject matter hereof; and (c) may not be amended except by a written instrument signed by all parties hereto. A waiver by either party hereto of any provision of this agreement in any instance shall not be deemed to be a waiver for the future. All remedies, rights, undertakings, and obligations contained in this agreement shall be cumulative and none of them shall be in limitation of any other remedy, right, undertaking, or obligation of either party. Any breach by either party shall not be deemed material unless, within thirty (30) days (or fifteen (15) days for failure to pay monies owed) after the non-breaching party learns of such breach, the non-breaching party serves written notice thereof on the breaching party specifying the nature of the breach and the breaching party fails to cure such breach, if any, within thirty (30) days (15 days regarding payments) after receipt of such notice, or within a reasonable time thereafter if such breach is not curable within thirty (30) days. In entering into this agreement and providing services pursuant hereto, Artist has and shall have the status of an independent contractor and nothing herein contained shall contemplate or constitute Artist as Producer's agent or employee. ARTIST UNDERSTANDS THAT ARTIST HAS THE RIGHT TO SEEK THE ADVICE OF INDEPENDENT COUNSEL CONCERNING ITS RIGHTS, THE PROVISIONS HEREOF, AND THE ADVISABILITY OF EXECUTING THIS LEGALLY BINDING AGREEMENT. FURTHER, ARTIST ACKNOWLEDGES THAT PRODUCER HAS GIVEN ARTIST THE OPPORTUNITY TO SEEK THE ADVICE OF INDEPENDENT COUNSEL AND ARTIST ACKNOWLEDGES THAT ARTIST IS EXECUTING THIS AGREEMENT VOLUNTARILY AFTER CONSULTATION WITH INDEPENDENT COUNSEL OR INTENTIONALLY DECIDING NOT TO SEEK ADVICE OF INDEPENDENT COUNSEL.</p>
+     <p class="text-sm text-gray-700">This agreement may be executed via facsimile and in two or more counterparts, each of which shall be deemed an original, but all of which shall constitute one instrument. In addition, a signed copy of this agreement transmitted by facsimile, by digital signature, or scanned into an image file and transmitted via email shall, for all purposes, be treated as if it was delivered containing an original manual signature of the party whose signature appears thereon and shall be binding upon such party as though an originally signed document had been delivered.</p>
+     <p class="text-sm text-gray-700">1. <strong>N.B Beats bought exclusively might have been leased out before been sold exclusively.</strong></p>
+    </div>
+   </div>
+  </div>
   <div id="cart-modal" class="modal">
-   <div class="modal-content bg-white rounded-2xl max-w-2xl w-full mx-4 p-6 sm:p-8 shadow-2xl">
+   <div class="modal-content bg-white rounded-2xl max-w-2xl w-full mx-4 my-4 p-4 sm:p-6 md:p-8 shadow-2xl">
     <div class="flex justify-between items-center mb-4 sm:mb-6">
      <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Shopping Cart</h3><button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
     </div>
@@ -542,11 +1057,11 @@
   </div>
   <script>
         const defaultConfig = {
-            store_name: "De Beat Store",
+            store_name: "Beat Bro",
             tagline: "Premium Beats & Instrumentals",
             hero_title: "Discover Premium Beats",
             hero_subtitle: "High-quality instrumentals for your next hit",
-            footer_text: "© 2025 De Beat Store. All rights reserved.",
+            footer_text: "© 2025 Beat Bro. All rights reserved.",
             hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
             logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
             paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b",
@@ -565,6 +1080,7 @@
                 if (savedCart) {
                     cart = JSON.parse(savedCart);
                     updateCartBadge();
+                    updateBulkDealBanner();
                 }
             } catch (error) {
                 console.error('Error loading cart:', error);
@@ -577,6 +1093,33 @@
                 localStorage.setItem('debeat_cart', JSON.stringify(cart));
             } catch (error) {
                 console.error('Error saving cart:', error);
+            }
+        }
+
+        // Load beat stats from localStorage
+        function loadBeatStatsFromStorage() {
+            try {
+                const savedStats = localStorage.getItem('debeat_play_stats');
+                if (savedStats) {
+                    const parsed = JSON.parse(savedStats);
+                    for (const beatId in parsed) {
+                        if (parsed.hasOwnProperty(beatId) && beatStats[beatId]) {
+                            beatStats[beatId].plays = Number(parsed[beatId].plays) || 0;
+                            beatStats[beatId].muted = Boolean(parsed[beatId].muted);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading beat stats:', error);
+            }
+        }
+
+        // Save beat stats to localStorage
+        function saveBeatStatsToStorage() {
+            try {
+                localStorage.setItem('debeat_play_stats', JSON.stringify(beatStats));
+            } catch (error) {
+                console.error('Error saving beat stats:', error);
             }
         }
 
@@ -1224,8 +1767,33 @@
 
         ];
 
+        const beatStats = beats.reduce((acc, beat) => {
+            acc[beat.id] = { plays: 0, muted: false, countedThisSession: false };
+            return acc;
+        }, {});
+
+        const trackDurations = {};
+        const MIN_PLAY_SECONDS = 30;
+
+        loadBeatStatsFromStorage();
+        loadBeatDurations();
+
         function formatNaira(amount) {
             return '₦' + amount.toLocaleString('en-NG');
+        }
+
+        function loadBeatDurations() {
+            beats.forEach(beat => {
+                const audio = new Audio(beat.audioUrl);
+                audio.preload = 'metadata';
+                audio.addEventListener('loadedmetadata', () => {
+                    trackDurations[beat.id] = audio.duration;
+                    const durationEl = document.getElementById(`track-duration-${beat.id}`);
+                    if (durationEl) {
+                        durationEl.textContent = formatTime(audio.duration);
+                    }
+                });
+            });
         }
 
         function renderBeats(container, beatsToRender, startIndex = 0, itemsPerPage = 12) {
@@ -1252,6 +1820,10 @@
                                 <span><i class="fas fa-drum mr-1"></i>${beat.bpm} BPM</span>
                                 <span><i class="fas fa-key mr-1"></i>${beat.key}</span>
                             </div>
+                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 text-xs sm:text-sm text-gray-500">
+                                <span><i class="fas fa-clock mr-1"></i>Duration: <span id="track-duration-${beat.id}">${trackDurations[beat.id] ? formatTime(trackDurations[beat.id]) : '--:--'}</span></span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Plays: <span id="plays-count-${beat.id}">${beatStats[beat.id]?.plays || 0}</span></p>
                             <div id="progress-${beat.id}" class="mt-2 sm:mt-3 w-full" style="display: none;">
                                 <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beat.id}, event)">
                                     <div class="audio-progress-bar" id="progress-bar-${beat.id}"></div>
@@ -1263,7 +1835,9 @@
                                         <span id="duration-${beat.id}">0:00</span>
                                     </div>
                                     <div class="flex items-center space-x-2 sm:space-x-3">
-                                        <i class="fas fa-volume-up text-sm"></i>
+                                        <button type="button" onclick="toggleMute(${beat.id})" class="text-gray-600 hover:text-gray-800 transition-colors">
+                                            <i class="fas ${beatStats[beat.id]?.muted ? 'fa-volume-mute' : 'fa-volume-up'} text-sm" id="mute-icon-${beat.id}"></i>
+                                        </button>
                                         <input type="range" id="volume-${beat.id}" min="0" max="100" value="50" class="w-16 sm:w-20 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" onchange="setVolume(${beat.id}, this.value)">
                                         <button onclick="shareTrack(${beat.id})" class="text-blue-600 hover:text-blue-700 transition-colors">
                                             <i class="fas fa-share-alt text-sm"></i>
@@ -1339,6 +1913,10 @@
             const currentTimeEl = document.getElementById(`current-time-${beatId}`);
             const durationEl = document.getElementById(`duration-${beatId}`);
             const volumeSlider = document.getElementById(`volume-${beatId}`);
+            if (!beatStats[beatId]) {
+                beatStats[beatId] = { plays: 0, muted: false };
+            }
+            const beatState = beatStats[beatId];
             
             if (currentAudio && currentBeatId === beatId) {
                 if (currentAudio.paused) {
@@ -1350,49 +1928,93 @@
                     playIcon.classList.remove('fa-pause');
                     playIcon.classList.add('fa-play');
                 }
-            } else {
-                if (currentAudio) {
-                    currentAudio.pause();
-                    const oldIcon = document.getElementById(`play-icon-${currentBeatId}`);
-                    const oldProgress = document.getElementById(`progress-${currentBeatId}`);
-                    if (oldIcon) {
-                        oldIcon.classList.remove('fa-pause');
-                        oldIcon.classList.add('fa-play');
-                    }
-                    if (oldProgress) {
-                        oldProgress.style.display = 'none';
-                    }
-                }
-                
-                currentAudio = new Audio(audioUrl);
-                currentBeatId = beatId;
-                
-                currentAudio.volume = volumeSlider.value / 100;
-                progressContainer.style.display = 'block';
-                progressBar.style.width = '0%';
-                
-                currentAudio.addEventListener('loadedmetadata', () => {
-                    durationEl.textContent = formatTime(currentAudio.duration);
-                });
-                
-                currentAudio.addEventListener('timeupdate', () => {
-                    const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
-                    progressBar.style.width = progress + '%';
-                    currentTimeEl.textContent = formatTime(currentAudio.currentTime);
-                });
-                
-                currentAudio.addEventListener('ended', () => {
-                    playIcon.classList.remove('fa-pause');
-                    playIcon.classList.add('fa-play');
-                    progressBar.style.width = '0%';
-                    currentTimeEl.textContent = '0:00';
-                    progressContainer.style.display = 'none';
-                });
-                
-                currentAudio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
+                return;
             }
+
+            if (currentAudio) {
+                currentAudio.pause();
+                const oldIcon = document.getElementById(`play-icon-${currentBeatId}`);
+                const oldProgress = document.getElementById(`progress-${currentBeatId}`);
+                if (oldIcon) {
+                    oldIcon.classList.remove('fa-pause');
+                    oldIcon.classList.add('fa-play');
+                }
+                if (oldProgress) {
+                    oldProgress.style.display = 'none';
+                }
+            }
+            
+            currentAudio = new Audio(audioUrl);
+            currentBeatId = beatId;
+            
+            currentAudio.volume = volumeSlider.value / 100;
+            currentAudio.muted = beatState.muted;
+            updateMuteIcon(beatId, beatState.muted);
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            currentAudio.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(currentAudio.duration);
+            });
+            
+            currentAudio.addEventListener('timeupdate', () => {
+                const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+                progressBar.style.width = progress + '%';
+                currentTimeEl.textContent = formatTime(currentAudio.currentTime);
+
+                const thresholdSeconds = Math.min(MIN_PLAY_SECONDS, currentAudio.duration || MIN_PLAY_SECONDS);
+                if (!beatState.countedThisSession && currentAudio.currentTime >= thresholdSeconds) {
+                    beatState.plays += 1;
+                    beatState.countedThisSession = true;
+                    updatePlaysCount(beatId);
+                    saveBeatStatsToStorage();
+                }
+            });
+            
+            currentAudio.addEventListener('ended', () => {
+                if (!beatState.countedThisSession) {
+                    beatState.plays += 1;
+                    beatState.countedThisSession = true;
+                    updatePlaysCount(beatId);
+                    saveBeatStatsToStorage();
+                }
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+                progressBar.style.width = '0%';
+                currentTimeEl.textContent = '0:00';
+                progressContainer.style.display = 'none';
+            });
+            
+            beatState.countedThisSession = false;
+            currentAudio.play().catch(() => {});
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+        }
+
+        function updatePlaysCount(beatId) {
+            const countElement = document.getElementById(`plays-count-${beatId}`);
+            if (countElement) {
+                countElement.textContent = beatStats[beatId]?.plays || 0;
+            }
+        }
+
+        function updateMuteIcon(beatId, isMuted) {
+            const icon = document.getElementById(`mute-icon-${beatId}`);
+            if (!icon) return;
+            icon.classList.toggle('fa-volume-up', !isMuted);
+            icon.classList.toggle('fa-volume-mute', isMuted);
+        }
+
+        function toggleMute(beatId) {
+            if (!beatStats[beatId]) {
+                beatStats[beatId] = { plays: 0, muted: false, countedThisSession: false };
+            }
+            beatStats[beatId].muted = !beatStats[beatId].muted;
+            if (currentAudio && currentBeatId === beatId) {
+                currentAudio.muted = beatStats[beatId].muted;
+            }
+            updateMuteIcon(beatId, beatStats[beatId].muted);
+            saveBeatStatsToStorage();
         }
 
         function formatTime(seconds) {
@@ -1417,6 +2039,13 @@
         function setVolume(beatId, volume) {
             if (currentAudio && currentBeatId === beatId) {
                 currentAudio.volume = volume / 100;
+                if (currentAudio.muted && Number(volume) > 0) {
+                    currentAudio.muted = false;
+                    if (beatStats[beatId]) {
+                        beatStats[beatId].muted = false;
+                    }
+                    updateMuteIcon(beatId, false);
+                }
             }
         }
 
@@ -1602,6 +2231,254 @@
             document.getElementById('license-modal').classList.remove('active');
         }
 
+        function hidePreviewModals(...modals) {
+            modals.forEach(modal => {
+                if (modal && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    modal.style.display = 'none';
+                    modal.style.zIndex = '';
+                }
+            });
+        }
+
+        function showPreviewModal(modal, template) {
+            if (!modal) return;
+            if (template) modal.innerHTML = template;
+            if (modal.classList.contains('active')) return;
+            try {
+                document.body.appendChild(modal);
+            } catch (e) {
+                console.warn('Failed to reparent preview modal:', e);
+            }
+            modal.style.zIndex = 20000;
+            modal.style.display = 'flex';
+            modal.classList.add('active');
+        }
+
+        window.openMp3LicensePreview = function() {
+            console.log('openMp3LicensePreview called');
+            const modal = document.getElementById('mp3-license-preview-modal');
+            const wavModal = document.getElementById('wav-license-preview-modal');
+            hidePreviewModals(wavModal);
+            if (modal) {
+                showPreviewModal(modal, window._mp3ModalTemplate);
+            } else {
+                console.warn('MP3 preview modal not found');
+            }
+        };
+
+        window.closeMp3LicensePreview = function() {
+            const modal = document.getElementById('mp3-license-preview-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+                modal.style.zIndex = '';
+                try {
+                    if (window._mp3ModalOriginalParent) window._mp3ModalOriginalParent.appendChild(modal);
+                } catch (e) {
+                    console.warn('Failed to restore MP3 modal parent:', e);
+                }
+            }
+        };
+
+        window.openWavLicensePreview = function() {
+            console.log('openWavLicensePreview called');
+            const modal = document.getElementById('wav-license-preview-modal');
+            const mp3Modal = document.getElementById('mp3-license-preview-modal');
+            hidePreviewModals(mp3Modal);
+            if (modal) {
+                showPreviewModal(modal, window._wavModalTemplate);
+            } else {
+                console.warn('WAV preview modal not found');
+            }
+        };
+
+        window.closeWavLicensePreview = function() {
+            const modal = document.getElementById('wav-license-preview-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+                modal.style.zIndex = '';
+                try {
+                    if (window._wavModalOriginalParent) window._wavModalOriginalParent.appendChild(modal);
+                } catch (e) {
+                    console.warn('Failed to restore WAV modal parent:', e);
+                }
+            }
+        };
+
+        window.openPremiumLicensePreview = function() {
+            console.log('openPremiumLicensePreview called');
+            const modal = document.getElementById('premium-license-preview-modal');
+            const mp3Modal = document.getElementById('mp3-license-preview-modal');
+            const wavModal = document.getElementById('wav-license-preview-modal');
+            const unlimitedModal = document.getElementById('unlimited-license-preview-modal');
+            hidePreviewModals(mp3Modal, wavModal, unlimitedModal);
+            if (modal) {
+                showPreviewModal(modal, window._premiumModalTemplate);
+            } else {
+                console.warn('Premium preview modal not found');
+            }
+        };
+
+        window.closePremiumLicensePreview = function() {
+            const modal = document.getElementById('premium-license-preview-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+                modal.style.zIndex = '';
+                try {
+                    if (window._premiumModalOriginalParent) window._premiumModalOriginalParent.appendChild(modal);
+                } catch (e) {
+                    console.warn('Failed to restore Premium modal parent:', e);
+                }
+            }
+        };
+
+        window.openExclusiveLicensePreview = function() {
+            console.log('openExclusiveLicensePreview called');
+            const modal = document.getElementById('exclusive-license-preview-modal');
+            const mp3Modal = document.getElementById('mp3-license-preview-modal');
+            const wavModal = document.getElementById('wav-license-preview-modal');
+            const premiumModal = document.getElementById('premium-license-preview-modal');
+            const unlimitedModal = document.getElementById('unlimited-license-preview-modal');
+            hidePreviewModals(mp3Modal, wavModal, premiumModal, unlimitedModal);
+            if (modal) {
+                showPreviewModal(modal, window._exclusiveModalTemplate);
+            } else {
+                console.warn('Exclusive preview modal not found');
+            }
+        };
+
+        window.closeExclusiveLicensePreview = function() {
+            const modal = document.getElementById('exclusive-license-preview-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+                modal.style.zIndex = '';
+                try {
+                    if (window._exclusiveModalOriginalParent) window._exclusiveModalOriginalParent.appendChild(modal);
+                } catch (e) {
+                    console.warn('Failed to restore Exclusive modal parent:', e);
+                }
+            }
+        };
+
+        window.openUnlimitedLicensePreview = function() {
+            console.log('openUnlimitedLicensePreview called');
+            const modal = document.getElementById('unlimited-license-preview-modal');
+            const mp3Modal = document.getElementById('mp3-license-preview-modal');
+            const wavModal = document.getElementById('wav-license-preview-modal');
+            const premiumModal = document.getElementById('premium-license-preview-modal');
+            const exclusiveModal = document.getElementById('exclusive-license-preview-modal');
+            hidePreviewModals(mp3Modal, wavModal, premiumModal, exclusiveModal);
+            if (modal) {
+                showPreviewModal(modal, window._unlimitedModalTemplate);
+            } else {
+                console.warn('Unlimited preview modal not found');
+            }
+        };
+
+        window.closeUnlimitedLicensePreview = function() {
+            const modal = document.getElementById('unlimited-license-preview-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+                modal.style.zIndex = '';
+                try {
+                    if (window._unlimitedModalOriginalParent) window._unlimitedModalOriginalParent.appendChild(modal);
+                } catch (e) {
+                    console.warn('Failed to restore Unlimited modal parent:', e);
+                }
+            }
+        };
+
+        function updateNigeriaDatetime() {
+            const formatter = new Intl.DateTimeFormat('en-GB', {
+                timeZone: 'Africa/Lagos',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            const formatted = formatter.format(new Date()).replace(',', '');
+            document.querySelectorAll('.nigeria-datetime').forEach(el => {
+                el.textContent = formatted;
+            });
+        }
+
+        setInterval(updateNigeriaDatetime, 1000);
+        updateNigeriaDatetime();
+
+        // Ensure buttons reliably open their respective preview modals
+        document.addEventListener('DOMContentLoaded', function() {
+            const mp3Btn = document.getElementById('mp3-read-license-btn');
+            const wavBtn = document.getElementById('wav-read-license-btn');
+
+            // capture original modal HTML templates and parents to prevent accidental swaps
+            const mp3Modal = document.getElementById('mp3-license-preview-modal');
+            const wavModal = document.getElementById('wav-license-preview-modal');
+            const premiumModal = document.getElementById('premium-license-preview-modal');
+            window._mp3ModalTemplate = mp3Modal ? mp3Modal.innerHTML : null;
+            window._wavModalTemplate = wavModal ? wavModal.innerHTML : null;
+            window._premiumModalTemplate = premiumModal ? premiumModal.innerHTML : null;
+            const unlimitedModal = document.getElementById('unlimited-license-preview-modal');
+            window._unlimitedModalTemplate = unlimitedModal ? unlimitedModal.innerHTML : null;
+            const exclusiveModal = document.getElementById('exclusive-license-preview-modal');
+            window._exclusiveModalTemplate = exclusiveModal ? exclusiveModal.innerHTML : null;
+            window._mp3ModalOriginalParent = mp3Modal ? mp3Modal.parentElement : null;
+            window._wavModalOriginalParent = wavModal ? wavModal.parentElement : null;
+            window._premiumModalOriginalParent = premiumModal ? premiumModal.parentElement : null;
+            window._unlimitedModalOriginalParent = unlimitedModal ? unlimitedModal.parentElement : null;
+            window._exclusiveModalOriginalParent = exclusiveModal ? exclusiveModal.parentElement : null;
+
+            if (mp3Btn) {
+                mp3Btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (window.openMp3LicensePreview) window.openMp3LicensePreview();
+                });
+            }
+
+            if (wavBtn) {
+                wavBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (window.openWavLicensePreview) window.openWavLicensePreview();
+                });
+            }
+
+            const premiumBtn = document.getElementById('premium-read-license-btn');
+            if (premiumBtn) {
+                premiumBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (window.openPremiumLicensePreview) window.openPremiumLicensePreview();
+                });
+            }
+
+            const unlimitedBtn = document.getElementById('unlimited-read-license-btn');
+            if (unlimitedBtn) {
+                unlimitedBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (window.openUnlimitedLicensePreview) window.openUnlimitedLicensePreview();
+                });
+            }
+
+            const exclusiveBtn = document.getElementById('exclusive-read-license-btn');
+            if (exclusiveBtn) {
+                exclusiveBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (window.openExclusiveLicensePreview) window.openExclusiveLicensePreview();
+                });
+            }
+        });
+
         function addToCart(beatId, licenseType) {
             const beat = beats.find(b => b.id === beatId);
             const licenses = {
@@ -1625,6 +2502,20 @@
             saveCartToStorage();
             updateCartBadge();
             closeLicenseModal();
+
+            if (licenseType === 'unlimited') {
+                const unlimitedCount = cart.filter(item => item.licenseType === 'unlimited').length;
+                if (unlimitedCount < 4) {
+                    const remaining = 4 - unlimitedCount;
+                    showToast(`Add ${remaining} more track${remaining > 1 ? 's' : ''} with Unlimited License to activate Buy 2 Get 2 Free!`, 'info');
+                } else {
+                    showToast('Bulk deal activated! Buy 2 Get 2 Free is now applied to your Unlimited License tracks.', 'success');
+                }
+                showPage('tracks');
+                updateBulkDealBanner();
+                return;
+            }
+
             showToast('Added to cart!', 'success');
         }
 
@@ -1659,12 +2550,65 @@
 
         function toggleCart() {
             const modal = document.getElementById('cart-modal');
+            if (!modal) {
+                console.warn('Cart modal not found');
+                return;
+            }
             if (modal.classList.contains('active')) {
                 modal.classList.remove('active');
+                modal.style.display = 'none';
+                modal.style.zIndex = '';
+                // restore original parent if captured
+                try { if (window._cartModalOriginalParent) window._cartModalOriginalParent.appendChild(modal); } catch (e) { /* ignore */ }
             } else {
                 renderCart();
+                // ensure visible and on top
+                try {
+                    if (!window._cartModalOriginalParent) window._cartModalOriginalParent = modal.parentElement;
+                    document.body.appendChild(modal);
+                    modal.style.zIndex = 20000;
+                    modal.style.display = 'flex';
+                } catch (e) {
+                    console.warn('Failed to reparent cart modal:', e);
+                }
                 modal.classList.add('active');
             }
+        }
+
+        function updateBulkDealBanner() {
+            const banner = document.getElementById('bulk-discount-banner');
+            const unlimitedCount = cart.filter(item => item.licenseType === 'unlimited').length;
+            if (unlimitedCount > 0 && unlimitedCount < 4) {
+                const remaining = 4 - unlimitedCount;
+                banner.textContent = `Add ${remaining} more track${remaining > 1 ? 's' : ''} with Unlimited License to your cart to activate Buy 2 Tracks, Get 2 Free!`;
+                banner.classList.remove('hidden');
+            } else if (unlimitedCount >= 4) {
+                banner.textContent = 'Bulk deal activated! Your Unlimited License tracks now qualify for Buy 2 Tracks, Get 2 Free.';
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function getBulkDealSummary(items = cart) {
+            const unlimitedItems = items.filter(item => item.licenseType === 'unlimited');
+            const subtotal = items.reduce((sum, item) => sum + item.price, 0);
+            let discount = 0;
+            let freeCount = 0;
+
+            if (unlimitedItems.length >= 4) {
+                freeCount = Math.floor(unlimitedItems.length / 4) * 2;
+                const sortedUnlimited = [...unlimitedItems].sort((a, b) => a.price - b.price);
+                discount = sortedUnlimited.slice(0, freeCount).reduce((sum, item) => sum + item.price, 0);
+            }
+
+            return {
+                subtotal,
+                discount,
+                total: Math.max(0, subtotal - discount),
+                freeCount,
+                unlimitedCount: unlimitedItems.length
+            };
         }
 
         function renderCart() {
@@ -1696,8 +2640,17 @@
             
             container.innerHTML = html;
             
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById('cart-total').textContent = formatNaira(total);
+            const summary = getBulkDealSummary(cart);
+            let discountText = '';
+
+            if (summary.freeCount > 0) {
+                discountText = `<p class="text-sm sm:text-base text-green-700 mt-4">Bulk deal applied: ${summary.freeCount} unlimited track${summary.freeCount > 1 ? 's' : ''} are free.</p>`;
+            }
+
+            document.getElementById('cart-total').textContent = formatNaira(summary.total);
+            if (discountText) {
+                container.insertAdjacentHTML('beforeend', discountText);
+            }
         }
 
         function removeFromCart(index) {
@@ -1705,6 +2658,7 @@
             saveCartToStorage();
             updateCartBadge();
             renderCart();
+            updateBulkDealBanner();
         }
 
         async function submitExclusiveOffer(beatId) {
@@ -1815,11 +2769,15 @@
         }
 
         function showPage(page) {
+            if (!page) page = 'home';
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('tracks-page').style.display = 'none';
             document.getElementById('services-page').style.display = 'none';
             document.getElementById('about-page').style.display = 'none';
             document.getElementById('contact-page').style.display = 'none';
+            document.getElementById('license-page').style.display = 'none';
+            document.getElementById('terms-page').style.display = 'none';
+            document.getElementById('privacy-page').style.display = 'none';
             
             if (page === 'home') {
                 document.getElementById('home-page').style.display = 'block';
@@ -1832,16 +2790,40 @@
             } else if (page === 'tracks') {
                 document.getElementById('tracks-page').style.display = 'block';
                 renderBeats('tracks-beats-container', beats, 0, 12);
+                updateBulkDealBanner();
             } else if (page === 'services') {
                 document.getElementById('services-page').style.display = 'block';
             } else if (page === 'about') {
                 document.getElementById('about-page').style.display = 'block';
             } else if (page === 'contact') {
                 document.getElementById('contact-page').style.display = 'block';
+            } else if (page === 'license') {
+                document.getElementById('license-page').style.display = 'block';
+            } else if (page === 'terms') {
+                document.getElementById('terms-page').style.display = 'block';
+            } else if (page === 'privacy') {
+                document.getElementById('privacy-page').style.display = 'block';
             }
             
             window.scrollTo(0, 0);
+            try {
+                history.replaceState(null, '', '#' + page);
+            } catch (e) {
+                // fallback to hash assignment for older browsers
+                location.hash = page;
+            }
         }
+
+        // Restore page from URL hash on load and handle hash navigation
+        document.addEventListener('DOMContentLoaded', function () {
+            const initial = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
+            showPage(initial);
+        });
+
+        window.addEventListener('hashchange', function () {
+            const p = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
+            showPage(p);
+        });
 
         function handleGlobalSearch(event) {
             const query = event.target.value.toLowerCase().trim();
@@ -1976,12 +2958,28 @@
                 showToast('Your cart is empty', 'error');
                 return;
             }
+            // Ensure cart modal is closed and hidden so the checkout modal can appear
+            try {
+                const cartModal = document.getElementById('cart-modal');
+                if (cartModal) {
+                    cartModal.classList.remove('active');
+                    cartModal.style.display = 'none';
+                    cartModal.style.zIndex = '';
+                    if (window._cartModalOriginalParent) {
+                        window._cartModalOriginalParent.appendChild(cartModal);
+                    }
+                }
+            } catch (e) {
+                console.warn('Error while closing cart modal before checkout:', e);
+            }
+
+            const summary = getBulkDealSummary(cart);
 
             const checkoutModal = document.createElement('div');
             checkoutModal.className = 'modal active';
             checkoutModal.id = 'checkout-modal';
             checkoutModal.innerHTML = `
-                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-6 sm:p-8 shadow-2xl">
+                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 my-4 p-4 sm:p-6 md:p-8 shadow-2xl">
                     <div class="flex justify-between items-center mb-4 sm:mb-6">
                         <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Checkout</h3>
                         <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
@@ -2004,9 +3002,19 @@
                         <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 sm:mb-6">
                             <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Order Summary</h4>
                             <div id="checkout-items" class="space-y-2 mb-3"></div>
-                            <div class="border-t-2 pt-3 flex justify-between items-center">
-                                <span class="font-bold text-base sm:text-lg">Total:</span>
-                                <span class="text-xl sm:text-2xl font-bold price-badge" id="checkout-total"></span>
+                            <div class="border-t-2 pt-3 space-y-2">
+                                <div class="flex justify-between text-xs sm:text-sm text-gray-600">
+                                    <span>Subtotal</span>
+                                    <span>${formatNaira(summary.subtotal)}</span>
+                                </div>
+                                ${summary.discount > 0 ? `<div class="flex justify-between text-xs sm:text-sm text-green-700">
+                                    <span>Bulk deal discount</span>
+                                    <span>-${formatNaira(summary.discount)}</span>
+                                </div>` : ''}
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-base sm:text-lg">Total:</span>
+                                    <span class="text-xl sm:text-2xl font-bold price-badge" id="checkout-total"></span>
+                                </div>
                             </div>
                         </div>
                         
@@ -2033,8 +3041,7 @@
             `).join('');
             checkoutItems.innerHTML = itemsHtml;
             
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById('checkout-total').textContent = formatNaira(total);
+            document.getElementById('checkout-total').textContent = formatNaira(summary.total);
         }
 
         function closeCheckoutModal() {
@@ -2049,7 +3056,8 @@
             
             const email = document.getElementById('customer-email').value;
             const name = document.getElementById('customer-name').value;
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const summary = getBulkDealSummary(cart);
+            const total = summary.total;
             
             const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
             const publicKey = config.paystack_public_key || defaultConfig.paystack_public_key;
@@ -2061,7 +3069,7 @@
             const handler = PaystackPop.setup({
                 key: publicKey,
                 email: email,
-                amount: total * 100,
+                amount: Math.round(total * 100),
                 currency: 'NGN',
                 ref: 'DBSTORE-' + Math.floor((Math.random() * 1000000000) + 1),
                 metadata: {

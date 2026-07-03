@@ -52,6 +52,21 @@
             transform: translateY(-6px);
             box-shadow: 0 16px 32px rgba(0,0,0,0.2);
         }
+
+        .service-budget-inline {
+            animation: slideDownFade 0.25s ease-out;
+        }
+
+        @keyframes slideDownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         
         .genre-btn {
             transition: all 0.2s ease;
@@ -242,6 +257,71 @@
                 overflow-y: auto;
             }
         }
+
+        body.dark-theme {
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        body.dark-theme header {
+            background-color: #0f172a !important;
+            color: #f8fafc;
+            border-color: #334155 !important;
+        }
+
+        body.dark-theme .bg-white {
+            background-color: #111827 !important;
+        }
+
+        body.dark-theme .bg-gray-50 {
+            background-color: #020617 !important;
+        }
+
+        body.dark-theme .bg-gray-100,
+        body.dark-theme .bg-gray-200 {
+            background-color: #1f2937 !important;
+        }
+
+        body.dark-theme .text-gray-900 {
+            color: #f8fafc !important;
+        }
+
+        body.dark-theme .text-gray-700,
+        body.dark-theme .text-gray-600,
+        body.dark-theme .text-gray-500,
+        body.dark-theme .text-gray-400 {
+            color: #cbd5e1 !important;
+        }
+
+        body.dark-theme .border-gray-200,
+        body.dark-theme .border-gray-300 {
+            border-color: #475569 !important;
+        }
+
+        body.dark-theme input,
+        body.dark-theme select,
+        body.dark-theme textarea {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+            border-color: #475569 !important;
+        }
+
+        body.dark-theme .modal-content {
+            background-color: #111827 !important;
+            color: #f8fafc;
+        }
+
+        body.dark-theme .mobile-menu {
+            background: linear-gradient(135deg, #111827 0%, #0f172a 100%) !important;
+        }
+
+        body.dark-theme .mobile-menu-item {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-theme .hero-section::before {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(30, 41, 59, 0.7));
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -250,14 +330,15 @@
   <header class="bg-white shadow-sm sticky top-0 z-50">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center py-3 sm:py-4">
-     <div class="flex items-center space-x-2 sm:space-x-3"><img id="logo-image" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="De Beat Store Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+     <a href="#" onclick="showPage('home'); return false;" class="flex items-center space-x-2 sm:space-x-3">
+      <img id="logo-image" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="De Beat Store Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md" style="display: none;"><i class="fas fa-music text-white text-lg sm:text-xl"></i>
       </div>
-      <div>
+      <div class="hidden sm:flex flex-col">
        <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">Beat Bro</h1>
        <p class="text-[10px] sm:text-xs text-gray-500" id="tagline">Premium Beats &amp; Instrumentals</p>
       </div>
-     </div>
+     </a>
         <div id="premium-license-preview-modal" class="modal">
          <div class="modal-content bg-white rounded-2xl max-w-4xl w-full mx-4 p-6 sm:p-8 max-h-[90%] overflow-y-auto shadow-2xl">
             <div class="flex justify-between items-start mb-4 sm:mb-6">
@@ -345,7 +426,7 @@
         </div>
      <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
      </nav>
-     <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
+     <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="toggleTheme()" id="theme-toggle" class="p-2 text-gray-700 hover:text-blue-600 transition-colors" aria-label="Toggle theme"> <i class="fas fa-moon text-xl sm:text-2xl" id="theme-icon"></i> </button><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
      </div>
     </div><!-- Search Bar -->
     <div class="pb-3 sm:pb-4">
@@ -411,7 +492,13 @@
        </div>
        <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Group Session (1hr)</span> <span class="font-semibold text-blue-600">₦45,000/person</span>
        </div>
-      </div><button onclick="contactForService('Music Lessons')" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"> Book Now </button>
+      </div><button onclick="contactForService('Music Lessons', 'book')" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"> Book Now </button>
+      <button onclick="contactForService('Music Lessons', 'negotiate')" class="mt-2 w-full border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
+      <div id="music-lessons-budget-wrap" class="service-budget-inline mt-2" style="display: none;">
+       <label for="music-lessons-budget-input" class="block text-xs font-medium text-gray-700 mb-1">Your budget / offer amount</label>
+       <input id="music-lessons-budget-input" type="text" placeholder="e.g. ₦100,000" class="service-budget-input w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+       <button type="button" onclick="continueNegotiationToContact('Music Lessons', 'music-lessons-budget-input')" class="mt-2 w-full bg-gray-900 text-white py-2 rounded-lg font-semibold text-sm">Continue to Contact</button>
+      </div>
      </div><!-- Consultation -->
      <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-comments text-white text-lg sm:text-2xl"></i>
@@ -425,7 +512,13 @@
        </div>
        <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Project Review</span> <span class="font-semibold text-purple-600">₦125,000</span>
        </div>
-      </div><button onclick="contactForService('Consultation')" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Book Now </button>
+      </div><button onclick="contactForService('Consultation', 'book')" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Book Now </button>
+      <button onclick="contactForService('Consultation', 'negotiate')" class="mt-2 w-full border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
+      <div id="consultation-budget-wrap" class="service-budget-inline mt-2" style="display: none;">
+       <label for="consultation-budget-input" class="block text-xs font-medium text-gray-700 mb-1">Your budget / offer amount</label>
+       <input id="consultation-budget-input" type="text" placeholder="e.g. ₦100,000" class="service-budget-input w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+       <button type="button" onclick="continueNegotiationToContact('Consultation', 'consultation-budget-input')" class="mt-2 w-full bg-gray-900 text-white py-2 rounded-lg font-semibold text-sm">Continue to Contact</button>
+      </div>
      </div><!-- Mastering -->
      <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-sliders-h text-white text-lg sm:text-2xl"></i>
@@ -439,7 +532,13 @@
        </div>
        <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-green-600">₦200,000</span>
        </div>
-      </div><button onclick="contactForService('Mastering')" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
+      </div><button onclick="contactForService('Mastering', 'book')" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
+      <button onclick="contactForService('Mastering', 'negotiate')" class="mt-2 w-full border border-green-200 bg-green-50 text-green-700 hover:bg-green-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
+      <div id="mastering-budget-wrap" class="service-budget-inline mt-2" style="display: none;">
+       <label for="mastering-budget-input" class="block text-xs font-medium text-gray-700 mb-1">Your budget / offer amount</label>
+       <input id="mastering-budget-input" type="text" placeholder="e.g. ₦100,000" class="service-budget-input w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+       <button type="button" onclick="continueNegotiationToContact('Mastering', 'mastering-budget-input')" class="mt-2 w-full bg-gray-900 text-white py-2 rounded-lg font-semibold text-sm">Continue to Contact</button>
+      </div>
      </div><!-- Collaboration -->
      <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-handshake text-white text-lg sm:text-2xl"></i>
@@ -453,7 +552,13 @@
        </div>
        <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Full Song Production</span> <span class="font-semibold text-orange-600">₦400,000</span>
        </div>
-      </div><button onclick="contactForService('Collaboration')" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Let's Collaborate </button>
+      </div><button onclick="contactForService('Collaboration', 'book')" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Let's Collaborate </button>
+      <button onclick="contactForService('Collaboration', 'negotiate')" class="mt-2 w-full border border-orange-200 bg-orange-50 text-orange-700 hover:bg-orange-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
+      <div id="collaboration-budget-wrap" class="service-budget-inline mt-2" style="display: none;">
+       <label for="collaboration-budget-input" class="block text-xs font-medium text-gray-700 mb-1">Your budget / offer amount</label>
+       <input id="collaboration-budget-input" type="text" placeholder="e.g. ₦100,000" class="service-budget-input w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+       <button type="button" onclick="continueNegotiationToContact('Collaboration', 'collaboration-budget-input')" class="mt-2 w-full bg-gray-900 text-white py-2 rounded-lg font-semibold text-sm">Continue to Contact</button>
+      </div>
      </div><!-- Full Mixing -->
      <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-music text-white text-lg sm:text-2xl"></i>
@@ -467,7 +572,13 @@
        </div>
        <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album Mix (6+ tracks)</span> <span class="font-semibold text-red-600">₦375,000</span>
        </div>
-      </div><button onclick="contactForService('Full Mixing')" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
+      </div><button onclick="contactForService('Full Mixing', 'book')" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
+      <button onclick="contactForService('Full Mixing', 'negotiate')" class="mt-2 w-full border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
+      <div id="full-mixing-budget-wrap" class="service-budget-inline mt-2" style="display: none;">
+       <label for="full-mixing-budget-input" class="block text-xs font-medium text-gray-700 mb-1">Your budget / offer amount</label>
+       <input id="full-mixing-budget-input" type="text" placeholder="e.g. ₦100,000" class="service-budget-input w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+       <button type="button" onclick="continueNegotiationToContact('Full Mixing', 'full-mixing-budget-input')" class="mt-2 w-full bg-gray-900 text-white py-2 rounded-lg font-semibold text-sm">Continue to Contact</button>
+      </div>
      </div><!-- Mixing & Mastering -->
      <div class="service-card bg-white rounded-xl shadow-lg p-4 sm:p-6">
       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-compact-disc text-white text-lg sm:text-2xl"></i>
@@ -481,7 +592,13 @@
        </div>
        <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-indigo-600">₦525,000</span>
        </div>
-      </div><button onclick="contactForService('Mixing &amp; Mastering')" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
+      </div><button onclick="contactForService('Mixing &amp; Mastering', 'book')" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
+      <button onclick="contactForService('Mixing &amp; Mastering', 'negotiate')" class="mt-2 w-full border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
+      <div id="mixing-mastering-budget-wrap" class="service-budget-inline mt-2" style="display: none;">
+       <label for="mixing-mastering-budget-input" class="block text-xs font-medium text-gray-700 mb-1">Your budget / offer amount</label>
+       <input id="mixing-mastering-budget-input" type="text" placeholder="e.g. ₦100,000" class="service-budget-input w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+       <button type="button" onclick="continueNegotiationToContact('Mixing &amp; Mastering', 'mixing-mastering-budget-input')" class="mt-2 w-full bg-gray-900 text-white py-2 rounded-lg font-semibold text-sm">Continue to Contact</button>
+      </div>
      </div>
     </div><!-- Service Features -->
     <div class="mt-8 sm:mt-12 bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-6 sm:p-8 shadow-inner">
@@ -664,7 +781,7 @@
         <li>• Beat Bro retains full rights</li>
        </ul>
        <div class="mb-4 text-sm font-semibold text-gray-900">Bulk deals: BUY 2 TRACKS, GET 2 FREE!</div>
-       <button id="unlimited-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm">Read License</button>
+       <button id="unlimited-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm" onclick="handleLicensePreviewClick(event, 'unlimited')">Read License</button>
       </div>
      </div>
      <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-200">
@@ -683,7 +800,7 @@
        <li>• For Profit Live Performances</li>
        <li>• Radio Broadcasting rights (UNLIMITED Stations)</li>
       </ul>
-      <button id="exclusive-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm">Read License</button>
+      <button id="exclusive-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm" onclick="handleLicensePreviewClick(event, 'exclusive')">Read License</button>
      </div>
     </div>
    </div>
@@ -718,8 +835,13 @@
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
      <div>
-      <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Beat Bro</h3>
-      <p class="text-sm sm:text-base text-gray-400">Premium beats and instrumentals for artists worldwide.</p>
+      <a href="#" onclick="showPage('home'); return false;" class="flex items-center space-x-3 mb-3 sm:mb-4">
+       <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="Beat Bro logo" class="w-10 h-10 rounded-xl object-cover shadow-md">
+       <div>
+        <h3 class="text-lg sm:text-xl font-bold text-white">Beat Bro</h3>
+        <p class="text-sm text-gray-400">Premium beats and instrumentals for artists worldwide.</p>
+       </div>
+      </a>
      </div>
      <div>
       <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
@@ -742,6 +864,11 @@
     </div>
     <div class="border-t border-gray-800 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm">
      <p id="footer-text">© 2026 Beat Bro. All rights reserved.</p>
+     <div class="mt-3 flex justify-center md:justify-end">
+      <a href="https://chef-hub5.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="text-[11px] sm:text-sm font-semibold uppercase tracking-[0.35em] text-white/20 hover:text-white/40 transition-colors">
+       James Dev
+      </a>
+     </div>
     </div>
    </div>
   </footer><!-- License Modal -->
@@ -1796,69 +1923,80 @@
             });
         }
 
-        function renderBeats(container, beatsToRender, startIndex = 0, itemsPerPage = 12) {
+                function renderBeats(container, beatsToRender, startIndex = 0, itemsPerPage = 12) {
             const endIndex = startIndex + itemsPerPage;
             const paginatedBeats = beatsToRender.slice(startIndex, endIndex);
             const totalPages = Math.ceil(beatsToRender.length / itemsPerPage);
             const currentPage = Math.floor(startIndex / itemsPerPage) + 1;
-            
-            const html = paginatedBeats.map(beat => `
-                <div class="beat-card bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                    <div class="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 w-full">
-                        <div class="relative flex-shrink-0">
-                            <img src="${beat.image}" alt="${beat.title}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-                            <button onclick="togglePlay(${beat.id}, '${beat.audioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
-                                <i class="fas fa-play text-white text-2xl sm:text-3xl" id="play-icon-${beat.id}"></i>
-                            </button>
+
+            const cardsHtml = paginatedBeats.map((beat) => {
+                const beatId = Number(beat.id);
+                const isHighlighted = Number(window.highlightBeatId) === beatId;
+                const escapedAudioUrl = String(beat.audioUrl || '').replace(/'/g, "\\'");
+                const shareButton = `
+                    <button type="button" onclick="shareTrack(${beatId})" class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Share</span>
+                    </button>`;
+
+                return `
+                    <div id="beat-${beatId}" class="beat-card bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 ${isHighlighted ? 'ring-2 ring-blue-500 shadow-xl' : ''}">
+                        <div class="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 w-full">
+                            <div class="relative flex-shrink-0">
+                                <img src="${beat.image}" alt="${beat.title}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <button onclick="togglePlay(${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
+                                    <i class="fas fa-play text-white text-2xl sm:text-3xl" id="play-icon-${beatId}"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-base sm:text-xl font-bold text-gray-900 truncate">${beat.title}</h3>
+                                <p class="text-xs sm:text-sm text-gray-600">${beat.producer}</p>
+                                <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-1 sm:mt-2 text-xs sm:text-sm text-gray-500">
+                                    <span><i class="fas fa-music mr-1"></i>${beat.genre}</span>
+                                    <span><i class="fas fa-drum mr-1"></i>${beat.bpm} BPM</span>
+                                    <span><i class="fas fa-key mr-1"></i>${beat.key}</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 text-xs sm:text-sm text-gray-500">
+                                    <span><i class="fas fa-clock mr-1"></i>Duration: <span id="track-duration-${beatId}">${trackDurations[beatId] ? formatTime(trackDurations[beatId]) : '--:--'}</span></span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">Plays: <span id="plays-count-${beatId}">${beatStats[beatId]?.plays || 0}</span></p>
+                                <div class="mt-2 flex items-center gap-2">
+                                    ${shareButton}
+                                </div>
+                                <div id="progress-${beatId}" class="mt-2 sm:mt-3 w-full" style="display: none;">
+                                    <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beatId}, event)">
+                                        <div class="audio-progress-bar" id="progress-bar-${beatId}"></div>
+                                    </div>
+                                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-gray-500">
+                                        <div class="flex items-center space-x-2">
+                                            <span id="current-time-${beatId}">0:00</span>
+                                            <span>/</span>
+                                            <span id="duration-${beatId}">0:00</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2 sm:space-x-3">
+                                            <button type="button" onclick="toggleMute(${beatId})" class="text-gray-600 hover:text-gray-800 transition-colors">
+                                                <i class="fas ${beatStats[beatId]?.muted ? 'fa-volume-mute' : 'fa-volume-up'} text-sm" id="mute-icon-${beatId}"></i>
+                                            </button>
+                                            <input type="range" id="volume-${beatId}" min="0" max="100" value="50" class="w-16 sm:w-20 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" onchange="setVolume(${beatId}, this.value)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-base sm:text-xl font-bold text-gray-900 truncate">${beat.title}</h3>
-                            <p class="text-xs sm:text-sm text-gray-600">${beat.producer}</p>
-                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-1 sm:mt-2 text-xs sm:text-sm text-gray-500">
-                                <span><i class="fas fa-music mr-1"></i>${beat.genre}</span>
-                                <span><i class="fas fa-drum mr-1"></i>${beat.bpm} BPM</span>
-                                <span><i class="fas fa-key mr-1"></i>${beat.key}</span>
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                            <div class="text-center sm:text-right">
+                                <p class="text-xs sm:text-sm text-gray-600">Starting at</p>
+                                <p class="text-xl sm:text-2xl font-bold price-badge">${formatNaira(beat.price.mp3)}</p>
                             </div>
-                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 text-xs sm:text-sm text-gray-500">
-                                <span><i class="fas fa-clock mr-1"></i>Duration: <span id="track-duration-${beat.id}">${trackDurations[beat.id] ? formatTime(trackDurations[beat.id]) : '--:--'}</span></span>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-2">Plays: <span id="plays-count-${beat.id}">${beatStats[beat.id]?.plays || 0}</span></p>
-                            <div id="progress-${beat.id}" class="mt-2 sm:mt-3 w-full" style="display: none;">
-                                <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beat.id}, event)">
-                                    <div class="audio-progress-bar" id="progress-bar-${beat.id}"></div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-gray-500">
-                                    <div class="flex items-center space-x-2">
-                                        <span id="current-time-${beat.id}">0:00</span>
-                                        <span>/</span>
-                                        <span id="duration-${beat.id}">0:00</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 sm:space-x-3">
-                                        <button type="button" onclick="toggleMute(${beat.id})" class="text-gray-600 hover:text-gray-800 transition-colors">
-                                            <i class="fas ${beatStats[beat.id]?.muted ? 'fa-volume-mute' : 'fa-volume-up'} text-sm" id="mute-icon-${beat.id}"></i>
-                                        </button>
-                                        <input type="range" id="volume-${beat.id}" min="0" max="100" value="50" class="w-16 sm:w-20 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" onchange="setVolume(${beat.id}, this.value)">
-                                        <button onclick="shareTrack(${beat.id})" class="text-blue-600 hover:text-blue-700 transition-colors">
-                                            <i class="fas fa-share-alt text-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <button onclick="openLicenseModal(${beatId})" class="btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base whitespace-nowrap">
+                                <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                            </button>
                         </div>
                     </div>
-                    
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
-                        <div class="text-center sm:text-right">
-                            <p class="text-xs sm:text-sm text-gray-600">Starting at</p>
-                            <p class="text-xl sm:text-2xl font-bold price-badge">${formatNaira(beat.price.mp3)}</p>
-                        </div>
-                        <button onclick="openLicenseModal(${beat.id})" class="btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base whitespace-nowrap">
-                            <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
             
             // Add pagination if needed
             let paginationHtml = '';
@@ -1891,7 +2029,7 @@
                 `;
             }
             
-            document.getElementById(container).innerHTML = html + paginationHtml;
+            document.getElementById(container).innerHTML = cardsHtml + paginationHtml;
             
             // Store current pagination state
             window.paginationState = window.paginationState || {};
@@ -2413,8 +2551,26 @@
         setInterval(updateNigeriaDatetime, 1000);
         updateNigeriaDatetime();
 
-        // Ensure buttons reliably open their respective preview modals
-        document.addEventListener('DOMContentLoaded', function() {
+        function handleLicensePreviewClick(event, licenseType) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            if (licenseType === 'mp3' && window.openMp3LicensePreview) {
+                window.openMp3LicensePreview();
+            } else if (licenseType === 'wav' && window.openWavLicensePreview) {
+                window.openWavLicensePreview();
+            } else if (licenseType === 'premium' && window.openPremiumLicensePreview) {
+                window.openPremiumLicensePreview();
+            } else if (licenseType === 'unlimited' && window.openUnlimitedLicensePreview) {
+                window.openUnlimitedLicensePreview();
+            } else if (licenseType === 'exclusive' && window.openExclusiveLicensePreview) {
+                window.openExclusiveLicensePreview();
+            }
+        }
+
+        function bindLicenseButtons() {
             const mp3Btn = document.getElementById('mp3-read-license-btn');
             const wavBtn = document.getElementById('wav-read-license-btn');
 
@@ -2436,48 +2592,44 @@
             window._exclusiveModalOriginalParent = exclusiveModal ? exclusiveModal.parentElement : null;
 
             if (mp3Btn) {
-                mp3Btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (window.openMp3LicensePreview) window.openMp3LicensePreview();
-                });
+                mp3Btn.onclick = function(e) {
+                    handleLicensePreviewClick(e, 'mp3');
+                };
             }
 
             if (wavBtn) {
-                wavBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (window.openWavLicensePreview) window.openWavLicensePreview();
-                });
+                wavBtn.onclick = function(e) {
+                    handleLicensePreviewClick(e, 'wav');
+                };
             }
 
             const premiumBtn = document.getElementById('premium-read-license-btn');
             if (premiumBtn) {
-                premiumBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (window.openPremiumLicensePreview) window.openPremiumLicensePreview();
-                });
+                premiumBtn.onclick = function(e) {
+                    handleLicensePreviewClick(e, 'premium');
+                };
             }
 
             const unlimitedBtn = document.getElementById('unlimited-read-license-btn');
             if (unlimitedBtn) {
-                unlimitedBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (window.openUnlimitedLicensePreview) window.openUnlimitedLicensePreview();
-                });
+                unlimitedBtn.onclick = function(e) {
+                    handleLicensePreviewClick(e, 'unlimited');
+                };
             }
 
             const exclusiveBtn = document.getElementById('exclusive-read-license-btn');
             if (exclusiveBtn) {
-                exclusiveBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (window.openExclusiveLicensePreview) window.openExclusiveLicensePreview();
-                });
+                exclusiveBtn.onclick = function(e) {
+                    handleLicensePreviewClick(e, 'exclusive');
+                };
             }
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bindLicenseButtons);
+        } else {
+            bindLicenseButtons();
+        }
 
         function addToCart(beatId, licenseType) {
             const beat = beats.find(b => b.id === beatId);
@@ -2768,6 +2920,21 @@
             event.target.classList.add('bg-blue-600', 'text-white', 'shadow-md');
         }
 
+        function applyTheme(isDark) {
+            document.body.classList.toggle('dark-theme', isDark);
+            const themeIcon = document.getElementById('theme-icon');
+            if (themeIcon) {
+                themeIcon.classList.toggle('fa-moon', !isDark);
+                themeIcon.classList.toggle('fa-sun', isDark);
+            }
+            localStorage.setItem('beatstore-theme', isDark ? 'dark' : 'light');
+        }
+
+        function toggleTheme() {
+            const isDark = !document.body.classList.contains('dark-theme');
+            applyTheme(isDark);
+        }
+
         function showPage(page) {
             if (!page) page = 'home';
             document.getElementById('home-page').style.display = 'none';
@@ -2816,6 +2983,8 @@
 
         // Restore page from URL hash on load and handle hash navigation
         document.addEventListener('DOMContentLoaded', function () {
+            const storedTheme = localStorage.getItem('beatstore-theme');
+            applyTheme(storedTheme === 'dark');
             const initial = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
             showPage(initial);
         });
@@ -2872,15 +3041,68 @@
             renderBeats('tracks-beats-container', filtered, 0, 12);
         }
 
-        function contactForService(serviceName) {
+        function hideAllServiceBudgetFields() {
+            document.querySelectorAll('.service-budget-inline').forEach(wrapper => {
+                wrapper.style.display = 'none';
+                const input = wrapper.querySelector('.service-budget-input');
+                if (input) input.value = '';
+            });
+        }
+
+        function showServiceBudgetField(fieldId) {
+            hideAllServiceBudgetFields();
+            const wrapper = document.getElementById(fieldId);
+            if (wrapper) {
+                wrapper.style.display = 'block';
+                const input = wrapper.querySelector('.service-budget-input');
+                if (input) input.focus();
+            }
+        }
+
+        function contactForService(serviceName, intent = 'book') {
+            if (intent === 'negotiate') {
+                const fieldId = {
+                    'Music Lessons': 'music-lessons-budget-wrap',
+                    'Consultation': 'consultation-budget-wrap',
+                    'Mastering': 'mastering-budget-wrap',
+                    'Collaboration': 'collaboration-budget-wrap',
+                    'Full Mixing': 'full-mixing-budget-wrap',
+                    'Mixing & Mastering': 'mixing-mastering-budget-wrap'
+                }[serviceName];
+
+                if (fieldId) {
+                    showServiceBudgetField(fieldId);
+                }
+                showToast(`Budget field opened for ${serviceName}`, 'info');
+                return;
+            }
+
             showPage('contact');
             
             setTimeout(() => {
                 const messageField = document.getElementById('contact-message');
                 if (messageField) {
                     messageField.value = `Hi! I'm interested in your ${serviceName} service. Please provide more details about pricing and availability.`;
+                    messageField.focus();
                 }
                 showToast(`Contact form opened for ${serviceName}`, 'info');
+            }, 100);
+        }
+
+        function continueNegotiationToContact(serviceName, inputId) {
+            const budgetInput = document.getElementById(inputId);
+            const budgetValue = budgetInput ? budgetInput.value.trim() : '';
+
+            showPage('contact');
+
+            setTimeout(() => {
+                const messageField = document.getElementById('contact-message');
+                if (messageField) {
+                    const budgetText = budgetValue ? `\n\nMy proposed budget is ${budgetValue}.` : '';
+                    messageField.value = `Hi! I'm interested in negotiating pricing for ${serviceName}.${budgetText} Please share flexible package options, available discounts, and a quote based on my project needs.`;
+                    messageField.focus();
+                }
+                showToast('Negotiation details sent to the contact form', 'info');
             }, 100);
         }
 
@@ -2890,6 +3112,7 @@
             const name = document.getElementById('contact-name').value;
             const email = document.getElementById('contact-email').value;
             const message = document.getElementById('contact-message').value;
+            const finalMessage = message;
 
             const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
             const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
@@ -2925,7 +3148,7 @@
                         type: 'contact',
                         name: name,
                         email: email,
-                        message: message,
+                        message: finalMessage,
                         timestamp: new Date().toISOString()
                     })
                 });

@@ -2044,6 +2044,21 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function getBeatIdFromHash(hashValue) {
+            const value = (hashValue || location.hash || '').replace(/^#/, '');
+            const match = value.match(/^beat-(\d+)$/i);
+            return match ? Number(match[1]) : null;
+        }
+
+        function scrollToBeatCard(beatId) {
+            const beatCard = document.getElementById(`beat-${beatId}`);
+            if (beatCard) {
+                requestAnimationFrame(() => {
+                    beatCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            }
+        }
+
         function togglePlay(beatId, audioUrl) {
             const playIcon = document.getElementById(`play-icon-${beatId}`);
             const progressContainer = document.getElementById(`progress-${beatId}`);
@@ -2190,11 +2205,14 @@
         function shareTrack(beatId) {
             const beat = beats.find(b => b.id === beatId);
             if (!beat) return;
+
+            const shareUrl = new URL(window.location.href);
+            shareUrl.hash = `beat-${beatId}`;
             
             const shareData = {
                 title: `${beat.title} - ${beat.producer}`,
                 text: `Check out this ${beat.genre} beat: "${beat.title}" - ${beat.bpm} BPM in ${beat.key}`,
-                url: window.location.href + `#beat-${beatId}`
+                url: shareUrl.toString()
             };
             
             if (navigator.share) {
@@ -2937,6 +2955,10 @@
 
         function showPage(page) {
             if (!page) page = 'home';
+            const beatId = getBeatIdFromHash(page);
+            const targetPage = beatId ? 'home' : page;
+            window.highlightBeatId = beatId || null;
+
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('tracks-page').style.display = 'none';
             document.getElementById('services-page').style.display = 'none';
@@ -2946,7 +2968,7 @@
             document.getElementById('terms-page').style.display = 'none';
             document.getElementById('privacy-page').style.display = 'none';
             
-            if (page === 'home') {
+            if (targetPage === 'home') {
                 document.getElementById('home-page').style.display = 'block';
                 const currentQuery = document.getElementById('search-input').value;
                 if (currentQuery) {
@@ -2954,30 +2976,35 @@
                 } else {
                     renderBeats('beats-container', beats, 0, 12);
                 }
-            } else if (page === 'tracks') {
+            } else if (targetPage === 'tracks') {
                 document.getElementById('tracks-page').style.display = 'block';
                 renderBeats('tracks-beats-container', beats, 0, 12);
                 updateBulkDealBanner();
-            } else if (page === 'services') {
+            } else if (targetPage === 'services') {
                 document.getElementById('services-page').style.display = 'block';
-            } else if (page === 'about') {
+            } else if (targetPage === 'about') {
                 document.getElementById('about-page').style.display = 'block';
-            } else if (page === 'contact') {
+            } else if (targetPage === 'contact') {
                 document.getElementById('contact-page').style.display = 'block';
-            } else if (page === 'license') {
+            } else if (targetPage === 'license') {
                 document.getElementById('license-page').style.display = 'block';
-            } else if (page === 'terms') {
+            } else if (targetPage === 'terms') {
                 document.getElementById('terms-page').style.display = 'block';
-            } else if (page === 'privacy') {
+            } else if (targetPage === 'privacy') {
                 document.getElementById('privacy-page').style.display = 'block';
             }
             
             window.scrollTo(0, 0);
+            const nextHash = beatId ? `beat-${beatId}` : targetPage;
             try {
-                history.replaceState(null, '', '#' + page);
+                history.replaceState(null, '', '#' + nextHash);
             } catch (e) {
                 // fallback to hash assignment for older browsers
-                location.hash = page;
+                location.hash = nextHash;
+            }
+
+            if (beatId) {
+                scrollToBeatCard(beatId);
             }
         }
 

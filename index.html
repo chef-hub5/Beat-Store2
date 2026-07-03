@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beat Bro - Premium Beats &amp; Instrumentals</title>
+  <title>De Beat Chef - Premium Beats &amp; Instrumentals</title>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -331,11 +331,11 @@
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center py-3 sm:py-4">
      <a href="#" onclick="showPage('home'); return false;" class="flex items-center space-x-2 sm:space-x-3">
-      <img id="logo-image" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="De Beat Store Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <img id="logo-image" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="De Beat Chef Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md" style="display: none;"><i class="fas fa-music text-white text-lg sm:text-xl"></i>
       </div>
       <div class="hidden sm:flex flex-col">
-       <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">Beat Bro</h1>
+       <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" id="store-name">De Beat Chef</h1>
        <p class="text-[10px] sm:text-xs text-gray-500" id="tagline">Premium Beats &amp; Instrumentals</p>
       </div>
      </a>
@@ -470,7 +470,19 @@
    </div><!-- Tracks Page -->
    <div id="tracks-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">All Tracks</h2>
-    <div class="mb-6 sm:mb-8"><label class="block text-sm font-medium text-gray-700 mb-2">Filter by Genre</label> <select id="genre-filter" onchange="applyTrackFilters()" class="w-full max-w-md px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"> <option value="all">All Genres</option> <option value="Afrobeat">Afrobeat</option> <option value="Amapiano">Amapiano</option> </select>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-6 sm:mb-8">
+     <div class="w-full max-w-md">
+      <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Genre</label>
+      <select id="genre-filter" onchange="applyTrackFilters()" class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+       <option value="all">All Genres</option>
+       <option value="Afrobeat">Afrobeat</option>
+       <option value="Amapiano">Amapiano</option>
+      </select>
+     </div>
+     <div class="flex items-center gap-2 rounded-full border border-gray-200 bg-white p-1 shadow-sm">
+      <button type="button" id="track-view-list-btn" onclick="setTracksViewMode('list')" class="rounded-full px-3 py-2 text-sm font-semibold transition-all bg-blue-600 text-white shadow-sm">List</button>
+      <button type="button" id="track-view-grid-btn" onclick="setTracksViewMode('grid')" class="rounded-full px-3 py-2 text-sm font-semibold transition-all text-gray-700 hover:bg-gray-100">Grid</button>
+     </div>
     </div>
     <div id="bulk-discount-banner" class="hidden mb-6 rounded-2xl border border-blue-300 bg-blue-50 p-4 text-sm sm:text-base text-blue-800">
       Add 2 more tracks with Unlimited License to your cart to activate the Buy 2 Tracks, Get 2 Free bulk discount.
@@ -486,11 +498,11 @@
       <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Music Lessons</h3>
       <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Learn music production, beat making, and mixing techniques</p>
       <div class="space-y-2 mb-4 sm:mb-6">
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">1-on-1 Session (1hr)</span> <span class="font-semibold text-blue-600">₦75,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">1-on-1 Session (1hr)</span> <span class="font-semibold text-blue-600">₦20,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Package (5 sessions)</span> <span class="font-semibold text-blue-600">₦325,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Package (5 sessions)</span> <span class="font-semibold text-blue-600">₦100,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Group Session (1hr)</span> <span class="font-semibold text-blue-600">₦45,000/person</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Group Session (1hr)</span> <span class="font-semibold text-blue-600">₦20,000/person</span>
        </div>
       </div><button onclick="contactForService('Music Lessons', 'book')" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base"> Book Now </button>
       <button onclick="contactForService('Music Lessons', 'negotiate')" class="mt-2 w-full border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
@@ -506,11 +518,11 @@
       <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Consultation</h3>
       <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Get expert advice on your music projects and career</p>
       <div class="space-y-2 mb-4 sm:mb-6">
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">30-minute Session</span> <span class="font-semibold text-purple-600">₦50,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">30-minute Session</span> <span class="font-semibold text-purple-600">₦30,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">1-hour Session</span> <span class="font-semibold text-purple-600">₦85,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">1-hour Session</span> <span class="font-semibold text-purple-600">₦50,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Project Review</span> <span class="font-semibold text-purple-600">₦125,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Project Review</span> <span class="font-semibold text-purple-600">₦100,000</span>
        </div>
       </div><button onclick="contactForService('Consultation', 'book')" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Book Now </button>
       <button onclick="contactForService('Consultation', 'negotiate')" class="mt-2 w-full border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
@@ -528,9 +540,9 @@
       <div class="space-y-2 mb-4 sm:mb-6">
        <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track</span> <span class="font-semibold text-green-600">₦45,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-green-600">₦125,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-green-600">₦200,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-green-600">₦200,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-green-600">₦250,000</span>
        </div>
       </div><button onclick="contactForService('Mastering', 'book')" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
       <button onclick="contactForService('Mastering', 'negotiate')" class="mt-2 w-full border border-green-200 bg-green-50 text-green-700 hover:bg-green-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
@@ -546,11 +558,11 @@
       <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Collaboration</h3>
       <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Work together on custom beats and original productions</p>
       <div class="space-y-2 mb-4 sm:mb-6">
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Custom Beat</span> <span class="font-semibold text-orange-600">₦150,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Custom Beat</span> <span class="font-semibold text-orange-600">₦50,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Co-Production</span> <span class="font-semibold text-orange-600">₦250,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Co-Production</span> <span class="font-semibold text-orange-600">₦100,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Full Song Production</span> <span class="font-semibold text-orange-600">₦400,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Full Song Production</span> <span class="font-semibold text-orange-600">₦150,000</span>
        </div>
       </div><button onclick="contactForService('Collaboration', 'book')" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Let's Collaborate </button>
       <button onclick="contactForService('Collaboration', 'negotiate')" class="mt-2 w-full border border-orange-200 bg-orange-50 text-orange-700 hover:bg-orange-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
@@ -566,11 +578,11 @@
       <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Full Mixing</h3>
       <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Complete mixing services for your recorded tracks</p>
       <div class="space-y-2 mb-4 sm:mb-6">
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track Mix</span> <span class="font-semibold text-red-600">₦85,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track Mix</span> <span class="font-semibold text-red-600">₦45,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP Mix (3-5 tracks)</span> <span class="font-semibold text-red-600">₦225,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP Mix (3-5 tracks)</span> <span class="font-semibold text-red-600">₦200,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album Mix (6+ tracks)</span> <span class="font-semibold text-red-600">₦375,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album Mix (6+ tracks)</span> <span class="font-semibold text-red-600">₦250,000</span>
        </div>
       </div><button onclick="contactForService('Full Mixing', 'book')" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
       <button onclick="contactForService('Full Mixing', 'negotiate')" class="mt-2 w-full border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
@@ -586,11 +598,11 @@
       <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">Mixing &amp; Mastering</h3>
       <p class="text-sm sm:text-base text-gray-600 text-center mb-3 sm:mb-4">Complete package: mixing and mastering in one service</p>
       <div class="space-y-2 mb-4 sm:mb-6">
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track</span> <span class="font-semibold text-indigo-600">₦115,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Single Track</span> <span class="font-semibold text-indigo-600">₦45,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-indigo-600">₦325,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">EP (3-5 tracks)</span> <span class="font-semibold text-indigo-600">₦200,000</span>
        </div>
-       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-indigo-600">₦525,000</span>
+       <div class="flex justify-between text-xs sm:text-sm"><span class="text-gray-600">Album (6+ tracks)</span> <span class="font-semibold text-indigo-600">₦250,000</span>
        </div>
       </div><button onclick="contactForService('Mixing &amp; Mastering', 'book')" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md transition-all text-sm sm:text-base"> Get Quote </button>
       <button onclick="contactForService('Mixing &amp; Mastering', 'negotiate')" class="mt-2 w-full border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 py-2.5 sm:py-3 rounded-xl font-semibold shadow-sm transition-all text-sm sm:text-base"> Negotiate Price </button>
@@ -626,14 +638,14 @@
     </div>
    </div><!-- About Page -->
    <div id="about-page" style="display: none;">
-    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">About Beat Bro</h2>
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">About De Beat Chef</h2>
     <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
       <div><img src="logo.PNG" alt="Music production studio" class="w-full h-48 sm:h-64 object-cover rounded-xl shadow-md" onerror="this.style.display='none';">
       </div>
       <div>
        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Our Story</h3>
-       <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">Beat Bro was founded with a passion for creating high-quality, professional beats that inspire artists worldwide. We specialize in Afrobeat and Amapiano genres, bringing authentic African sounds to the global music scene.</p>
+       <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">De Beat Chef was founded with a passion for creating high-quality, professional beats that inspire artists worldwide. We specialize in Afrobeat and Amapiano genres, bringing authentic African sounds to the global music scene.</p>
        <p class="text-sm sm:text-base text-gray-700">Our team of experienced producers works tirelessly to craft unique instrumentals that help artists bring their vision to life. Every beat is carefully produced with attention to detail and mixed to industry standards.</p>
       </div>
      </div>
@@ -735,7 +747,7 @@
         <li>• Limited 4 Broadcasting Rights</li>
         <li>• Limited 4 Performing Rights</li>
         <li>• YouTube Monetize</li>
-        <li>• Beat Bro retains full rights</li>
+        <li>• De Beat Chef retains full rights</li>
        </ul>
     <button id="wav-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm">Read License</button>
       </div>
@@ -758,7 +770,7 @@
         <li>• Limited 10 Performing Rights</li>
         <li>• YouTube Monetize</li>
         <li>• Streaming Service Release (Spotify, Apple Music etc.)</li>
-        <li>• Beat Bro retains full rights</li>
+        <li>• De Beat Chef retains full rights</li>
        </ul>
     <button id="premium-read-license-btn" type="button" class="w-full bg-white text-purple-700 py-2.5 rounded-xl font-semibold text-sm">Read License</button>
       </div>
@@ -778,7 +790,7 @@
         <li>• Unlimited Performing Rights</li>
         <li>• YouTube Monetize</li>
         <li>• Streaming Service Release (Spotify, Apple Music etc.)</li>
-        <li>• Beat Bro retains full rights</li>
+        <li>• De Beat Chef retains full rights</li>
        </ul>
        <div class="mb-4 text-sm font-semibold text-gray-900">Bulk deals: BUY 2 TRACKS, GET 2 FREE!</div>
        <button id="unlimited-read-license-btn" type="button" class="w-full btn-primary text-white py-2.5 rounded-xl font-semibold text-sm" onclick="handleLicensePreviewClick(event, 'unlimited')">Read License</button>
@@ -806,28 +818,108 @@
    </div>
    <div id="terms-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Terms of Use</h2>
-    <div class="max-w-5xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-     <p class="text-sm sm:text-base text-gray-700 mb-4">By accessing and using this website, you agree to our terms outlined below. Please read carefully before purchasing or downloading beats.</p>
-     <ul class="space-y-3 text-sm sm:text-base text-gray-700">
-      <li><strong>License compliance:</strong> You must purchase the appropriate license before using any beat commercially.</li>
-      <li><strong>Restrictions:</strong> Beats may not be resold, sublicensed, or distributed as standalone products.</li>
-      <li><strong>Payment terms:</strong> All sales are final once completed. Refunds are handled on a case-by-case basis.</li>
-      <li><strong>Intellectual property:</strong> Producers retain ownership of the original compositions.</li>
-      <li><strong>Site usage:</strong> You agree not to misuse the website, upload harmful content, or attempt to access restricted areas.</li>
-     </ul>
+    <div class="max-w-5xl bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-6">
+     <p class="text-sm sm:text-base text-gray-700">By accessing, browsing, or purchasing any beat or service from this website, you agree to the terms below. These terms apply to all visitors, buyers, clients, and collaborators.</p>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">1. License and Usage</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• You must purchase the correct license before using any beat commercially, publicly, or for distribution.</li>
+       <li>• Each license grants limited rights for specific permitted uses, and the scope depends on the license selected.</li>
+       <li>• You may not resell, redistribute, or sublicense the beat, stems, audio files, or any portion of the track as a standalone product.</li>
+       <li>• Any unauthorized use, copyright infringement, or reproduction outside the purchased license may result in legal action.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">2. Ownership and Intellectual Property</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• De Beat Chef retains full ownership of the original composition, sound recording, and all underlying rights unless expressly stated otherwise in a written agreement.</li>
+       <li>• You receive a license to use the beat under agreed terms, not ownership of the beat itself.</li>
+       <li>• Any custom work, exclusive arrangement, or negotiated service is governed by a separate written agreement if applicable.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">3. Payments, Orders, and Refunds</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• All prices listed are subject to change without prior notice.</li>
+       <li>• Payments are processed securely through approved payment providers and are considered complete once the transaction is successful.</li>
+       <li>• Refunds are assessed on a case-by-case basis and may be denied if the license has already been delivered, used, or transferred.</li>
+       <li>• Any disputes regarding charges, licenses, or delivery must be reported promptly to the contact channel provided on the website.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">4. Client Services and Negotiations</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• Requests for custom services, negotiation of pricing, or special arrangements are accepted at the discretion of De Beat Chef.</li>
+       <li>• Any agreed price, scope of work, or delivery timeline must be confirmed in writing before the work begins.</li>
+       <li>• You agree to provide accurate information when submitting a request or budget proposal.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">5. Website Conduct</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• You agree not to misuse the website, attempt unauthorized access, upload harmful content, or interfere with site functionality.</li>
+       <li>• You are responsible for the accuracy of the information you provide through contact forms, orders, or negotiation requests.</li>
+      </ul>
+     </div>
+
+     <p class="text-sm sm:text-base text-gray-700">By continuing to use this website, you acknowledge that you have read, understood, and accepted these terms.</p>
     </div>
    </div>
    <div id="privacy-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Privacy Policy</h2>
-    <div class="max-w-5xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-     <p class="text-sm sm:text-base text-gray-700 mb-4">We respect your privacy and are committed to protecting your personal information. This policy explains how we collect, use, and safeguard your data.</p>
-     <ul class="space-y-3 text-sm sm:text-base text-gray-700">
-      <li><strong>Data collection:</strong> We collect only the information necessary to process orders, respond to inquiries, and improve the user experience.</li>
-      <li><strong>Usage:</strong> Information is used for order processing, support, marketing, and site analytics.</li>
-      <li><strong>Security:</strong> We store your data securely and do not sell it to third parties.</li>
-      <li><strong>Cookies:</strong> Cookies may be used to remember preferences and improve site performance.</li>
-      <li><strong>Contact:</strong> If you have privacy concerns, please reach out through our contact page.</li>
-     </ul>
+    <div class="max-w-5xl bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-6">
+     <p class="text-sm sm:text-base text-gray-700">We respect your privacy and are committed to protecting your personal information. This policy explains how we collect, use, store, and safeguard your data when you use this website.</p>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">1. Information We Collect</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• Contact details such as your name, email address, phone number, and message content when you fill out a form or request a license.</li>
+       <li>• Payment and transaction-related information required to complete an order securely through approved payment processors.</li>
+       <li>• Technical information such as browser type, device details, IP address, and website interaction data for security and analytics purposes.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">2. How We Use Your Information</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• To process purchases, deliver licenses, and respond to inquiries.</li>
+       <li>• To communicate about orders, services, negotiations, and updates.</li>
+       <li>• To improve the website experience, maintain security, and understand general customer needs.</li>
+       <li>• To comply with legal obligations or protect our rights and the safety of our users.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">3. Data Sharing and Storage</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• We do not sell your personal information to third parties.</li>
+       <li>• We may share your information with trusted service providers who help us run the website, process payments, or deliver services.</li>
+       <li>• Your information is stored securely and retained only for as long as necessary to fulfill the purpose for which it was collected.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">4. Cookies and Tracking</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• The website may use cookies or similar technologies to remember preferences, improve performance, and understand visitor behavior.</li>
+       <li>• You may disable cookies through your browser settings, though some website features may not work as intended.</li>
+      </ul>
+     </div>
+
+     <div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">5. Your Rights</h3>
+      <ul class="space-y-2 text-sm sm:text-base text-gray-700">
+       <li>• You may request access to, correction of, or deletion of your personal information where applicable.</li>
+       <li>• You may contact us at any time if you have questions or concerns about your data or this policy.</li>
+      </ul>
+     </div>
+
+     <p class="text-sm sm:text-base text-gray-700">We may update this policy from time to time. Continued use of the website after changes are posted means you accept the updated terms.</p>
     </div>
    </div>
   </main><!-- Footer -->
@@ -836,10 +928,11 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
      <div>
       <a href="#" onclick="showPage('home'); return false;" class="flex items-center space-x-3 mb-3 sm:mb-4">
-       <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="Beat Bro logo" class="w-10 h-10 rounded-xl object-cover shadow-md">
+       <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&amp;h=40&amp;fit=crop" alt="De Beat Chef logo" class="w-10 h-10 rounded-xl object-cover shadow-md">
        <div>
-        <h3 class="text-lg sm:text-xl font-bold text-white">Beat Bro</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white">De Beat Chef</h3>
         <p class="text-sm text-gray-400">Premium beats and instrumentals for artists worldwide.</p>
+        <p class="text-sm text-gray-400">All tracks produced by De Beat Chef.</p>
        </div>
       </a>
      </div>
@@ -863,7 +956,7 @@
      </div>
     </div>
     <div class="border-t border-gray-800 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm">
-     <p id="footer-text">© 2026 Beat Bro. All rights reserved.</p>
+     <p id="footer-text">© 2026 De Beat Chef. All rights reserved.</p>
      <div class="mt-3 flex justify-center md:justify-end">
       <a href="https://chef-hub5.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="text-[11px] sm:text-sm font-semibold uppercase tracking-[0.35em] text-white/20 hover:text-white/40 transition-colors">
        James Dev
@@ -1184,11 +1277,11 @@
   </div>
   <script>
         const defaultConfig = {
-            store_name: "Beat Bro",
+            store_name: "De Beat Chef",
             tagline: "Premium Beats & Instrumentals",
             hero_title: "Discover Premium Beats",
             hero_subtitle: "High-quality instrumentals for your next hit",
-            footer_text: "© 2025 Beat Bro. All rights reserved.",
+            footer_text: "© 2025 De Beat Chef. All rights reserved.",
             hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
             logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
             paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b",
@@ -1923,13 +2016,29 @@
             });
         }
 
-                function renderBeats(container, beatsToRender, startIndex = 0, itemsPerPage = 12) {
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedBeats = beatsToRender.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(beatsToRender.length / itemsPerPage);
-            const currentPage = Math.floor(startIndex / itemsPerPage) + 1;
+        function getActiveTracksViewMode() {
+            const stored = localStorage.getItem('beatstore-tracks-view');
+            return stored === 'grid' ? 'grid' : 'list';
+        }
 
-            const cardsHtml = paginatedBeats.map((beat) => {
+        function updateTracksViewToggle() {
+            const listButton = document.getElementById('track-view-list-btn');
+            const gridButton = document.getElementById('track-view-grid-btn');
+            const activeMode = getActiveTracksViewMode();
+            if (!listButton || !gridButton) return;
+            listButton.className = `rounded-full px-3 py-2 text-sm font-semibold transition-all ${activeMode === 'list' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-700 hover:bg-gray-100'}`;
+            gridButton.className = `rounded-full px-3 py-2 text-sm font-semibold transition-all ${activeMode === 'grid' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-700 hover:bg-gray-100'}`;
+        }
+
+        function setTracksViewMode(mode) {
+            const normalizedMode = mode === 'grid' ? 'grid' : 'list';
+            localStorage.setItem('beatstore-tracks-view', normalizedMode);
+            updateTracksViewToggle();
+            renderBeats('tracks-beats-container', beats, normalizedMode);
+        }
+
+        function renderBeats(container, beatsToRender, viewMode = 'list') {
+            const cardsHtml = beatsToRender.map((beat) => {
                 const beatId = Number(beat.id);
                 const isHighlighted = Number(window.highlightBeatId) === beatId;
                 const escapedAudioUrl = String(beat.audioUrl || '').replace(/'/g, "\\'");
@@ -1938,12 +2047,13 @@
                         <i class="fas fa-share-alt"></i>
                         <span>Share</span>
                     </button>`;
+                const isGridView = viewMode === 'grid';
 
                 return `
-                    <div id="beat-${beatId}" class="beat-card bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 ${isHighlighted ? 'ring-2 ring-blue-500 shadow-xl' : ''}">
-                        <div class="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 w-full">
-                            <div class="relative flex-shrink-0">
-                                <img src="${beat.image}" alt="${beat.title}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                    <div id="beat-${beatId}" class="beat-card bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 h-full ${isGridView ? 'flex flex-col' : 'flex flex-col sm:flex-row items-start sm:items-center'} gap-3 sm:gap-4 ${isHighlighted ? 'ring-2 ring-blue-500 shadow-xl' : ''}">
+                        <div class="flex ${isGridView ? 'flex-col w-full' : 'items-start sm:items-center'} gap-3 sm:gap-4 flex-1 w-full">
+                            <div class="relative flex-shrink-0 ${isGridView ? 'w-full' : ''}">
+                                <img src="${beat.image}" alt="${beat.title}" class="${isGridView ? 'w-full h-40' : 'w-20 h-20 sm:w-24 sm:h-24'} rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
                                 <button onclick="togglePlay(${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
                                     <i class="fas fa-play text-white text-2xl sm:text-3xl" id="play-icon-${beatId}"></i>
                                 </button>
@@ -1985,63 +2095,21 @@
                             </div>
                         </div>
                         
-                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
-                            <div class="text-center sm:text-right">
+                        <div class="flex ${isGridView ? 'flex-col items-stretch mt-4' : 'flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto'}">
+                            <div class="text-center ${isGridView ? 'text-left' : 'sm:text-right'}">
                                 <p class="text-xs sm:text-sm text-gray-600">Starting at</p>
                                 <p class="text-xl sm:text-2xl font-bold price-badge">${formatNaira(beat.price.mp3)}</p>
                             </div>
-                            <button onclick="openLicenseModal(${beatId})" class="btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base whitespace-nowrap">
+                            <button onclick="openLicenseModal(${beatId})" class="btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base whitespace-nowrap ${isGridView ? 'mt-3' : ''}">
                                 <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
                             </button>
                         </div>
                     </div>
                 `;
             }).join('');
-            
-            // Add pagination if needed
-            let paginationHtml = '';
-            if (totalPages > 1) {
-                paginationHtml = `
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 p-4 bg-white rounded-xl shadow-md">
-                        <div class="text-xs sm:text-sm text-gray-600 order-2 sm:order-1">
-                            Showing ${startIndex + 1}-${Math.min(endIndex, beatsToRender.length)} of ${beatsToRender.length} beats
-                        </div>
-                        <div class="flex items-center gap-2 order-1 sm:order-2">
-                            <button 
-                                onclick="handlePagination('${container}', ${startIndex - itemsPerPage}, ${itemsPerPage})" 
-                                ${startIndex === 0 ? 'disabled' : ''}
-                                class="px-4 sm:px-6 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base ${startIndex === 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'}"
-                            >
-                                <i class="fas fa-chevron-left mr-1 sm:mr-2"></i><span class="hidden sm:inline">Previous</span><span class="sm:hidden">Prev</span>
-                            </button>
-                            <span class="px-3 sm:px-4 py-2 bg-gray-100 rounded-lg font-semibold text-xs sm:text-base">
-                                ${currentPage} / ${totalPages}
-                            </span>
-                            <button 
-                                onclick="handlePagination('${container}', ${startIndex + itemsPerPage}, ${itemsPerPage})" 
-                                ${endIndex >= beatsToRender.length ? 'disabled' : ''}
-                                class="px-4 sm:px-6 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base ${endIndex >= beatsToRender.length ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'}"
-                            >
-                                <span class="hidden sm:inline">Next</span><span class="sm:hidden">Next</span><i class="fas fa-chevron-right ml-1 sm:ml-2"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            document.getElementById(container).innerHTML = cardsHtml + paginationHtml;
-            
-            // Store current pagination state
-            window.paginationState = window.paginationState || {};
-            window.paginationState[container] = { beatsToRender, startIndex, itemsPerPage };
-        }
 
-        function handlePagination(container, newStartIndex, itemsPerPage) {
-            const state = window.paginationState[container];
-            if (!state) return;
-            
-            renderBeats(container, state.beatsToRender, newStartIndex, itemsPerPage);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const wrapperClass = viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6' : 'space-y-4';
+            document.getElementById(container).innerHTML = `<div class="${wrapperClass}">${cardsHtml}</div>`;
         }
 
         function getBeatIdFromHash(hashValue) {
@@ -2978,7 +3046,8 @@
                 }
             } else if (targetPage === 'tracks') {
                 document.getElementById('tracks-page').style.display = 'block';
-                renderBeats('tracks-beats-container', beats, 0, 12);
+                renderBeats('tracks-beats-container', beats, getActiveTracksViewMode());
+                updateTracksViewToggle();
                 updateBulkDealBanner();
             } else if (targetPage === 'services') {
                 document.getElementById('services-page').style.display = 'block';
@@ -3012,6 +3081,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const storedTheme = localStorage.getItem('beatstore-theme');
             applyTheme(storedTheme === 'dark');
+            updateTracksViewToggle();
             const initial = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
             showPage(initial);
         });
@@ -3065,7 +3135,7 @@
         function applyTrackFilters() {
             const genre = document.getElementById('genre-filter').value;
             const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
-            renderBeats('tracks-beats-container', filtered, 0, 12);
+            renderBeats('tracks-beats-container', filtered, getActiveTracksViewMode());
         }
 
         function hideAllServiceBudgetFields() {

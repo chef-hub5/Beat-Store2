@@ -136,6 +136,17 @@
             transition: width 0.1s linear;
             border-radius: 4px;
         }
+
+        .track-waveform {
+            width: 100%;
+            height: 56px;
+            display: block;
+            margin-top: 0.75rem;
+            border-radius: 14px;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.12), rgba(37, 99, 235, 0.06));
+            padding: 0.25rem;
+            box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+        }
         
         .cart-badge {
             position: absolute;
@@ -1290,6 +1301,13 @@
 
         let currentAudio = null;
         let currentBeatId = null;
+        let currentAudioBlobUrl = null;
+        let currentAudioSource = null;
+        let audioContext = null;
+        let analyser = null;
+        let analyserDataArray = null;
+        let visualizerRaf = null;
+        let activeVisualizerBeatId = null;
         let cart = [];
         let currentGenreFilter = 'all';
 
@@ -2075,6 +2093,7 @@
                                     ${shareButton}
                                 </div>
                                 <div id="progress-${beatId}" class="mt-2 sm:mt-3 w-full" style="display: none;">
+                                    <canvas id="waveform-${beatId}" class="track-waveform" width="320" height="56" aria-hidden="true"></canvas>
                                     <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beatId}, event)">
                                         <div class="audio-progress-bar" id="progress-bar-${beatId}"></div>
                                     </div>
@@ -2127,6 +2146,144 @@
             }
         }
 
+        function renderIdleVisualizer(canvas, beatId) {
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.04)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(37, 99, 235, 0.22)';
+            ctx.lineWidth = 1;
+            const barWidth = width / 32;
+            for (let i = 0; i < 32; i += 1) {
+                const x = i * barWidth + 2;
+                const barHeight = 8 + ((i * 7) % 18);
+                ctx.beginPath();
+                ctx.roundRect(x, height / 2 - barHeight / 2, barWidth - 3, barHeight, 4);
+                ctx.fillStyle = 'rgba(96, 165, 250, 0.35)';
+                ctx.fill();
+            }
+        }
+
+        function stopTrackVisualizer() {
+            if (visualizerRaf) {
+                cancelAnimationFrame(visualizerRaf);
+                visualizerRaf = null;
+            }
+            if (activeVisualizerBeatId) {
+                const canvas = document.getElementById(`waveform-${activeVisualizerBeatId}`);
+                if (canvas) {
+                    renderIdleVisualizer(canvas, activeVisualizerBeatId);
+                }
+            }
+            activeVisualizerBeatId = null;
+        }
+
+        function revokeCurrentAudioBlob() {
+            if (currentAudioBlobUrl) {
+                URL.revokeObjectURL(currentAudioBlobUrl);
+                currentAudioBlobUrl = null;
+            }
+        }
+
+        async function loadProtectedAudio(audioUrl) {
+            const response = await fetch(audioUrl, {
+                method: 'GET',
+                cache: 'no-store',
+                credentials: 'omit'
+            });
+
+            if (!response.ok) {
+                throw new Error('Unable to load track audio');
+            }
+
+            const blob = await response.blob();
+            return URL.createObjectURL(blob);
+        }
+
+        function setupAudioVisualizer(beatId, audioElement) {
+            if (!audioElement) return;
+
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            if (currentAudioSource) {
+                try {
+                    currentAudioSource.disconnect();
+                } catch (error) {
+                    console.warn('Visualizer disconnect failed:', error);
+                }
+            }
+
+            const canvas = document.getElementById(`waveform-${beatId}`);
+            if (!canvas) return;
+
+            currentAudioSource = audioContext.createMediaElementSource(audioElement);
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 256;
+            analyser.smoothingTimeConstant = 0.92;
+            analyserDataArray = new Uint8Array(analyser.frequencyBinCount);
+
+            currentAudioSource.connect(analyser);
+            analyser.connect(audioContext.destination);
+            activeVisualizerBeatId = beatId;
+            renderIdleVisualizer(canvas, beatId);
+        }
+
+        function startTrackVisualizer(beatId) {
+            stopTrackVisualizer();
+            const canvas = document.getElementById(`waveform-${beatId}`);
+            if (!canvas || !currentAudio || !analyser) return;
+
+            activeVisualizerBeatId = beatId;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            const draw = () => {
+                if (!currentAudio || currentBeatId !== beatId || currentAudio.paused) {
+                    renderIdleVisualizer(canvas, beatId);
+                    return;
+                }
+
+                analyser.getByteFrequencyData(analyserDataArray);
+                ctx.clearRect(0, 0, width, height);
+
+                const gradient = ctx.createLinearGradient(0, 0, width, height);
+                gradient.addColorStop(0, 'rgba(59, 130, 246, 0.18)');
+                gradient.addColorStop(1, 'rgba(37, 99, 235, 0.42)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, width, height);
+
+                const barCount = 40;
+                const barWidth = width / barCount;
+                const centerY = height / 2;
+
+                for (let i = 0; i < barCount; i += 1) {
+                    const dataIndex = Math.floor((i / barCount) * analyserDataArray.length);
+                    const value = analyserDataArray[dataIndex] / 255;
+                    const barHeight = Math.max(6, value * (height - 10));
+                    const x = i * barWidth + 2;
+                    const y = centerY - barHeight / 2;
+                    const hue = 200 + value * 40;
+                    ctx.fillStyle = `hsla(${hue}, 85%, 58%, ${0.55 + value * 0.4})`;
+                    ctx.beginPath();
+                    ctx.roundRect(x, y, barWidth - 3, barHeight, 4);
+                    ctx.fill();
+                }
+
+                visualizerRaf = requestAnimationFrame(draw);
+            };
+
+            visualizerRaf = requestAnimationFrame(draw);
+        }
+
         function togglePlay(beatId, audioUrl) {
             const playIcon = document.getElementById(`play-icon-${beatId}`);
             const progressContainer = document.getElementById(`progress-${beatId}`);
@@ -2144,10 +2301,12 @@
                     currentAudio.play();
                     playIcon.classList.remove('fa-play');
                     playIcon.classList.add('fa-pause');
+                    startTrackVisualizer(beatId);
                 } else {
                     currentAudio.pause();
                     playIcon.classList.remove('fa-pause');
                     playIcon.classList.add('fa-play');
+                    stopTrackVisualizer();
                 }
                 return;
             }
@@ -2163,9 +2322,10 @@
                 if (oldProgress) {
                     oldProgress.style.display = 'none';
                 }
+                stopTrackVisualizer();
             }
             
-            currentAudio = new Audio(audioUrl);
+            currentAudio = new Audio();
             currentBeatId = beatId;
             
             currentAudio.volume = volumeSlider.value / 100;
@@ -2173,10 +2333,34 @@
             updateMuteIcon(beatId, beatState.muted);
             progressContainer.style.display = 'block';
             progressBar.style.width = '0%';
+            setupAudioVisualizer(beatId, currentAudio);
             
             currentAudio.addEventListener('loadedmetadata', () => {
                 durationEl.textContent = formatTime(currentAudio.duration);
             });
+
+            loadProtectedAudio(audioUrl)
+                .then(blobUrl => {
+                    if (currentBeatId !== beatId) {
+                        URL.revokeObjectURL(blobUrl);
+                        return;
+                    }
+                    revokeCurrentAudioBlob();
+                    currentAudioBlobUrl = blobUrl;
+                    currentAudio.src = blobUrl;
+                    currentAudio.load();
+                    currentAudio.addEventListener('canplaythrough', () => {
+                        if (currentBeatId === beatId) {
+                            currentAudio.play().catch(() => {});
+                        }
+                    }, { once: true });
+                })
+                .catch(() => {
+                    if (currentBeatId === beatId) {
+                        stopTrackVisualizer();
+                        progressContainer.style.display = 'none';
+                    }
+                });
             
             currentAudio.addEventListener('timeupdate', () => {
                 const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
@@ -2204,12 +2388,13 @@
                 progressBar.style.width = '0%';
                 currentTimeEl.textContent = '0:00';
                 progressContainer.style.display = 'none';
+                stopTrackVisualizer();
             });
             
             beatState.countedThisSession = false;
-            currentAudio.play().catch(() => {});
             playIcon.classList.remove('fa-play');
             playIcon.classList.add('fa-pause');
+            startTrackVisualizer(beatId);
         }
 
         function updatePlaysCount(beatId) {

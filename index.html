@@ -88,6 +88,9 @@
             z-index: 1000;
             overflow-y: auto;
             backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
         }
         
         .modal.active {
@@ -95,30 +98,50 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            animation: fadeIn 0.2s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            opacity: 1;
+            pointer-events: auto;
         }
         
         .modal-content {
+            display: block;
             max-height: 90vh;
             overflow-y: auto;
             overscroll-behavior: contain;
-            animation: slideUp 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            box-sizing: border-box;
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
         
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .modal.active .modal-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #account-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            padding: 1rem;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+        }
+
+        #account-modal.active {
+            display: flex;
+        }
+
+        #account-modal .modal-content {
+            width: min(100%, 420px);
+            max-width: 420px;
+            min-width: 280px;
+            margin: 0 auto;
+            opacity: 1;
+            transform: none;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
         }
         
         .audio-progress {
@@ -437,11 +460,20 @@
         </div>
      <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
      </nav>
-     <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="toggleTheme()" id="theme-toggle" class="p-2 text-gray-700 hover:text-blue-600 transition-colors" aria-label="Toggle theme"> <i class="fas fa-moon text-xl sm:text-2xl" id="theme-icon"></i> </button><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
+     <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="openAccountModal()" id="account-button" class="p-2 text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2" aria-label="Account"> <i class="fas fa-user-circle text-xl sm:text-2xl"></i> <span id="account-button-label" class="hidden sm:inline text-sm font-medium">Account</span> </button><button onclick="toggleTheme()" id="theme-toggle" class="p-2 text-gray-700 hover:text-blue-600 transition-colors" aria-label="Toggle theme"> <i class="fas fa-moon text-xl sm:text-2xl" id="theme-icon"></i> </button><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
      </div>
     </div><!-- Search Bar -->
     <div class="pb-3 sm:pb-4">
      <div class="relative max-w-2xl mx-auto"><input type="text" id="search-input" placeholder="Search beats..." class="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 pr-10 sm:pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" onkeyup="handleGlobalSearch(event)" oninput="handleGlobalSearch(event)"> <i class="fas fa-search absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-base"></i> <button onclick="clearSearch()" id="clear-search" class="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" style="display: none;"> <i class="fas fa-times text-sm sm:text-base"></i> </button>
+     </div>
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+      <input type="text" id="tempo-filter-input" placeholder="Tempo (BPM)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="updateSearchFilters()">
+      <input type="text" id="key-filter-input" placeholder="Key (e.g. F minor)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="updateSearchFilters()">
+      <select id="search-genre-filter" onchange="updateSearchFilters()" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+       <option value="all">All Genres</option>
+       <option value="Afrobeat">Afrobeat</option>
+       <option value="Amapiano">Amapiano</option>
+      </select>
      </div>
      <div id="search-results-info" class="text-center mt-2 text-xs sm:text-sm text-gray-600 font-medium" style="display: none;"></div>
     </div>
@@ -454,7 +486,7 @@
      <h2 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Menu</h2><button onclick="toggleMobileMenu()" class="p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-times text-2xl"></i> </button>
     </div>
    </div>
-   <nav class="py-4"><a href="#" class="mobile-menu-item" onclick="showPage('home'); toggleMobileMenu(); return false;"> <i class="fas fa-home"></i> <span>Home</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('tracks'); toggleMobileMenu(); return false;"> <i class="fas fa-music"></i> <span>Tracks</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('services'); toggleMobileMenu(); return false;"> <i class="fas fa-briefcase"></i> <span>Services</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('about'); toggleMobileMenu(); return false;"> <i class="fas fa-info-circle"></i> <span>About</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('contact'); toggleMobileMenu(); return false;"> <i class="fas fa-envelope"></i> <span>Contact</span> </a>
+   <nav class="py-4"><a href="#" class="mobile-menu-item" onclick="showPage('home'); toggleMobileMenu(); return false;"> <i class="fas fa-home"></i> <span>Home</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('tracks'); toggleMobileMenu(); return false;"> <i class="fas fa-music"></i> <span>Tracks</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('services'); toggleMobileMenu(); return false;"> <i class="fas fa-briefcase"></i> <span>Services</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('about'); toggleMobileMenu(); return false;"> <i class="fas fa-info-circle"></i> <span>About</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('contact'); toggleMobileMenu(); return false;"> <i class="fas fa-envelope"></i> <span>Contact</span> </a> <button type="button" class="mobile-menu-item w-full text-left" onclick="openAccountModal(); toggleMobileMenu(); return false;"> <i class="fas fa-user-circle"></i> <span>Account</span> </button>
    </nav>
    <div class="p-6 border-t border-gray-200">
     <div class="text-center">
@@ -1274,6 +1306,77 @@
     </div>
    </div>
   </div>
+  <div id="account-modal" class="modal">
+   <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 my-4 p-4 sm:p-6 shadow-2xl">
+    <div class="flex justify-between items-center mb-4 sm:mb-6">
+     <div>
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Account</h3>
+      <p class="text-sm text-gray-600">Create an account or sign in to continue</p>
+     </div>
+     <button onclick="closeAccountModal()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
+    </div>
+    <div class="flex gap-2 mb-4">
+     <button type="button" id="auth-mode-signin-btn" onclick="switchAuthMode('signin')" class="flex-1 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700">Sign In</button>
+     <button type="button" id="auth-mode-signup-btn" onclick="switchAuthMode('signup')" class="flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700">Create Account</button>
+    </div>
+    <div id="account-auth-signed-out">
+     <form id="signin-form" class="space-y-3" onsubmit="handleAuthSubmit(event, 'signin')">
+      <div>
+       <label for="signin-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+       <input type="email" id="signin-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
+      </div>
+      <div>
+       <label for="signin-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+       <input type="password" id="signin-password" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Enter password">
+      </div>
+      <button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">Sign In</button>
+      <button type="button" onclick="switchAuthMode('forgot')" class="w-full text-center text-sm font-medium text-blue-600 hover:text-blue-700">Forgot password?</button>
+     </form>
+     <form id="signup-form" class="space-y-3 hidden" onsubmit="handleAuthSubmit(event, 'signup')">
+      <div>
+       <label for="signup-name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+       <input type="text" id="signup-name" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Your name">
+      </div>
+      <div>
+       <label for="signup-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+       <input type="email" id="signup-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
+      </div>
+      <div>
+       <label for="signup-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+       <input type="password" id="signup-password" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Create password">
+      </div>
+      <div>
+       <label for="signup-confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+       <input type="password" id="signup-confirm-password" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm password">
+      </div>
+      <button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">Create Account</button>
+     </form>
+     <form id="forgot-form" class="space-y-3 hidden" onsubmit="handleAuthSubmit(event, 'forgot')">
+      <div>
+       <label for="forgot-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+       <input type="email" id="forgot-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
+      </div>
+      <div>
+       <label for="forgot-password" class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+       <input type="password" id="forgot-password" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="New password">
+      </div>
+      <div>
+       <label for="forgot-confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+       <input type="password" id="forgot-confirm-password" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm new password">
+      </div>
+      <button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">Reset Password</button>
+      <button type="button" onclick="switchAuthMode('signin')" class="w-full text-center text-sm font-medium text-blue-600 hover:text-blue-700">Back to Sign In</button>
+     </form>
+    </div>
+    <div id="account-auth-signed-in" class="hidden">
+     <div class="rounded-xl bg-blue-50 p-4 mb-4">
+      <p class="text-sm font-semibold text-blue-700" id="account-user-name">Welcome back</p>
+      <p class="text-sm text-blue-600" id="account-user-email">You are signed in.</p>
+     </div>
+     <button type="button" onclick="signOutUser()" class="w-full border border-gray-200 bg-white px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-700">Sign Out</button>
+    </div>
+   </div>
+  </div>
   <div id="cart-modal" class="modal">
    <div class="modal-content bg-white rounded-2xl max-w-2xl w-full mx-4 my-4 p-4 sm:p-6 md:p-8 shadow-2xl">
     <div class="flex justify-between items-center mb-4 sm:mb-6">
@@ -1296,7 +1399,8 @@
             hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
             logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
             paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b",
-            google_apps_script_url: "https://script.google.com/macros/s/AKfycby4-eUK4CULfYo5DJ5xY6Uf9BzsRO3A74ehj_8VNtuF_ludVL3vNLQJosiVgGnOrUnNMQ/exec"
+            google_apps_script_url: "https://script.google.com/macros/s/AKfycbwEAAMdsri55KynqSOHseDCNMaHG1N-QwC2I36Kv0AozTnj8hnGx84CGoX8p6bJyetHWw/exec",
+            admin_email: "omoluwajames2024@gmail.com"
         };
 
         let currentAudio = null;
@@ -1310,6 +1414,266 @@
         let activeVisualizerBeatId = null;
         let cart = [];
         let currentGenreFilter = 'all';
+
+        function getCurrentUser() {
+            try {
+                return JSON.parse(localStorage.getItem('debeat_current_user') || 'null');
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function saveCurrentUser(user) {
+            localStorage.setItem('debeat_current_user', JSON.stringify(user));
+        }
+
+        function clearCurrentUser() {
+            localStorage.removeItem('debeat_current_user');
+        }
+
+        function renderAuthButton() {
+            const accountButtonLabel = document.getElementById('account-button-label');
+            if (!accountButtonLabel) return;
+            const currentUser = getCurrentUser();
+            accountButtonLabel.textContent = currentUser ? (currentUser.name || currentUser.email || 'Account') : 'Account';
+        }
+
+        function openAccountModal() {
+            const modal = document.getElementById('account-modal');
+            if (!modal) return;
+            if (modal.parentElement !== document.body) {
+                document.body.appendChild(modal);
+            }
+            switchAuthMode('signin');
+            renderAccountView();
+            modal.classList.add('active');
+            modal.style.display = 'flex';
+            modal.style.opacity = '1';
+            modal.style.pointerEvents = 'auto';
+            const content = modal.querySelector('.modal-content');
+            if (content) {
+                content.style.display = 'block';
+                content.style.width = 'min(100%, 420px)';
+                content.style.maxWidth = '420px';
+                content.style.minWidth = '280px';
+                content.style.margin = '0 auto';
+                content.style.opacity = '1';
+                content.style.transform = 'translateY(0)';
+            }
+        }
+
+        function closeAccountModal() {
+            const modal = document.getElementById('account-modal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.style.display = 'none';
+            modal.style.opacity = '0';
+            modal.style.pointerEvents = 'none';
+        }
+
+        function switchAuthMode(mode) {
+            const signinBtn = document.getElementById('auth-mode-signin-btn');
+            const signupBtn = document.getElementById('auth-mode-signup-btn');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            const forgotForm = document.getElementById('forgot-form');
+
+            if (!signinBtn || !signupBtn || !signinForm || !signupForm || !forgotForm) return;
+
+            if (mode === 'signup') {
+                signinBtn.className = 'flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700';
+                signupBtn.className = 'flex-1 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700';
+                signinForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                forgotForm.classList.add('hidden');
+            } else if (mode === 'forgot') {
+                signinBtn.className = 'flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700';
+                signupBtn.className = 'flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700';
+                signinForm.classList.add('hidden');
+                signupForm.classList.add('hidden');
+                forgotForm.classList.remove('hidden');
+            } else {
+                signinBtn.className = 'flex-1 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700';
+                signupBtn.className = 'flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700';
+                signinForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                forgotForm.classList.add('hidden');
+            }
+        }
+
+        function renderAccountView() {
+            const currentUser = getCurrentUser();
+            const signedOut = document.getElementById('account-auth-signed-out');
+            const signedIn = document.getElementById('account-auth-signed-in');
+            const userName = document.getElementById('account-user-name');
+            const userEmail = document.getElementById('account-user-email');
+
+            if (!signedOut || !signedIn || !userName || !userEmail) return;
+
+            if (currentUser) {
+                userName.textContent = `Welcome, ${currentUser.name || 'there'}`;
+                userEmail.textContent = currentUser.email;
+                signedOut.classList.add('hidden');
+                signedIn.classList.remove('hidden');
+            } else {
+                signedOut.classList.remove('hidden');
+                signedIn.classList.add('hidden');
+            }
+        }
+
+        async function handleAuthSubmit(event, mode) {
+            event.preventDefault();
+
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton ? submitButton.innerHTML : null;
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = mode === 'signup' ? 'Creating account...' : mode === 'signin' ? 'Signing in...' : 'Processing...';
+            }
+
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+
+            try {
+                if (mode === 'signup') {
+                    const name = document.getElementById('signup-name').value.trim();
+                    const email = document.getElementById('signup-email').value.trim().toLowerCase();
+                    const password = document.getElementById('signup-password').value;
+                    const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+                    if (!name || !email || !password || !confirmPassword) {
+                        showToast('Please complete all fields.', 'error');
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                        showToast('Passwords do not match.', 'error');
+                        return;
+                    }
+
+                    if (!scriptUrl) {
+                        showToast('Backend URL is not configured.', 'error');
+                        return;
+                    }
+
+                    const response = await fetch(scriptUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            type: 'account_create',
+                            name: name,
+                            email: email,
+                            password: password,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+
+                    const result = await response.json().catch(() => ({}));
+                    if (!response.ok || !result.ok) {
+                        showToast(result.message || 'Failed to create account.', 'error');
+                        return;
+                    }
+
+                    const user = result.user || { name, email };
+                    saveCurrentUser(user);
+                    renderAuthButton();
+                    renderAccountView();
+                    closeAccountModal();
+                    showToast('Account created successfully!', 'success');
+                } else if (mode === 'forgot') {
+                    const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+                    const password = document.getElementById('forgot-password').value;
+                    const confirmPassword = document.getElementById('forgot-confirm-password').value;
+
+                    if (!email || !password || !confirmPassword) {
+                        showToast('Please complete all fields.', 'error');
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                        showToast('Passwords do not match.', 'error');
+                        return;
+                    }
+
+                    if (!scriptUrl) {
+                        showToast('Backend URL is not configured.', 'error');
+                        return;
+                    }
+
+                    const response = await fetch(scriptUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            type: 'account_forgot_password',
+                            email: email,
+                            password: password,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+
+                    const result = await response.json().catch(() => ({}));
+                    if (!response.ok || !result.ok) {
+                        showToast(result.message || 'Unable to reset password.', 'error');
+                        return;
+                    }
+
+                    showToast('Password reset successfully. Please sign in.', 'success');
+                    switchAuthMode('signin');
+                } else {
+                    const email = document.getElementById('signin-email').value.trim().toLowerCase();
+                    const password = document.getElementById('signin-password').value;
+
+                    if (!email || !password) {
+                        showToast('Please enter your email and password.', 'error');
+                        return;
+                    }
+
+                    if (!scriptUrl) {
+                        showToast('Backend URL is not configured.', 'error');
+                        return;
+                    }
+
+                    const response = await fetch(scriptUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            type: 'account_signin',
+                            email: email,
+                            password: password,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+
+                    const result = await response.json().catch(() => ({}));
+                    if (!response.ok || !result.ok) {
+                        showToast(result.message || 'Invalid email or password.', 'error');
+                        return;
+                    }
+
+                    const user = result.user || { email, name: '' };
+                    saveCurrentUser(user);
+                    renderAuthButton();
+                    renderAccountView();
+                    closeAccountModal();
+                    showToast('Signed in successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Error in auth submit:', error);
+                showToast('Unable to complete the request right now.', 'error');
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                }
+            }
+        }
+
+        function signOutUser() {
+            clearCurrentUser();
+            renderAuthButton();
+            renderAccountView();
+            showToast('Signed out.', 'info');
+        }
 
         // Load cart from localStorage on page load
         function loadCartFromStorage() {
@@ -2204,11 +2568,6 @@
                 const beatId = Number(beat.id);
                 const isHighlighted = Number(window.highlightBeatId) === beatId;
                 const escapedAudioUrl = String(beat.audioUrl || '').replace(/'/g, "\\'");
-                const shareButton = `
-                    <button type="button" onclick="shareTrack(${beatId})" class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100">
-                        <i class="fas fa-share-alt"></i>
-                        <span>Share</span>
-                    </button>`;
                 const isGridView = viewMode === 'grid';
 
                 return `
@@ -2233,9 +2592,6 @@
                                     <span><i class="fas fa-clock mr-1"></i>Duration: <span id="track-duration-${beatId}">${trackDurations[beatId] ? formatTime(trackDurations[beatId]) : '--:--'}</span></span>
                                 </div>
                                 <p class="text-xs text-gray-500 mt-2">Plays: <span id="plays-count-${beatId}">${beatStats[beatId]?.plays || 0}</span></p>
-                                <div class="mt-2 flex items-center gap-2">
-                                    ${shareButton}
-                                </div>
                                 <div id="progress-${beatId}" class="mt-2 sm:mt-3 w-full" style="display: none;">
                                     <canvas id="waveform-${beatId}" class="track-waveform" width="320" height="56" aria-hidden="true"></canvas>
                                     <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beatId}, event)">
@@ -2597,79 +2953,6 @@
                     updateMuteIcon(beatId, false);
                 }
             }
-        }
-
-        function shareTrack(beatId) {
-            const beat = beats.find(b => b.id === beatId);
-            if (!beat) return;
-
-            const shareUrl = new URL(window.location.href);
-            shareUrl.hash = `beat-${beatId}`;
-            
-            const shareData = {
-                title: `${beat.title} - ${beat.producer}`,
-                text: `Check out this ${beat.genre} beat: "${beat.title}" - ${beat.bpm} BPM in ${beat.key}`,
-                url: shareUrl.toString()
-            };
-            
-            if (navigator.share) {
-                navigator.share(shareData).catch(err => {
-                    fallbackShare(shareData);
-                });
-            } else {
-                fallbackShare(shareData);
-            }
-        }
-
-        function fallbackShare(shareData) {
-            const shareModal = document.createElement('div');
-            shareModal.className = 'modal active';
-            shareModal.innerHTML = `
-                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-6 shadow-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">Share Track</h3>
-                        <button onclick="this.closest('.modal').remove()" class="text-gray-400 hover:text-gray-600 transition-colors">
-                            <i class="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Share Link</label>
-                        <div class="flex">
-                            <input type="text" value="${shareData.url}" readonly class="flex-1 px-3 py-2 border-2 border-gray-300 rounded-l-xl bg-gray-50 text-sm" id="share-url">
-                            <button onclick="copyToClipboard('share-url')" class="px-4 py-2 btn-primary text-white rounded-r-xl">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-3">
-                        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center px-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition shadow-sm">
-                            <i class="fab fa-twitter mr-2"></i>Twitter
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-sm">
-                            <i class="fab fa-facebook mr-2"></i>Facebook
-                        </a>
-                        <a href="https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition shadow-sm">
-                            <i class="fab fa-whatsapp mr-2"></i>WhatsApp
-                        </a>
-                        <button onclick="copyToClipboard('share-url')" class="flex items-center justify-center px-4 py-2 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition shadow-sm">
-                            <i class="fas fa-link mr-2"></i>Copy Link
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(shareModal);
-        }
-
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            element.select();
-            element.setSelectionRange(0, 99999);
-            document.execCommand('copy');
-            
-            showToast('Link copied to clipboard!', 'success');
         }
 
         function showToast(message, type = 'success') {
@@ -3322,7 +3605,7 @@
             }
         }
 
-        function filterByGenre(genre) {
+        function filterByGenre(genre, button) {
             currentGenreFilter = genre;
             const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
             renderBeats('beats-container', filtered, 0, 12);
@@ -3331,8 +3614,10 @@
                 btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
                 btn.classList.add('bg-gray-200', 'text-gray-700');
             });
-            event.target.classList.remove('bg-gray-200', 'text-gray-700');
-            event.target.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+            if (button) {
+                button.classList.remove('bg-gray-200', 'text-gray-700');
+                button.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+            }
         }
 
         function applyTheme(isDark) {
@@ -3420,44 +3705,69 @@
             showPage(p);
         });
 
+        function getSearchFilterValues() {
+            return {
+                query: document.getElementById('search-input').value.toLowerCase().trim(),
+                tempo: document.getElementById('tempo-filter-input').value.toLowerCase().trim(),
+                key: document.getElementById('key-filter-input').value.toLowerCase().trim(),
+                genre: document.getElementById('search-genre-filter').value
+            };
+        }
+
         function handleGlobalSearch(event) {
-            const query = event.target.value.toLowerCase().trim();
+            updateSearchFilters();
+        }
+
+        function updateSearchFilters() {
+            const { query, tempo, key, genre } = getSearchFilterValues();
             const clearButton = document.getElementById('clear-search');
             const searchInfo = document.getElementById('search-results-info');
-            
-            if (query.length === 0) {
+            const filtered = beats.filter(beat => {
+                const matchesQuery = query.length === 0 ||
+                    beat.title.toLowerCase().includes(query) ||
+                    beat.genre.toLowerCase().includes(query) ||
+                    beat.producer.toLowerCase().includes(query) ||
+                    beat.key.toLowerCase().includes(query) ||
+                    beat.bpm.toString().includes(query);
+
+                const matchesTempo = tempo.length === 0 || beat.bpm.toString().includes(tempo);
+                const matchesKey = key.length === 0 || beat.key.toLowerCase().includes(key);
+                const matchesGenre = genre === 'all' || beat.genre === genre;
+
+                return matchesQuery && matchesTempo && matchesKey && matchesGenre;
+            });
+
+            if (query.length === 0 && tempo.length === 0 && key.length === 0 && genre === 'all') {
                 clearButton.style.display = 'none';
                 searchInfo.style.display = 'none';
                 renderBeats('beats-container', beats, 0, 12);
                 return;
             }
-            
+
             clearButton.style.display = 'block';
-            
-            const filtered = beats.filter(beat => 
-                beat.title.toLowerCase().includes(query) ||
-                beat.genre.toLowerCase().includes(query) ||
-                beat.producer.toLowerCase().includes(query) ||
-                beat.key.toLowerCase().includes(query) ||
-                beat.bpm.toString().includes(query)
-            );
-            
             searchInfo.style.display = 'block';
             if (filtered.length === 0) {
-                searchInfo.textContent = `No beats found for "${query}"`;
+                searchInfo.textContent = 'No beats found for the selected filters.';
                 searchInfo.className = 'text-center mt-2 text-xs sm:text-sm text-red-600 font-medium';
             } else {
-                searchInfo.textContent = `Found ${filtered.length} beat${filtered.length === 1 ? '' : 's'} for "${query}"`;
+                searchInfo.textContent = `Found ${filtered.length} beat${filtered.length === 1 ? '' : 's'} matching your filters.`;
                 searchInfo.className = 'text-center mt-2 text-xs sm:text-sm text-green-600 font-medium';
             }
-            
+
             renderBeats('beats-container', filtered, 0, 12);
+            if (filtered.length > 0) {
+                scrollToBeatCard(filtered[0].id);
+            }
         }
 
         function clearSearch() {
             document.getElementById('search-input').value = '';
+            document.getElementById('tempo-filter-input').value = '';
+            document.getElementById('key-filter-input').value = '';
+            document.getElementById('search-genre-filter').value = 'all';
             document.getElementById('clear-search').style.display = 'none';
-            document.getElementById('search-results-info').style.display = 'none';
+            const searchInfo = document.getElementById('search-results-info');
+            searchInfo.style.display = 'none';
             renderBeats('beats-container', beats, 0, 12);
         }
 
@@ -3542,6 +3852,7 @@
 
             const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
             const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+            const adminEmail = (config.admin_email || defaultConfig.admin_email || '').toString().trim();
 
             const submitButton = document.getElementById('contact-submit-btn');
             const originalText = submitButton.innerHTML;
@@ -3574,7 +3885,9 @@
                         type: 'contact',
                         name: name,
                         email: email,
+                        customerEmail: email,
                         message: finalMessage,
+                        adminEmail: adminEmail,
                         timestamp: new Date().toISOString()
                     })
                 });
@@ -3747,16 +4060,96 @@
             handler.openIframe();
         }
 
-        function handlePaymentSuccess(response, email, name) {
-            closeCheckoutModal();
-            toggleCart();
-            
+        async function syncPaymentToGoogleSheet({ email, name, paymentResponse, amount, orderDetails, downloadLinks }) {
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+
+            if (!scriptUrl) {
+                return;
+            }
+
+            try {
+                const response = await fetch(scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        type: 'payment',
+                        name: name,
+                        email: email,
+                        paymentReference: paymentResponse.reference,
+                        amount: amount,
+                        currency: 'NGN',
+                        status: 'success',
+                        orderItems: JSON.stringify(orderDetails),
+                        orderSummary: JSON.stringify({ items: orderDetails, total: amount }),
+                        downloadLinks: downloadLinks || '',
+                        rawResponse: JSON.stringify(paymentResponse),
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Google Sheets sync failed with status ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Error syncing payment to Google Sheets:', error);
+                showToast('Payment was successful, but syncing to the sheet failed. Please contact support with your reference.', 'error');
+            }
+        }
+
+        async function handlePaymentSuccess(response, email, name) {
             const orderDetails = cart.map(item => ({
                 beat: item.beatTitle,
                 license: item.licenseName,
-                price: item.price
+                price: item.price,
+                allowedFiles: item.allowedFiles,
+                downloadLinks: item.downloadLinks
             }));
+            const summary = getBulkDealSummary(cart);
+
+            await syncPaymentToGoogleSheet({
+                email,
+                name,
+                paymentResponse: response,
+                amount: summary.total,
+                orderDetails,
+                downloadLinks: JSON.stringify(orderDetails.map(item => ({
+                    beat: item.beat,
+                    license: item.license,
+                    allowedFiles: item.allowedFiles || [],
+                    downloadLinks: item.downloadLinks
+                })))
+            });
+
+            closeCheckoutModal();
+            toggleCart();
             
+            const orderItemsHtml = orderDetails.map(item => {
+                const filesHtml = (item.allowedFiles || []).map(file => {
+                    const url = item.downloadLinks && item.downloadLinks[file];
+                    if (!url) return '';
+                    return `
+                        <div class="flex items-center justify-between space-x-2 mb-1">
+                            <span class="capitalize text-[10px] sm:text-xs text-gray-700">${file}</span>
+                            <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-[10px] sm:text-xs">Download</a>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="mb-3">
+                        <div class="flex justify-between text-xs sm:text-sm">
+                            <span class="text-gray-700 truncate flex-1 pr-2">${item.beat}</span>
+                            <span class="font-semibold flex-shrink-0">${formatNaira(item.price)}</span>
+                        </div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 -mt-1 mb-2">${item.license}</p>
+                        ${filesHtml ? `<div class="rounded-xl bg-gray-100 p-3">${filesHtml}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
             const successModal = document.createElement('div');
             successModal.className = 'modal active';
             successModal.innerHTML = `
@@ -3772,7 +4165,7 @@
                             <i class="fas fa-info-circle text-blue-500 text-lg sm:text-xl mr-2 sm:mr-3 mt-1"></i>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Next Steps:</h4>
-                                <p class="text-xs sm:text-sm text-gray-700 mb-2">Your download links will be sent to:</p>
+                                <p class="text-xs sm:text-sm text-gray-700 mb-2">Your download links are listed below and will also be sent to:</p>
                                 <p class="text-xs sm:text-sm font-semibold text-blue-600 mb-3">${email}</p>
                                 <p class="text-xs sm:text-sm text-gray-700">Please check your inbox (and spam folder) within the next 5-10 minutes.</p>
                             </div>
@@ -3781,17 +4174,11 @@
                         <div class="border-t-2 pt-3 sm:pt-4">
                             <h4 class="font-semibold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">Order Details:</h4>
                             <div class="space-y-2">
-                                ${orderDetails.map(item => `
-                                    <div class="flex justify-between text-xs sm:text-sm">
-                                        <span class="text-gray-700 truncate flex-1 pr-2">${item.beat}</span>
-                                        <span class="font-semibold flex-shrink-0">${formatNaira(item.price)}</span>
-                                    </div>
-                                    <p class="text-[10px] sm:text-xs text-gray-500 -mt-1">${item.license}</p>
-                                `).join('')}
+                                ${orderItemsHtml}
                             </div>
                             <div class="border-t-2 mt-3 pt-3 flex justify-between text-sm sm:text-base">
                                 <span class="font-bold">Total Paid:</span>
-                                <span class="font-bold text-green-600">${formatNaira(cart.reduce((sum, item) => sum + item.price, 0))}</span>
+                                <span class="font-bold text-green-600">${formatNaira(summary.total)}</span>
                             </div>
                         </div>
                         
@@ -3871,13 +4258,16 @@
                     ["hero_image", config.hero_image || defaultConfig.hero_image],
                     ["logo_image", config.logo_image || defaultConfig.logo_image],
                     ["paystack_public_key", config.paystack_public_key || defaultConfig.paystack_public_key],
-                    ["google_apps_script_url", config.google_apps_script_url || defaultConfig.google_apps_script_url]
+                    ["google_apps_script_url", config.google_apps_script_url || defaultConfig.google_apps_script_url],
+                    ["admin_email", config.admin_email || defaultConfig.admin_email]
                 ])
             });
         }
 
         // Load cart and render beats on page load
         loadCartFromStorage();
+        renderAuthButton();
+        renderAccountView();
         renderBeats('beats-container', beats, 0, 12);
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b00703d63b5ed2b',t:'MTc2NjA3OTU1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>

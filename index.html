@@ -512,7 +512,7 @@
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="bg-gray-50"><!-- Header -->
+ <body class="bg-gray-50 dark-theme"><!-- Header -->
   <header class="bg-white shadow-sm sticky top-0 z-50">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center py-3 sm:py-4">
@@ -4338,8 +4338,7 @@ showTrackPlayer(beatId);
         // Restore page from URL hash on load and handle hash navigation
         document.addEventListener('DOMContentLoaded', function () {
             const storedTheme = localStorage.getItem('beatstore-theme');
-            const defaultToDark = storedTheme === null || storedTheme === undefined;
-            applyTheme(defaultToDark ? true : storedTheme === 'dark');
+            applyTheme(storedTheme !== 'light');
             updateTracksViewToggle();
             const initial = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
             showPage(initial);

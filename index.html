@@ -4338,7 +4338,8 @@ showTrackPlayer(beatId);
         // Restore page from URL hash on load and handle hash navigation
         document.addEventListener('DOMContentLoaded', function () {
             const storedTheme = localStorage.getItem('beatstore-theme');
-            applyTheme(storedTheme === 'dark');
+            const defaultToDark = storedTheme === null || storedTheme === undefined;
+            applyTheme(defaultToDark ? true : storedTheme === 'dark');
             updateTracksViewToggle();
             const initial = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
             showPage(initial);

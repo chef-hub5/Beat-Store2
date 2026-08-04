@@ -2525,6 +2525,8 @@
 
         loadBeatStatsFromStorage();
         loadBeatDurations();
+        // Ensure first user gesture unlocks AudioContext on mobile
+        unlockAudioOnFirstGesture();
 
         function formatNaira(amount) {
             return '₦' + amount.toLocaleString('en-NG');
@@ -2691,18 +2693,34 @@
         }
 
         async function loadProtectedAudio(audioUrl) {
-            const response = await fetch(audioUrl, {
-                method: 'GET',
-                cache: 'no-store',
-                credentials: 'omit'
-            });
-
-            if (!response.ok) {
-                throw new Error('Unable to load track audio');
+            try {
+                const response = await fetch(audioUrl, {
+                    method: 'GET',
+                    cache: 'no-store',
+                    credentials: 'omit',
+                    mode: 'cors'
+                });
+                if (!response.ok) return null;
+                const blob = await response.blob();
+                return URL.createObjectURL(blob);
+            } catch (err) {
+                console.warn('Protected audio fetch failed:', err);
+                return null;
             }
+        }
 
-            const blob = await response.blob();
-            return URL.createObjectURL(blob);
+        function unlockAudioOnFirstGesture() {
+            const unlock = () => {
+                try {
+                    if (audioContext && audioContext.state === 'suspended') audioContext.resume().catch(()=>{});
+                } catch (e) {
+                    // ignore
+                }
+                document.removeEventListener('touchstart', unlock, true);
+                document.removeEventListener('pointerdown', unlock, true);
+            };
+            document.addEventListener('touchstart', unlock, true);
+            document.addEventListener('pointerdown', unlock, true);
         }
 
         function setupAudioVisualizer(beatId, audioElement) {
@@ -2797,13 +2815,30 @@
                 beatStats[beatId] = { plays: 0, muted: false };
             }
             const beatState = beatStats[beatId];
-            
+
+            // If this track is already active, toggle pause/play
             if (currentAudio && currentBeatId === beatId) {
                 if (currentAudio.paused) {
-                    currentAudio.play();
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
-                    startTrackVisualizer(beatId);
+                    try {
+                        if (audioContext && audioContext.state === 'suspended') audioContext.resume().catch(()=>{});
+                        const p = currentAudio.play();
+                        if (p && typeof p.then === 'function') {
+                            p.then(() => {
+                                playIcon.classList.remove('fa-play');
+                                playIcon.classList.add('fa-pause');
+                                startTrackVisualizer(beatId);
+                            }).catch(() => {
+                                playIcon.classList.remove('fa-pause');
+                                playIcon.classList.add('fa-play');
+                            });
+                        } else {
+                            playIcon.classList.remove('fa-play');
+                            playIcon.classList.add('fa-pause');
+                            startTrackVisualizer(beatId);
+                        }
+                    } catch (e) {
+                        console.warn('Play failed:', e);
+                    }
                 } else {
                     currentAudio.pause();
                     playIcon.classList.remove('fa-pause');
@@ -2813,6 +2848,7 @@
                 return;
             }
 
+            // Stop any other playing audio
             if (currentAudio) {
                 currentAudio.pause();
                 const oldIcon = document.getElementById(`play-icon-${currentBeatId}`);
@@ -2826,36 +2862,65 @@
                 }
                 stopTrackVisualizer();
             }
-            
+
+            // Create audio element and attach visualizer immediately so resume/play happens in the user gesture
             currentAudio = new Audio();
             currentBeatId = beatId;
-            
-            currentAudio.volume = volumeSlider.value / 100;
+            currentAudio.crossOrigin = 'anonymous';
+            currentAudio.volume = (volumeSlider ? volumeSlider.value : 50) / 100;
             currentAudio.muted = beatState.muted;
             updateMuteIcon(beatId, beatState.muted);
             progressContainer.style.display = 'block';
             progressBar.style.width = '0%';
             setupAudioVisualizer(beatId, currentAudio);
-            
-            currentAudio.addEventListener('loadedmetadata', () => {
-                durationEl.textContent = formatTime(currentAudio.duration);
-            });
 
+            // Assign src immediately and try to play synchronously (counts as user gesture on mobile)
+            try {
+                currentAudio.src = audioUrl;
+                currentAudio.load();
+                if (audioContext && audioContext.state === 'suspended') audioContext.resume().catch(()=>{});
+                const playPromise = currentAudio.play();
+                if (playPromise && typeof playPromise.then === 'function') {
+                    playPromise.then(() => {
+                        playIcon.classList.remove('fa-play');
+                        playIcon.classList.add('fa-pause');
+                        startTrackVisualizer(beatId);
+                    }).catch(() => {
+                        playIcon.classList.remove('fa-pause');
+                        playIcon.classList.add('fa-play');
+                        stopTrackVisualizer();
+                    });
+                } else {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                    startTrackVisualizer(beatId);
+                }
+            } catch (e) {
+                console.warn('Immediate play attempt failed:', e);
+            }
+
+            // Meanwhile fetch the protected blob and swap the src when ready (preserve play state/time)
             loadProtectedAudio(audioUrl)
                 .then(blobUrl => {
+                    // If fetch failed or returned null (CORS/network), skip swapping to blob
+                    if (!blobUrl) return;
                     if (currentBeatId !== beatId) {
-                        URL.revokeObjectURL(blobUrl);
+                        try { URL.revokeObjectURL(blobUrl); } catch(e){}
                         return;
                     }
                     revokeCurrentAudioBlob();
                     currentAudioBlobUrl = blobUrl;
-                    currentAudio.src = blobUrl;
-                    currentAudio.load();
-                    currentAudio.addEventListener('canplaythrough', () => {
-                        if (currentBeatId === beatId) {
-                            currentAudio.play().catch(() => {});
-                        }
-                    }, { once: true });
+                    try {
+                        const wasPlaying = !!(currentAudio && !currentAudio.paused);
+                        const curTime = currentAudio ? currentAudio.currentTime : 0;
+                        currentAudio.src = blobUrl;
+                        currentAudio.load();
+                        // try to keep at same playback position
+                        currentAudio.currentTime = Math.min(curTime, currentAudio.duration || curTime);
+                        if (wasPlaying) currentAudio.play().catch(()=>{});
+                    } catch (err) {
+                        console.warn('Swap to blob failed:', err);
+                    }
                 })
                 .catch(() => {
                     if (currentBeatId === beatId) {
@@ -2863,8 +2928,13 @@
                         progressContainer.style.display = 'none';
                     }
                 });
-            
+
+            currentAudio.addEventListener('loadedmetadata', () => {
+                if (currentBeatId === beatId) durationEl.textContent = formatTime(currentAudio.duration);
+            });
+
             currentAudio.addEventListener('timeupdate', () => {
+                if (!currentAudio || !currentAudio.duration) return;
                 const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
                 progressBar.style.width = progress + '%';
                 currentTimeEl.textContent = formatTime(currentAudio.currentTime);
@@ -2877,7 +2947,7 @@
                     saveBeatStatsToStorage();
                 }
             });
-            
+
             currentAudio.addEventListener('ended', () => {
                 if (!beatState.countedThisSession) {
                     beatState.plays += 1;
@@ -2892,11 +2962,8 @@
                 progressContainer.style.display = 'none';
                 stopTrackVisualizer();
             });
-            
+
             beatState.countedThisSession = false;
-            playIcon.classList.remove('fa-play');
-            playIcon.classList.add('fa-pause');
-            startTrackVisualizer(beatId);
         }
 
         function updatePlaysCount(beatId) {

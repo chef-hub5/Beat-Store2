@@ -170,6 +170,158 @@
             padding: 0.25rem;
             box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
         }
+
+        .track-row {
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            overflow: hidden;
+            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .track-row:hover {
+            transform: translateY(-2px);
+            border-color: rgba(148, 163, 184, 0.35);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+        }
+
+        .track-row h3,
+        .track-row p,
+        .track-row .track-row-tag,
+        .track-row .track-row-action-btn,
+        .track-row .track-row-player .text-slate-300,
+        .track-row .track-row-player .text-slate-400 {
+            color: inherit;
+        }
+
+        body.track-row-dark .track-row {
+            background: #0f172a;
+            color: #f8fafc;
+            border-color: rgba(148, 163, 184, 0.18);
+        }
+
+        body.track-row-dark .track-row-tag {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f8fafc;
+        }
+
+        body.track-row-dark .track-row-action-btn {
+            border-color: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: #f8fafc;
+        }
+
+        body.track-row-dark .track-row-action-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        body.track-row-dark .track-row-tag {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f8fafc;
+        }
+
+        body.track-row-dark .track-row-action-btn {
+            border-color: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: #f8fafc;
+        }
+
+        body.track-row-dark .track-row-action-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .track-row-meta {
+            color: #94a3b8;
+        }
+
+        .track-row-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .track-row-tag {
+            background: rgba(15, 23, 42, 0.04);
+            color: #0f172a;
+            border-radius: 9999px;
+            padding: 0.35rem 0.8rem;
+            font-size: 0.75rem;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .track-row-action-btn {
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: #f8fafc;
+            color: #0f172a;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .track-row-action-btn:hover {
+            background: rgba(148, 163, 184, 0.25);
+            transform: translateY(-1px);
+            border-color: rgba(148, 163, 184, 0.4);
+        }
+
+        .track-row-player {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-10px);
+            transition: all 0.28s ease;
+        }
+
+        .track-row-player.visible {
+            max-height: 320px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .track-row-player-inner {
+            padding: 1rem 1rem 1.25rem;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96));
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .track-player-button {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 9999px;
+            background: #111827;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            color: #f8fafc;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .track-player-button:hover {
+            transform: scale(1.04);
+            background: rgba(59, 130, 246, 0.12);
+        }
+
+        .track-row-player .audio-progress {
+            background: #1e293b;
+        }
+
+        .track-row-player .audio-progress-bar {
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+        }
+
+        .track-row-player .track-waveform {
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(14, 165, 233, 0.08));
+            box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.4);
+        }
+
+        .track-row-player .text-gray-500,
+        .track-row-player .text-gray-600 {
+            color: #94a3b8;
+        }
         
         .cart-badge {
             position: absolute;
@@ -510,6 +662,11 @@
      </div>
     </div><!-- Beats List -->
     <div id="beats-container"></div>
+    <div class="mt-6 text-center">
+      <button onclick="showPage('tracks')" class="inline-flex items-center justify-center rounded-full bg-blue-600 text-white px-6 py-3 text-sm sm:text-base font-semibold shadow-lg hover:bg-blue-700 transition-colors">
+        View more tracks
+      </button>
+    </div>
    </div><!-- Tracks Page -->
    <div id="tracks-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">All Tracks</h2>
@@ -525,6 +682,11 @@
      <div class="flex items-center gap-2 rounded-full border border-gray-200 bg-white p-1 shadow-sm">
       <button type="button" id="track-view-list-btn" onclick="setTracksViewMode('list')" class="rounded-full px-3 py-2 text-sm font-semibold transition-all bg-blue-600 text-white shadow-sm">List</button>
       <button type="button" id="track-view-grid-btn" onclick="setTracksViewMode('grid')" class="rounded-full px-3 py-2 text-sm font-semibold transition-all text-gray-700 hover:bg-gray-100">Grid</button>
+     </div>
+     <div class="flex items-center gap-2">
+      <button type="button" onclick="shuffleTracks()" class="rounded-full px-3 py-2 text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">🔀 Shuffle</button>
+      <button type="button" onclick="sortTracks('asc')" class="rounded-full px-3 py-2 text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">⬇️ Top to Bottom</button>
+      <button type="button" onclick="sortTracks('desc')" class="rounded-full px-3 py-2 text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">⬆️ Bottom to Top</button>
      </div>
     </div>
     <div id="bulk-discount-banner" class="hidden mb-6 rounded-2xl border border-blue-300 bg-blue-50 p-4 text-sm sm:text-base text-blue-800">
@@ -1379,6 +1541,30 @@
     </div>
    </div>
   </div>
+  <div id="exit-modal" class="modal" onclick="if (event.target === this) closeExitModal();">
+   <div class="modal-content bg-white rounded-2xl max-w-lg w-full mx-4 my-4 p-6 sm:p-8 shadow-2xl">
+    <div class="flex justify-between items-start mb-4 sm:mb-6">
+     <div>
+      <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Before you leave</h3>
+      <p class="text-sm sm:text-base text-gray-600">Create an account now and secure a first-purchase discount before you continue.</p>
+     </div>
+     <button onclick="closeExitModal()" class="text-gray-400 hover:text-gray-600 transition-colors"> <i class="fas fa-times text-xl sm:text-2xl"></i> </button>
+    </div>
+    <div class="space-y-4 text-sm sm:text-base text-gray-700">
+     <p class="font-semibold">Sign up now to save on your first beat purchase and get priority access to new drops.</p>
+     <ul class="list-disc list-inside space-y-2 text-gray-700">
+      <li>10% off your first beat license</li>
+      <li>Faster checkout with saved details</li>
+      <li>Early access to new instrumentals</li>
+     </ul>
+     <div class="space-y-3">
+      <button type="button" onclick="handleExitModalCreateAccount()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold text-sm sm:text-base">Create Account & Claim Discount</button>
+      <button type="button" onclick="handleExitModalContinue()" class="w-full border border-gray-200 bg-white text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition text-sm sm:text-base">Continue anyway</button>
+     </div>
+     <p class="text-xs text-gray-500">You can still continue to the destination if you prefer. This prompt appears only once per visit.</p>
+    </div>
+   </div>
+  </div>
   <div id="cart-modal" class="modal">
    <div class="modal-content bg-white rounded-2xl max-w-2xl w-full mx-4 my-4 p-4 sm:p-6 md:p-8 shadow-2xl">
     <div class="flex justify-between items-center mb-4 sm:mb-6">
@@ -1387,7 +1573,7 @@
     <div id="cart-items-container" class="space-y-3 sm:space-y-4 mb-4 sm:mb-6"></div>
     <div class="border-t-2 pt-4">
      <div class="flex justify-between items-center mb-4 sm:mb-6"><span class="text-lg sm:text-xl font-bold">Total:</span> <span class="text-xl sm:text-2xl font-bold price-badge" id="cart-total">₦0</span>
-     </div><button onclick="proceedToCheckout()" class="block w-full btn-primary text-white py-3 sm:py-4 rounded-xl font-semibold text-center shadow-md text-sm sm:text-base"> <i class="fas fa-credit-card mr-2"></i>Proceed to Checkout </button>
+     </div><button id="checkout-action-button" onclick="proceedToCheckout()" class="block w-full btn-primary text-white py-3 sm:py-4 rounded-xl font-semibold text-center shadow-md text-sm sm:text-base"> <i class="fas fa-credit-card mr-2"></i>Proceed to Checkout <span id="checkout-discount-badge" class="hidden ml-2 inline-flex items-center rounded-full bg-yellow-100 text-yellow-700 px-2 py-1 text-[10px] font-semibold">Sign in to activate discount</span></button>
     </div>
    </div>
   </div>
@@ -1416,6 +1602,9 @@
         let activeVisualizerBeatId = null;
         let cart = [];
         let currentGenreFilter = 'all';
+        let pendingExternalLink = null;
+        let pendingExternalTarget = null;
+        let exitPromptShown = false;
 
         function getCurrentUser() {
             try {
@@ -1471,6 +1660,78 @@
             modal.style.display = 'none';
             modal.style.opacity = '0';
             modal.style.pointerEvents = 'none';
+        }
+
+        function openExitModal(href, target = '_blank') {
+            const modal = document.getElementById('exit-modal');
+            if (!modal) return;
+            pendingExternalLink = href;
+            pendingExternalTarget = target;
+            exitPromptShown = true;
+            modal.classList.add('active');
+            modal.style.display = 'flex';
+            modal.style.opacity = '1';
+            modal.style.pointerEvents = 'auto';
+            const content = modal.querySelector('.modal-content');
+            if (content) {
+                content.style.display = 'block';
+                content.style.width = 'min(100%, 520px)';
+                content.style.maxWidth = '520px';
+                content.style.minWidth = '280px';
+                content.style.margin = '0 auto';
+                content.style.opacity = '1';
+                content.style.transform = 'translateY(0)';
+            }
+        }
+
+        function closeExitModal() {
+            const modal = document.getElementById('exit-modal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.style.display = 'none';
+            modal.style.opacity = '0';
+            modal.style.pointerEvents = 'none';
+            pendingExternalLink = null;
+            pendingExternalTarget = null;
+        }
+
+        function handleExitModalCreateAccount() {
+            closeExitModal();
+            openAccountModal();
+        }
+
+        function handleExitModalContinue() {
+            if (!pendingExternalLink) {
+                closeExitModal();
+                return;
+            }
+            window.open(pendingExternalLink, pendingExternalTarget || '_blank');
+            closeExitModal();
+        }
+
+        function isExternalNavigationLink(anchor) {
+            if (!anchor || anchor.tagName !== 'A') return false;
+            const href = anchor.getAttribute('href') || '';
+            if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return false;
+            try {
+                const url = new URL(href, location.href);
+                return url.origin !== location.origin;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function handleExternalLinkExit(event) {
+            if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+            const anchor = event.target.closest('a');
+            if (!anchor) return;
+            const href = anchor.getAttribute('href');
+            if (!href || !isExternalNavigationLink(anchor)) return;
+            if (getCurrentUser()) return;
+            if (exitPromptShown) return;
+            event.preventDefault();
+            event.stopPropagation();
+            openExitModal(href, anchor.target || '_blank');
         }
 
         function switchAuthMode(mode) {
@@ -1735,7 +1996,7 @@
                 bpm: 97,
                 genre: "Reggaeton, Wizkid Type Beat",
                 key: "E minor",
-                price: { mp3: 29999, wav: 200, premium: 139999, unlimited: 279999 },
+                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
                 image: "photo/1.jpg",
                 audioUrl: "New folder/Falling_E minor_97bpm_tagged.mp3",
                 downloadLinks: {
@@ -2534,7 +2795,8 @@
 
         function loadBeatDurations() {
             beats.forEach(beat => {
-                const audio = new Audio(beat.audioUrl);
+                const candidates = resolvePlayableUrls(beat.audioUrl);
+                const audio = new Audio(candidates[0] || beat.audioUrl);
                 audio.preload = 'metadata';
                 audio.addEventListener('loadedmetadata', () => {
                     trackDurations[beat.id] = audio.duration;
@@ -2567,35 +2829,109 @@
             renderBeats('tracks-beats-container', beats, normalizedMode);
         }
 
-        function renderBeats(container, beatsToRender, viewMode = 'list') {
-            const cardsHtml = beatsToRender.map((beat) => {
+        function renderBeats(container, beatsToRender, viewModeOrPage = 'list', perPage = 12) {
+            let viewMode = 'list';
+            let startIndex = 0;
+            let sliceResults = false;
+
+            if (typeof viewModeOrPage === 'string') {
+                viewMode = viewModeOrPage;
+            } else if (typeof viewModeOrPage === 'number') {
+                startIndex = viewModeOrPage;
+                sliceResults = true;
+            }
+
+            const songs = Array.isArray(beatsToRender)
+                ? (sliceResults ? beatsToRender.slice(startIndex, startIndex + perPage) : beatsToRender)
+                : [];
+
+            const cardsHtml = songs.map((beat) => {
                 const beatId = Number(beat.id);
                 const isHighlighted = Number(window.highlightBeatId) === beatId;
                 const escapedAudioUrl = String(beat.audioUrl || '').replace(/'/g, "\\'");
                 const isGridView = viewMode === 'grid';
+                const useTrackRow = !isGridView;
+                const baseClasses = useTrackRow ? 'track-row rounded-[2rem] p-4 mb-4' : 'beat-card bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 h-full';
+                const cardClasses = `${baseClasses} ${isHighlighted ? 'ring-2 ring-blue-500 shadow-xl' : ''}`;
+
+                if (useTrackRow) {
+                    return `
+.                     <div id="beat-${beatId}" class="${cardClasses}">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div class="flex items-center gap-4 min-w-0">
+                                <button onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="track-player-button">
+                                    <i class="fas fa-play text-lg" id="play-icon-${beatId}"></i>
+                                </button>
+                                <img src="${beat.image}" alt="${beat.title}" class="w-16 h-16 rounded-3xl object-cover shadow-lg border border-white/10" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="min-w-0">
+                                    <h3 class="text-base sm:text-lg font-semibold text-slate-900 truncate">${beat.title}</h3>
+                                    <p class="text-xs sm:text-sm text-slate-500 truncate">${beat.producer}</p>
+                                    <div class="flex flex-wrap items-center gap-2 mt-2 text-xs text-slate-500">
+                                        <span class="inline-flex items-center gap-1"><i class="fas fa-clock"></i>${trackDurations[beatId] ? formatTime(trackDurations[beatId]) : '--:--'}</span>
+                                        <span class="inline-flex items-center gap-1"><i class="fas fa-key"></i>${beat.key}</span>
+                                        <span class="inline-flex items-center gap-1"><i class="fas fa-drum"></i>${beat.bpm} BPM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <button onclick="openLicenseModal(${beatId})" class="track-row-action-btn px-4 py-2 rounded-2xl text-sm font-semibold">${formatNaira(beat.price.mp3)}</button>
+                                <button onclick="copyTrackLink(${beatId})" type="button" class="track-row-action-btn px-3 py-2 rounded-2xl text-sm"><i class="fas fa-share-alt"></i></button>
+                            </div>
+                        </div>
+                        <div class="track-row-tags mt-4">
+                            <span class="track-row-tag">${beat.genre}</span>
+                        </div>
+                        <div id="progress-${beatId}" class="track-row-player mt-4">
+                            <div class="track-row-player-inner rounded-[1.5rem]">
+                                <div class="grid gap-3 sm:grid-cols-[auto_1fr_auto] items-center mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-slate-300 text-sm sm:text-base">Now playing</span>
+                                    </div>
+                                    <div class="text-slate-400 text-sm sm:text-base">${beat.title}</div>
+                                    <div class="flex items-center gap-2 justify-end">
+                                        <button type="button" onclick="toggleMute(${beatId})" class="text-slate-300 hover:text-white transition-colors"><i class="fas ${beatStats[beatId]?.muted ? 'fa-volume-mute' : 'fa-volume-up'}" id="mute-icon-${beatId}"></i></button>
+                                        <input type="range" id="volume-${beatId}" min="0" max="100" value="50" class="w-24 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" onchange="setVolume(${beatId}, this.value)">
+                                    </div>
+                                </div>
+                                <canvas id="waveform-${beatId}" class="track-waveform" width="640" height="56" aria-hidden="true"></canvas>
+                                <div class="audio-progress mt-4 cursor-pointer" onclick="seekAudio(${beatId}, event)">
+                                    <div class="audio-progress-bar" id="progress-bar-${beatId}"></div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-3 text-xs sm:text-sm text-slate-400">
+                                    <div class="flex items-center gap-2">
+                                        <span id="current-time-${beatId}">0:00</span>
+                                        <span>/</span>
+                                        <span id="duration-${beatId}">0:00</span>
+                                    </div>
+                                    <p class="text-slate-400">Plays: <span id="plays-count-${beatId}">${beatStats[beatId]?.plays || 0}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }
 
                 return `
-                    <div id="beat-${beatId}" class="beat-card bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 h-full ${isGridView ? 'flex flex-col' : 'flex flex-col sm:flex-row items-start sm:items-center'} gap-3 sm:gap-4 ${isHighlighted ? 'ring-2 ring-blue-500 shadow-xl' : ''}">
+                    <div id="beat-${beatId}" class="${cardClasses}">
                         <div class="flex ${isGridView ? 'flex-col w-full' : 'items-start sm:items-center'} gap-3 sm:gap-4 flex-1 w-full">
                             <div class="relative flex-shrink-0 ${isGridView ? 'w-full' : ''}">
                                 <img src="${beat.image}" alt="${beat.title}" class="${isGridView ? 'w-full h-40' : 'w-20 h-20 sm:w-24 sm:h-24'} rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-                                <button onclick="togglePlay(${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
+                                <button onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
                                     <i class="fas fa-play text-white text-2xl sm:text-3xl" id="play-icon-${beatId}"></i>
                                 </button>
                             </div>
-                            
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-base sm:text-xl font-bold text-gray-900 truncate">${beat.title}</h3>
                                 <p class="text-xs sm:text-sm text-gray-600">${beat.producer}</p>
-                                <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-1 sm:mt-2 text-xs sm:text-sm text-gray-500">
+                                <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 text-xs sm:text-sm text-gray-500">
                                     <span><i class="fas fa-music mr-1"></i>${beat.genre}</span>
                                     <span><i class="fas fa-drum mr-1"></i>${beat.bpm} BPM</span>
                                     <span><i class="fas fa-key mr-1"></i>${beat.key}</span>
                                 </div>
-                                <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 text-xs sm:text-sm text-gray-500">
-                                    <span><i class="fas fa-clock mr-1"></i>Duration: <span id="track-duration-${beatId}">${trackDurations[beatId] ? formatTime(trackDurations[beatId]) : '--:--'}</span></span>
+                                <div class="flex flex-wrap items-center gap-3 mt-3 text-xs sm:text-sm text-gray-500">
+                                    <span class="inline-flex items-center gap-1"><i class="fas fa-clock"></i>${trackDurations[beatId] ? formatTime(trackDurations[beatId]) : '--:--'}</span>
+                                    <span class="inline-flex items-center gap-1"><i class="fas fa-play"></i>Plays: ${beatStats[beatId]?.plays || 0}</span>
                                 </div>
-                                <p class="text-xs text-gray-500 mt-2">Plays: <span id="plays-count-${beatId}">${beatStats[beatId]?.plays || 0}</span></p>
                                 <div id="progress-${beatId}" class="mt-2 sm:mt-3 w-full" style="display: none;">
                                     <canvas id="waveform-${beatId}" class="track-waveform" width="320" height="56" aria-hidden="true"></canvas>
                                     <div class="audio-progress mb-2 cursor-pointer" onclick="seekAudio(${beatId}, event)">
@@ -2617,7 +2953,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="flex ${isGridView ? 'flex-col items-stretch mt-4' : 'flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto'}">
                             <div class="text-center ${isGridView ? 'text-left' : 'sm:text-right'}">
                                 <p class="text-xs sm:text-sm text-gray-600">Starting at</p>
@@ -2677,7 +3012,7 @@
                 visualizerRaf = null;
             }
             if (activeVisualizerBeatId) {
-                const canvas = document.getElementById(`waveform-${activeVisualizerBeatId}`);
+                const canvas = getBeatControl(activeVisualizerBeatId, `#waveform-${activeVisualizerBeatId}`);
                 if (canvas) {
                     renderIdleVisualizer(canvas, activeVisualizerBeatId);
                 }
@@ -2741,7 +3076,7 @@
                 }
             }
 
-            const canvas = document.getElementById(`waveform-${beatId}`);
+            const canvas = getBeatControl(beatId, `#waveform-${beatId}`);
             if (!canvas) return;
 
             currentAudioSource = audioContext.createMediaElementSource(audioElement);
@@ -2756,9 +3091,80 @@
             renderIdleVisualizer(canvas, beatId);
         }
 
+        // Produce candidate URL variants to work around spaces/CORS/encoding issues
+        function resolvePlayableUrls(url) {
+            if (!url) return [];
+            const candidates = [];
+            try {
+                candidates.push(url);
+                // space-escaped
+                candidates.push(url.replace(/ /g, '%20'));
+                // encode full URI
+                try { candidates.push(encodeURI(url)); } catch(e){}
+                // encode only path segments (best-effort)
+                try {
+                    const parts = url.split('/');
+                    for (let i = 0; i < parts.length; i++) parts[i] = encodeURIComponent(parts[i]);
+                    candidates.push(parts.join('/'));
+                } catch (e) {}
+            } catch (e) {
+                // ignore
+            }
+            // dedupe
+            return candidates.filter((v, i, a) => v && a.indexOf(v) === i);
+        }
+
+        function getBeatCardElement(beatId) {
+            if (window.currentPage === 'tracks') {
+                const trackPageCard = document.querySelector(`#tracks-beats-container #beat-${beatId}`);
+                if (trackPageCard) return trackPageCard;
+            }
+            if (window.currentPage === 'home') {
+                const homeCard = document.querySelector(`#beats-container #beat-${beatId}`);
+                if (homeCard) return homeCard;
+            }
+            const trackPageCard = document.querySelector(`#tracks-beats-container #beat-${beatId}`);
+            if (trackPageCard) return trackPageCard;
+            const homeCard = document.querySelector(`#beats-container #beat-${beatId}`);
+            return homeCard || document.getElementById(`beat-${beatId}`);
+        }
+
+        function getBeatControl(beatId, selector) {
+            const card = getBeatCardElement(beatId);
+            if (!card) return null;
+            return card.querySelector(selector);
+        }
+
+        function showTrackPlayer(beatId) {
+            const player = getBeatControl(beatId, `#progress-${beatId}`);
+            if (player) {
+                player.classList.add('visible');
+                player.style.display = 'block';
+            }
+        }
+
+        function hideTrackPlayer(beatId) {
+            const player = getBeatControl(beatId, `#progress-${beatId}`);
+            if (player) {
+                player.classList.remove('visible');
+                player.style.display = 'none';
+            }
+        }
+
+        function copyTrackLink(beatId) {
+            const beat = beats.find(b => Number(b.id) === Number(beatId));
+            if (!beat) return;
+            const url = window.location.origin + window.location.pathname + `#beat-${beatId}`;
+            navigator.clipboard?.writeText(url).then(() => {
+                showToast('Track link copied to clipboard', 'success');
+            }).catch(() => {
+                showToast('Unable to copy link', 'error');
+            });
+        }
+
         function startTrackVisualizer(beatId) {
             stopTrackVisualizer();
-            const canvas = document.getElementById(`waveform-${beatId}`);
+            const canvas = getBeatControl(beatId, `#waveform-${beatId}`);
             if (!canvas || !currentAudio || !analyser) return;
 
             activeVisualizerBeatId = beatId;
@@ -2804,36 +3210,95 @@
             visualizerRaf = requestAnimationFrame(draw);
         }
 
-        function togglePlay(beatId, audioUrl) {
-            const playIcon = document.getElementById(`play-icon-${beatId}`);
-            const progressContainer = document.getElementById(`progress-${beatId}`);
-            const progressBar = document.getElementById(`progress-bar-${beatId}`);
-            const currentTimeEl = document.getElementById(`current-time-${beatId}`);
-            const durationEl = document.getElementById(`duration-${beatId}`);
-            const volumeSlider = document.getElementById(`volume-${beatId}`);
+        // Small animated placeholder while audio is buffering/starting
+        function renderStartingVisualizer(canvas) {
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            let t = 0;
+            const draw = () => {
+                t += 0.05;
+                ctx.clearRect(0, 0, width, height);
+                const gradient = ctx.createLinearGradient(0, 0, width, height);
+                gradient.addColorStop(0, 'rgba(59, 130, 246, 0.08)');
+                gradient.addColorStop(1, 'rgba(37, 99, 235, 0.06)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, width, height);
+                const barCount = 24;
+                const barWidth = width / barCount;
+                for (let i = 0; i < barCount; i += 1) {
+                    const phase = Math.sin(t + i * 0.3);
+                    const barHeight = 6 + Math.abs(phase) * (height - 12);
+                    const x = i * barWidth + 2;
+                    const y = height / 2 - barHeight / 2;
+                    ctx.fillStyle = `rgba(59,130,246,${0.25 + Math.abs(phase) * 0.5})`;
+                    ctx.beginPath();
+                    ctx.roundRect(x, y, barWidth - 4, barHeight, 4);
+                    ctx.fill();
+                }
+                visualizerRaf = requestAnimationFrame(draw);
+            };
+            // cancel previous visualizer loop if present
+            if (visualizerRaf) cancelAnimationFrame(visualizerRaf);
+            visualizerRaf = requestAnimationFrame(draw);
+        }
+
+        function togglePlay(event, beatId, audioUrl) {
+            const card = event?.currentTarget?.closest('.beat-card, .track-row') || getBeatCardElement(beatId);
+            const playIcon = card?.querySelector(`#play-icon-${beatId}`) || document.getElementById(`play-icon-${beatId}`);
+            const progressContainer = card?.querySelector(`#progress-${beatId}`) || document.getElementById(`progress-${beatId}`);
+            const progressBar = card?.querySelector(`#progress-bar-${beatId}`) || document.getElementById(`progress-bar-${beatId}`);
+            const currentTimeEl = card?.querySelector(`#current-time-${beatId}`) || document.getElementById(`current-time-${beatId}`);
+            const durationEl = card?.querySelector(`#duration-${beatId}`) || document.getElementById(`duration-${beatId}`);
+            const volumeSlider = card?.querySelector(`#volume-${beatId}`) || document.getElementById(`volume-${beatId}`);
             if (!beatStats[beatId]) {
                 beatStats[beatId] = { plays: 0, muted: false };
             }
             const beatState = beatStats[beatId];
+            console.debug('togglePlay called', { beatId, audioUrl });
 
             // If this track is already active, toggle pause/play
             if (currentAudio && currentBeatId === beatId) {
+                // If currently starting, toggle pending pause
+                if (currentAudio._starting) {
+                    currentAudio._pendingPause = !currentAudio._pendingPause;
+                    return;
+                }
+
                 if (currentAudio.paused) {
                     try {
                         if (audioContext && audioContext.state === 'suspended') audioContext.resume().catch(()=>{});
+                        showTrackPlayer(beatId);
+                        // show pause icon immediately and start a starting visualizer
+                        playIcon.classList.remove('fa-play');
+                        playIcon.classList.add('fa-pause');
+                        const canvas = getBeatControl(beatId, `#waveform-${beatId}`);
+                        renderStartingVisualizer(canvas);
+
                         const p = currentAudio.play();
+                        currentAudio._starting = true;
+                        currentAudio._pendingPause = false;
                         if (p && typeof p.then === 'function') {
                             p.then(() => {
-                                playIcon.classList.remove('fa-play');
-                                playIcon.classList.add('fa-pause');
-                                startTrackVisualizer(beatId);
-                            }).catch(() => {
+                                currentAudio._starting = false;
+                                if (currentAudio._pendingPause) {
+                                    currentAudio.pause();
+                                    playIcon.classList.remove('fa-pause');
+                                    playIcon.classList.add('fa-play');
+                                    stopTrackVisualizer();
+                                } else {
+                                    startTrackVisualizer(beatId);
+                                }
+                            }).catch((err) => {
+                                currentAudio._starting = false;
                                 playIcon.classList.remove('fa-pause');
                                 playIcon.classList.add('fa-play');
+                                stopTrackVisualizer();
+                                console.warn('Play failed:', err);
                             });
                         } else {
-                            playIcon.classList.remove('fa-play');
-                            playIcon.classList.add('fa-pause');
+                            currentAudio._starting = false;
                             startTrackVisualizer(beatId);
                         }
                     } catch (e) {
@@ -2843,6 +3308,7 @@
                     currentAudio.pause();
                     playIcon.classList.remove('fa-pause');
                     playIcon.classList.add('fa-play');
+                    hideTrackPlayer(beatId);
                     stopTrackVisualizer();
                 }
                 return;
@@ -2851,15 +3317,17 @@
             // Stop any other playing audio
             if (currentAudio) {
                 currentAudio.pause();
-                const oldIcon = document.getElementById(`play-icon-${currentBeatId}`);
-                const oldProgress = document.getElementById(`progress-${currentBeatId}`);
+                const oldIcon = getBeatControl(currentBeatId, `#play-icon-${currentBeatId}`) || document.getElementById(`play-icon-${currentBeatId}`);
+                const oldProgress = getBeatControl(currentBeatId, `#progress-${currentBeatId}`) || document.getElementById(`progress-${currentBeatId}`);
                 if (oldIcon) {
                     oldIcon.classList.remove('fa-pause');
                     oldIcon.classList.add('fa-play');
                 }
                 if (oldProgress) {
                     oldProgress.style.display = 'none';
+                    oldProgress.classList.remove('visible');
                 }
+                hideTrackPlayer(currentBeatId);
                 stopTrackVisualizer();
             }
 
@@ -2870,64 +3338,109 @@
             currentAudio.volume = (volumeSlider ? volumeSlider.value : 50) / 100;
             currentAudio.muted = beatState.muted;
             updateMuteIcon(beatId, beatState.muted);
-            progressContainer.style.display = 'block';
+showTrackPlayer(beatId);
             progressBar.style.width = '0%';
             setupAudioVisualizer(beatId, currentAudio);
 
             // Assign src immediately and try to play synchronously (counts as user gesture on mobile)
             try {
-                currentAudio.src = audioUrl;
+                // try a few URL variants to handle spaces/special chars
+                const candidates = resolvePlayableUrls(audioUrl);
+                currentAudio.src = candidates[0] || audioUrl;
                 currentAudio.load();
                 if (audioContext && audioContext.state === 'suspended') audioContext.resume().catch(()=>{});
+                // show pause icon and starting visualizer immediately for instant feedback
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+                const canvas = getBeatControl(beatId, `#waveform-${beatId}`);
+                renderStartingVisualizer(canvas);
+
                 const playPromise = currentAudio.play();
+                currentAudio._starting = true;
+                currentAudio._pendingPause = false;
                 if (playPromise && typeof playPromise.then === 'function') {
                     playPromise.then(() => {
-                        playIcon.classList.remove('fa-play');
-                        playIcon.classList.add('fa-pause');
-                        startTrackVisualizer(beatId);
-                    }).catch(() => {
-                        playIcon.classList.remove('fa-pause');
-                        playIcon.classList.add('fa-play');
-                        stopTrackVisualizer();
+                        currentAudio._starting = false;
+                        if (currentAudio._pendingPause) {
+                            currentAudio.pause();
+                            playIcon.classList.remove('fa-pause');
+                            playIcon.classList.add('fa-play');
+                            stopTrackVisualizer();
+                        } else {
+                            startTrackVisualizer(beatId);
+                        }
+                    }).catch((err) => {
+                        // try alternate candidate URLs sequentially
+                        (async () => {
+                            let played = false;
+                            for (let i = 1; i < candidates.length; i++) {
+                                try {
+                                    currentAudio.src = candidates[i];
+                                    currentAudio.load();
+                                    await currentAudio.play();
+                                    played = true;
+                                    break;
+                                } catch (e) {
+                                    console.warn('Retry play candidate failed:', candidates[i], e);
+                                }
+                            }
+                            currentAudio._starting = false;
+                            if (played) {
+                                if (currentAudio._pendingPause) {
+                                    currentAudio.pause();
+                                    playIcon.classList.remove('fa-pause');
+                                    playIcon.classList.add('fa-play');
+                                    stopTrackVisualizer();
+                                } else {
+                                    startTrackVisualizer(beatId);
+                                }
+                            } else {
+                                playIcon.classList.remove('fa-pause');
+                                playIcon.classList.add('fa-play');
+                                stopTrackVisualizer();
+                                console.warn('Immediate play attempt failed for all candidates:', err);
+                            }
+                        })();
                     });
                 } else {
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
+                    currentAudio._starting = false;
                     startTrackVisualizer(beatId);
                 }
             } catch (e) {
                 console.warn('Immediate play attempt failed:', e);
             }
 
-            // Meanwhile fetch the protected blob and swap the src when ready (preserve play state/time)
-            loadProtectedAudio(audioUrl)
-                .then(blobUrl => {
-                    // If fetch failed or returned null (CORS/network), skip swapping to blob
-                    if (!blobUrl) return;
-                    if (currentBeatId !== beatId) {
-                        try { URL.revokeObjectURL(blobUrl); } catch(e){}
-                        return;
-                    }
-                    revokeCurrentAudioBlob();
-                    currentAudioBlobUrl = blobUrl;
-                    try {
-                        const wasPlaying = !!(currentAudio && !currentAudio.paused);
-                        const curTime = currentAudio ? currentAudio.currentTime : 0;
-                        currentAudio.src = blobUrl;
-                        currentAudio.load();
-                        // try to keep at same playback position
-                        currentAudio.currentTime = Math.min(curTime, currentAudio.duration || curTime);
-                        if (wasPlaying) currentAudio.play().catch(()=>{});
-                    } catch (err) {
-                        console.warn('Swap to blob failed:', err);
-                    }
-                })
-                .catch(() => {
-                    if (currentBeatId === beatId) {
-                        stopTrackVisualizer();
-                        progressContainer.style.display = 'none';
-                    }
-                });
+            // If audioUrl is remote (http/https), try protected fetch and swap the blob when ready.
+            if (/^https?:\/\//i.test(audioUrl)) {
+                loadProtectedAudio(audioUrl)
+                    .then(blobUrl => {
+                        // If fetch failed or returned null (CORS/network), skip swapping to blob
+                        if (!blobUrl) return;
+                        if (currentBeatId !== beatId) {
+                            try { URL.revokeObjectURL(blobUrl); } catch(e){}
+                            return;
+                        }
+                        revokeCurrentAudioBlob();
+                        currentAudioBlobUrl = blobUrl;
+                        try {
+                            const wasPlaying = !!(currentAudio && !currentAudio.paused);
+                            const curTime = currentAudio ? currentAudio.currentTime : 0;
+                            currentAudio.src = blobUrl;
+                            currentAudio.load();
+                            // try to keep at same playback position
+                            currentAudio.currentTime = Math.min(curTime, currentAudio.duration || curTime);
+                            if (wasPlaying) currentAudio.play().catch(()=>{});
+                        } catch (err) {
+                            console.warn('Swap to blob failed:', err);
+                        }
+                    })
+                    .catch(() => {
+                        if (currentBeatId === beatId) {
+                            stopTrackVisualizer();
+                            progressContainer.style.display = 'none';
+                        }
+                    });
+            }
 
             currentAudio.addEventListener('loadedmetadata', () => {
                 if (currentBeatId === beatId) durationEl.textContent = formatTime(currentAudio.duration);
@@ -2960,6 +3473,7 @@
                 progressBar.style.width = '0%';
                 currentTimeEl.textContent = '0:00';
                 progressContainer.style.display = 'none';
+                hideTrackPlayer(beatId);
                 stopTrackVisualizer();
             });
 
@@ -2967,6 +3481,13 @@
         }
 
         function updatePlaysCount(beatId) {
+            const countElements = document.querySelectorAll(`#plays-count-${beatId}`);
+            if (countElements.length) {
+                countElements.forEach(el => {
+                    el.textContent = beatStats[beatId]?.plays || 0;
+                });
+                return;
+            }
             const countElement = document.getElementById(`plays-count-${beatId}`);
             if (countElement) {
                 countElement.textContent = beatStats[beatId]?.plays || 0;
@@ -2974,7 +3495,7 @@
         }
 
         function updateMuteIcon(beatId, isMuted) {
-            const icon = document.getElementById(`mute-icon-${beatId}`);
+            const icon = getBeatControl(beatId, `#mute-icon-${beatId}`) || document.getElementById(`mute-icon-${beatId}`);
             if (!icon) return;
             icon.classList.toggle('fa-volume-up', !isMuted);
             icon.classList.toggle('fa-volume-mute', isMuted);
@@ -3530,6 +4051,32 @@
             };
         }
 
+        // First-time signed-in discount helpers
+        function getFirstTimeDiscountForCart(items = cart) {
+            try {
+                const currentUser = getCurrentUser();
+                if (!currentUser || !currentUser.email) return 0;
+                const key = 'debeat_first_discount_used_' + currentUser.email.toLowerCase();
+                if (localStorage.getItem(key) === '1') return 0;
+                const eligible = items.filter(i => i.licenseType === 'premium' || i.licenseType === 'unlimited');
+                const eligibleSum = eligible.reduce((s, it) => s + (it.price || 0), 0);
+                const discount = Math.round(eligibleSum * 0.15 * 100) / 100;
+                return discount;
+            } catch (e) {
+                return 0;
+            }
+        }
+
+        function markFirstTimeDiscountUsedForEmail(email) {
+            if (!email) return;
+            try { localStorage.setItem('debeat_first_discount_used_' + email.toLowerCase(), '1'); } catch (e) {}
+        }
+
+        function hasUsedFirstTimeDiscountForEmail(email) {
+            if (!email) return false;
+            return localStorage.getItem('debeat_first_discount_used_' + email.toLowerCase()) === '1';
+        }
+
         function renderCart() {
             const container = document.getElementById('cart-items-container');
             
@@ -3560,15 +4107,38 @@
             container.innerHTML = html;
             
             const summary = getBulkDealSummary(cart);
+            const currentUser = getCurrentUser();
+            const firstTimeDiscount = getFirstTimeDiscountForCart(cart);
             let discountText = '';
+            let signInHint = '';
+            let cartTotal = summary.total;
 
             if (summary.freeCount > 0) {
                 discountText = `<p class="text-sm sm:text-base text-green-700 mt-4">Bulk deal applied: ${summary.freeCount} unlimited track${summary.freeCount > 1 ? 's' : ''} are free.</p>`;
             }
 
-            document.getElementById('cart-total').textContent = formatNaira(summary.total);
+            if (firstTimeDiscount > 0 && currentUser) {
+                discountText += `<p class="text-sm sm:text-base text-blue-700 mt-2">First-time signed-in discount applied: -${formatNaira(firstTimeDiscount)}</p>`;
+                cartTotal = Math.max(0, summary.total - firstTimeDiscount);
+            } else if (cart.some(item => item.licenseType === 'premium' || item.licenseType === 'unlimited') && !currentUser) {
+                signInHint = '<p class="text-sm sm:text-base text-blue-700 mt-4">Sign in to unlock a 15% first-time discount on Premium and Unlimited licenses.</p>';
+            }
+
+            document.getElementById('cart-total').textContent = formatNaira(cartTotal);
             if (discountText) {
                 container.insertAdjacentHTML('beforeend', discountText);
+            }
+            if (signInHint) {
+                container.insertAdjacentHTML('beforeend', signInHint);
+            }
+
+            const badge = document.getElementById('checkout-discount-badge');
+            if (badge) {
+                if (cart.some(item => item.licenseType === 'premium' || item.licenseType === 'unlimited') && !currentUser) {
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
             }
         }
 
@@ -3696,6 +4266,7 @@
                 themeIcon.classList.toggle('fa-moon', !isDark);
                 themeIcon.classList.toggle('fa-sun', isDark);
             }
+            document.body.classList.toggle('track-row-dark', isDark);
             localStorage.setItem('beatstore-theme', isDark ? 'dark' : 'light');
         }
 
@@ -3709,6 +4280,7 @@
             const beatId = getBeatIdFromHash(page);
             const targetPage = beatId ? 'home' : page;
             window.highlightBeatId = beatId || null;
+            window.currentPage = targetPage;
 
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('tracks-page').style.display = 'none';
@@ -3729,7 +4301,10 @@
                 }
             } else if (targetPage === 'tracks') {
                 document.getElementById('tracks-page').style.display = 'block';
-                renderBeats('tracks-beats-container', beats, getActiveTracksViewMode());
+                if (!tracksPageBeats || !tracksPageBeats.length) {
+                    tracksPageBeats = [...beats];
+                }
+                renderBeats('tracks-beats-container', tracksPageBeats, getActiveTracksViewMode());
                 updateTracksViewToggle();
                 updateBulkDealBanner();
             } else if (targetPage === 'services') {
@@ -3767,6 +4342,7 @@
             updateTracksViewToggle();
             const initial = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
             showPage(initial);
+            document.body.addEventListener('click', handleExternalLinkExit, true);
         });
 
         window.addEventListener('hashchange', function () {
@@ -3840,10 +4416,33 @@
             renderBeats('beats-container', beats, 0, 12);
         }
 
+        let tracksPageBeats = [...beats];
+
+        function setTracksPageBeats(newBeats) {
+            tracksPageBeats = Array.isArray(newBeats) ? [...newBeats] : [];
+            renderBeats('tracks-beats-container', tracksPageBeats, getActiveTracksViewMode());
+        }
+
         function applyTrackFilters() {
             const genre = document.getElementById('genre-filter').value;
             const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
-            renderBeats('tracks-beats-container', filtered, getActiveTracksViewMode());
+            setTracksPageBeats(filtered);
+        }
+
+        function shuffleTracks() {
+            const shuffled = [...tracksPageBeats];
+            for (let i = shuffled.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            setTracksPageBeats(shuffled);
+        }
+
+        function sortTracks(order = 'asc') {
+            const sorted = [...tracksPageBeats].sort((a, b) => {
+                return order === 'asc' ? a.id - b.id : b.id - a.id;
+            });
+            setTracksPageBeats(sorted);
         }
 
         function hideAllServiceBudgetFields() {
@@ -3991,6 +4590,15 @@
                 showToast('Your cart is empty', 'error');
                 return;
             }
+
+            const currentUser = getCurrentUser();
+            const hasPremiumUnlimited = cart.some(item => item.licenseType === 'premium' || item.licenseType === 'unlimited');
+            if (hasPremiumUnlimited && !currentUser) {
+                showToast('Sign in to access the 15% first-time discount for Premium and Unlimited licenses.', 'info');
+                openAccountModal();
+                return;
+            }
+
             // Ensure cart modal is closed and hidden so the checkout modal can appear
             try {
                 const cartModal = document.getElementById('cart-modal');
@@ -4074,7 +4682,21 @@
             `).join('');
             checkoutItems.innerHTML = itemsHtml;
             
-            document.getElementById('checkout-total').textContent = formatNaira(summary.total);
+            // Apply first-time signed-in discount if eligible
+            const firstTimeDiscount = getFirstTimeDiscountForCart(cart);
+            const checkoutTotalEl = document.getElementById('checkout-total');
+            if (checkoutTotalEl) {
+                const totalsWrapper = checkoutTotalEl.parentElement && checkoutTotalEl.parentElement.parentElement;
+                if (firstTimeDiscount > 0 && totalsWrapper) {
+                    const discountRow = document.createElement('div');
+                    discountRow.className = 'flex justify-between text-xs sm:text-sm text-blue-700';
+                    discountRow.innerHTML = `<span>First-time signed-in discount (15%)</span><span>-${formatNaira(firstTimeDiscount)}</span>`;
+                    totalsWrapper.insertBefore(discountRow, checkoutTotalEl.parentElement);
+                    checkoutTotalEl.textContent = formatNaira(Math.max(0, summary.total - firstTimeDiscount));
+                } else {
+                    checkoutTotalEl.textContent = formatNaira(summary.total);
+                }
+            }
         }
 
         function closeCheckoutModal() {
@@ -4090,7 +4712,8 @@
             const email = document.getElementById('customer-email').value;
             const name = document.getElementById('customer-name').value;
             const summary = getBulkDealSummary(cart);
-            const total = summary.total;
+            const firstTimeDiscount = getFirstTimeDiscountForCart(cart);
+            const total = Math.max(0, summary.total - firstTimeDiscount);
             
             const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
             const publicKey = config.paystack_public_key || defaultConfig.paystack_public_key;
@@ -4180,12 +4803,21 @@
                 downloadLinks: item.downloadLinks
             }));
             const summary = getBulkDealSummary(cart);
+            const firstTimeDiscount = getFirstTimeDiscountForCart(cart);
+            const paidTotal = Math.max(0, summary.total - firstTimeDiscount);
+
+            // mark discount used for this email if applied
+            try {
+                if (firstTimeDiscount > 0 && email) {
+                    markFirstTimeDiscountUsedForEmail(email);
+                }
+            } catch (e) { console.warn('Could not mark first-time discount as used', e); }
 
             await syncPaymentToGoogleSheet({
                 email,
                 name,
                 paymentResponse: response,
-                amount: summary.total,
+                amount: paidTotal,
                 orderDetails,
                 downloadLinks: JSON.stringify(orderDetails.map(item => ({
                     beat: item.beat,
@@ -4250,7 +4882,7 @@
                             </div>
                             <div class="border-t-2 mt-3 pt-3 flex justify-between text-sm sm:text-base">
                                 <span class="font-bold">Total Paid:</span>
-                                <span class="font-bold text-green-600">${formatNaira(summary.total)}</span>
+                                <span class="font-bold text-green-600">${formatNaira(paidTotal)}</span>
                             </div>
                         </div>
                         

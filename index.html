@@ -378,6 +378,59 @@
             box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
             transform: translateY(-2px);
         }
+
+        header nav a,
+        .price-badge,
+        .font-semibold.text-blue-600,
+        .font-semibold.text-purple-600,
+        .font-semibold.text-green-600,
+        .font-semibold.text-orange-600,
+        .font-semibold.text-red-600,
+        .font-semibold.text-indigo-600 {
+            position: relative;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .mobile-menu-item {
+            position: relative;
+        }
+
+        header nav a::after,
+        .mobile-menu-item::after,
+        .price-badge::after,
+        .font-semibold.text-blue-600::after,
+        .font-semibold.text-purple-600::after,
+        .font-semibold.text-green-600::after,
+        .font-semibold.text-orange-600::after,
+        .font-semibold.text-red-600::after,
+        .font-semibold.text-indigo-600::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: currentColor;
+            transition: width 0.3s ease;
+            opacity: 0.9;
+        }
+
+        .price-badge::after {
+            background: #3b82f6;
+        }
+
+        header nav a:hover::after,
+        .mobile-menu-item:hover::after,
+        .price-badge:hover::after,
+        .font-semibold.text-blue-600:hover::after,
+        .font-semibold.text-purple-600:hover::after,
+        .font-semibold.text-green-600:hover::after,
+        .font-semibold.text-orange-600:hover::after,
+        .font-semibold.text-red-600:hover::after,
+        .font-semibold.text-indigo-600:hover::after {
+            width: 100%;
+        }
         
         .mobile-menu {
             position: fixed;
@@ -477,6 +530,42 @@
         body.dark-theme .text-gray-500,
         body.dark-theme .text-gray-400 {
             color: #cbd5e1 !important;
+        }
+
+        body.dark-theme #about-page .bg-gradient-to-br.from-blue-50 .text-gray-900,
+        body.dark-theme #about-page .bg-gradient-to-br.from-purple-50 .text-gray-900,
+        body.dark-theme #about-page .bg-gradient-to-br.from-green-50 .text-gray-900,
+        body.dark-theme #about-page .bg-gradient-to-br.from-gray-50 .text-gray-900,
+        body.dark-theme #about-page .bg-gradient-to-br.from-blue-50.to-blue-100 .text-gray-900,
+        body.dark-theme #about-page .bg-gradient-to-br.from-blue-50.to-purple-50 .text-gray-900,
+        body.dark-theme #about-page .bg-gradient-to-br.from-blue-50 .text-gray-700,
+        body.dark-theme #about-page .bg-gradient-to-br.from-purple-50 .text-gray-600,
+        body.dark-theme #about-page .bg-gradient-to-br.from-green-50 .text-gray-600,
+        body.dark-theme #about-page .bg-gradient-to-br.from-gray-50 .text-gray-700,
+        body.dark-theme #about-page .bg-gradient-to-br.from-blue-50.to-blue-100 .text-gray-700,
+        body.dark-theme #about-page .bg-gradient-to-br.from-blue-50.to-purple-50 .text-gray-600 {
+            color: #111827 !important;
+        }
+
+        body.dark-theme #about-page .about-card .text-gray-900,
+        body.dark-theme #about-page .about-card .text-gray-700,
+        body.dark-theme #about-page .about-card .text-gray-600,
+        body.dark-theme #about-page .about-card .text-gray-500,
+        body.dark-theme #about-page .about-card .text-gray-400,
+        body.dark-theme .pale-card,
+        body.dark-theme .pale-card h1,
+        body.dark-theme .pale-card h2,
+        body.dark-theme .pale-card h3,
+        body.dark-theme .pale-card h4,
+        body.dark-theme .pale-card h5,
+        body.dark-theme .pale-card h6,
+        body.dark-theme .pale-card p,
+        body.dark-theme .pale-card span,
+        body.dark-theme .pale-card li,
+        body.dark-theme .pale-card label,
+        body.dark-theme .pale-card small,
+        body.dark-theme .pale-card a {
+            color: #111827 !important;
         }
 
         body.dark-theme .border-gray-200,
@@ -653,7 +742,7 @@
     <section class="hero-section relative rounded-2xl p-6 sm:p-12 mb-6 sm:mb-12 text-white overflow-hidden min-h-[250px] sm:min-h-[400px] flex flex-col justify-center shadow-2xl"><img id="hero-image" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&amp;h=400&amp;fit=crop" alt="Hero background" class="absolute inset-0 w-full h-full object-cover" style="z-index: 0;" onerror="this.style.display='none';">
      <div class="relative z-10">
       <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 drop-shadow-lg" id="hero-title">Discover Premium Beats</h2>
-      <p class="text-sm sm:text-lg lg:text-xl mb-4 sm:mb-8 opacity-95 drop-shadow" id="hero-subtitle">High-quality instrumentals for your next hit</p><button onclick="showPage('tracks')" class="btn-primary text-white px-5 sm:px-8 py-2.5 sm:py-4 rounded-xl font-semibold shadow-lg text-sm sm:text-base"> <i class="fas fa-headphones mr-2"></i>Browse All Tracks </button>
+      <p class="text-sm sm:text-lg lg:text-xl mb-4 sm:mb-8 opacity-95 drop-shadow" id="hero-subtitle">High-quality instrumentals for your next hit</p>
      </div>
     </section><!-- Genre Filter -->
     <div class="mb-6 sm:mb-8">
@@ -662,11 +751,6 @@
      </div>
     </div><!-- Beats List -->
     <div id="beats-container"></div>
-    <div class="mt-6 text-center">
-      <button onclick="showPage('tracks')" class="inline-flex items-center justify-center rounded-full bg-blue-600 text-white px-6 py-3 text-sm sm:text-base font-semibold shadow-lg hover:bg-blue-700 transition-colors">
-        View more tracks
-      </button>
-    </div>
    </div><!-- Tracks Page -->
    <div id="tracks-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">All Tracks</h2>
@@ -818,7 +902,7 @@
       </div>
      </div>
     </div><!-- Service Features -->
-    <div class="mt-8 sm:mt-12 bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-6 sm:p-8 shadow-inner">
+    <div class="mt-8 sm:mt-12 bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-6 sm:p-8 shadow-inner pale-card">
      <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Why Choose Our Services?</h3>
      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
       <div class="text-center">
@@ -855,26 +939,26 @@
       </div>
      </div>
      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-sm">
+      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-sm about-card">
        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-music text-white text-lg sm:text-2xl"></i>
        </div>
        <h4 class="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">Premium Quality</h4>
        <p class="text-xs sm:text-sm text-gray-600">All beats are professionally mixed and mastered to industry standards</p>
       </div>
-      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-sm">
+      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-sm about-card">
        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-globe-africa text-white text-lg sm:text-2xl"></i>
        </div>
        <h4 class="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">Authentic Sounds</h4>
        <p class="text-xs sm:text-sm text-gray-600">Specializing in Afrobeat and Amapiano with authentic African influences</p>
       </div>
-      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-sm">
+      <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-sm about-card">
        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-md"><i class="fas fa-handshake text-white text-lg sm:text-2xl"></i>
        </div>
        <h4 class="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">Artist Support</h4>
        <p class="text-xs sm:text-sm text-gray-600">Dedicated support to help artists succeed with their projects</p>
       </div>
      </div>
-     <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-4 sm:p-6 shadow-inner">
+     <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-4 sm:p-6 shadow-inner about-card">
       <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">License Information</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
        <div>
@@ -4262,7 +4346,7 @@ showTrackPlayer(beatId);
         function filterByGenre(genre, button) {
             currentGenreFilter = genre;
             const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
-            renderBeats('beats-container', filtered, 0, 12);
+            renderBeats('beats-container', filtered, 'list');
             
             document.querySelectorAll('.genre-btn').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
@@ -4322,7 +4406,7 @@ showTrackPlayer(beatId);
                 if (currentQuery) {
                     handleGlobalSearch({ target: { value: currentQuery } });
                 } else {
-                    renderBeats('beats-container', beats, 0, 12);
+                    renderBeats('beats-container', beats, 'list');
                 }
             } else if (targetPage === 'tracks') {
                 document.getElementById('tracks-page').style.display = 'block';
@@ -4410,7 +4494,7 @@ showTrackPlayer(beatId);
             if (query.length === 0 && tempo.length === 0 && key.length === 0 && genre === 'all') {
                 clearButton.style.display = 'none';
                 searchInfo.style.display = 'none';
-                renderBeats('beats-container', beats, 0, 12);
+                renderBeats('beats-container', beats, 'list');
                 return;
             }
 
@@ -4424,7 +4508,7 @@ showTrackPlayer(beatId);
                 searchInfo.className = 'text-center mt-2 text-xs sm:text-sm text-green-600 font-medium';
             }
 
-            renderBeats('beats-container', filtered, 0, 12);
+            renderBeats('beats-container', filtered, 'list');
             if (filtered.length > 0) {
                 scrollToBeatCard(filtered[0].id);
             }
@@ -4438,7 +4522,7 @@ showTrackPlayer(beatId);
             document.getElementById('clear-search').style.display = 'none';
             const searchInfo = document.getElementById('search-results-info');
             searchInfo.style.display = 'none';
-            renderBeats('beats-container', beats, 0, 12);
+            renderBeats('beats-container', beats, 'list');
         }
 
         let tracksPageBeats = [...beats];
@@ -4665,7 +4749,7 @@ showTrackPlayer(beatId);
                             <input type="text" id="customer-name" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="John Doe">
                         </div>
                         
-                        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 sm:mb-6">
+                        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 sm:mb-6 pale-card">
                             <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Order Summary</h4>
                             <div id="checkout-items" class="space-y-2 mb-3"></div>
                             <div class="border-t-2 pt-3 space-y-2">
@@ -4997,7 +5081,7 @@ showTrackPlayer(beatId);
         loadCartFromStorage();
         renderAuthButton();
         renderAccountView();
-        renderBeats('beats-container', beats, 0, 12);
+        renderBeats('beats-container', beats, 'list');
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b00703d63b5ed2b',t:'MTc2NjA3OTU1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

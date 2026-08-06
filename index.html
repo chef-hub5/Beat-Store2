@@ -327,6 +327,28 @@
         .track-row-player .text-gray-600 {
             color: #94a3b8;
         }
+        /* Mobile-friendly tweaks: larger touch targets and crisper visualizer */
+        @media (max-width: 640px) {
+            .track-player-button {
+                width: 60px;
+                height: 60px;
+                min-width: 60px;
+                border-radius: 50%;
+            }
+            .play-btn i {
+                font-size: 1.5rem;
+            }
+            .track-waveform {
+                height: 44px;
+                border-radius: 12px;
+            }
+            .audio-progress {
+                height: 10px;
+            }
+            .audio-progress-bar {
+                transition: width 0.08s linear;
+            }
+        }
         
         .cart-badge {
             position: absolute;
@@ -2963,7 +2985,7 @@
 .                     <div id="beat-${beatId}" class="${cardClasses}">
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div class="flex items-center gap-4 min-w-0">
-                                <button type="button" onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="track-player-button">
+                                <button type="button" aria-label="Play ${beat.title}" onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="track-player-button">
                                     <i class="fas fa-play text-lg" id="play-icon-${beatId}"></i>
                                 </button>
                                 <img src="${beat.image}" alt="${beat.title}" class="w-16 h-16 rounded-3xl object-cover shadow-lg border border-white/10" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
@@ -3020,7 +3042,7 @@
                         <div class="flex ${isGridView ? 'flex-col w-full' : 'items-start sm:items-center'} gap-3 sm:gap-4 flex-1 w-full">
                             <div class="relative flex-shrink-0 ${isGridView ? 'w-full' : ''}">
                                 <img src="${beat.image}" alt="${beat.title}" class="${isGridView ? 'w-full h-40' : 'w-20 h-20 sm:w-24 sm:h-24'} rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-                                <button type="button" onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
+                                <button type="button" aria-label="Play ${beat.title}" onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
                                     <i class="fas fa-play text-white text-2xl sm:text-3xl" id="play-icon-${beatId}"></i>
                                 </button>
                             </div>

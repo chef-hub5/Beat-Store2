@@ -25,11 +25,16 @@
         
         .play-btn {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            touch-action: manipulation;
         }
         
         .play-btn:hover {
             transform: scale(1.15);
             background-color: rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        .track-player-button {
+            touch-action: manipulation;
         }
         
         .license-option {
@@ -2958,7 +2963,7 @@
 .                     <div id="beat-${beatId}" class="${cardClasses}">
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div class="flex items-center gap-4 min-w-0">
-                                <button onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="track-player-button">
+                                <button type="button" onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="track-player-button">
                                     <i class="fas fa-play text-lg" id="play-icon-${beatId}"></i>
                                 </button>
                                 <img src="${beat.image}" alt="${beat.title}" class="w-16 h-16 rounded-3xl object-cover shadow-lg border border-white/10" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
@@ -3015,7 +3020,7 @@
                         <div class="flex ${isGridView ? 'flex-col w-full' : 'items-start sm:items-center'} gap-3 sm:gap-4 flex-1 w-full">
                             <div class="relative flex-shrink-0 ${isGridView ? 'w-full' : ''}">
                                 <img src="${beat.image}" alt="${beat.title}" class="${isGridView ? 'w-full h-40' : 'w-20 h-20 sm:w-24 sm:h-24'} rounded-xl object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-                                <button onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
+                                <button type="button" onclick="togglePlay(event, ${beatId}, '${escapedAudioUrl}')" class="play-btn absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl hover:bg-opacity-70">
                                     <i class="fas fa-play text-white text-2xl sm:text-3xl" id="play-icon-${beatId}"></i>
                                 </button>
                             </div>
@@ -3152,9 +3157,11 @@
                 }
                 document.removeEventListener('touchstart', unlock, true);
                 document.removeEventListener('pointerdown', unlock, true);
+                document.removeEventListener('click', unlock, true);
             };
             document.addEventListener('touchstart', unlock, true);
             document.addEventListener('pointerdown', unlock, true);
+            document.addEventListener('click', unlock, true);
         }
 
         function setupAudioVisualizer(beatId, audioElement) {
@@ -3195,22 +3202,33 @@
             if (!url) return [];
             const candidates = [];
             try {
-                candidates.push(url);
-                // space-escaped
-                candidates.push(url.replace(/ /g, '%20'));
-                // encode full URI
-                try { candidates.push(encodeURI(url)); } catch(e){}
-                // encode only path segments (best-effort)
-                try {
-                    const parts = url.split('/');
-                    for (let i = 0; i < parts.length; i++) parts[i] = encodeURIComponent(parts[i]);
-                    candidates.push(parts.join('/'));
-                } catch (e) {}
+                const encodedUri = encodeURI(url);
+                const spaceEscaped = url.replace(/ /g, '%20');
+                const pathSegmentEscaped = url.split('/').map(segment => encodeURIComponent(segment)).join('/');
+
+                candidates.push(encodedUri);
+                if (spaceEscaped !== encodedUri) candidates.push(spaceEscaped);
+                if (pathSegmentEscaped !== encodedUri && pathSegmentEscaped !== spaceEscaped) candidates.push(pathSegmentEscaped);
+                if (url !== encodedUri && url !== spaceEscaped && url !== pathSegmentEscaped) candidates.push(url);
             } catch (e) {
-                // ignore
+                candidates.push(url);
             }
-            // dedupe
             return candidates.filter((v, i, a) => v && a.indexOf(v) === i);
+        }
+
+        async function playAudioFromCandidates(audioElement, candidates) {
+            if (!audioElement || !Array.isArray(candidates) || !candidates.length) return false;
+            for (let i = 0; i < candidates.length; i += 1) {
+                try {
+                    audioElement.src = candidates[i];
+                    audioElement.load();
+                    await audioElement.play();
+                    return true;
+                } catch (err) {
+                    console.warn('Play attempt failed for candidate:', candidates[i], err);
+                }
+            }
+            return false;
         }
 
         function getBeatCardElement(beatId) {
@@ -3343,7 +3361,10 @@
             visualizerRaf = requestAnimationFrame(draw);
         }
 
-        function togglePlay(event, beatId, audioUrl) {
+        async function togglePlay(event, beatId, audioUrl) {
+            if (event?.preventDefault) event.preventDefault();
+            if (event?.stopPropagation) event.stopPropagation();
+
             const card = event?.currentTarget?.closest('.beat-card, .track-row') || getBeatCardElement(beatId);
             const playIcon = card?.querySelector(`#play-icon-${beatId}`) || document.getElementById(`play-icon-${beatId}`);
             const progressContainer = card?.querySelector(`#progress-${beatId}`) || document.getElementById(`progress-${beatId}`);
@@ -3355,11 +3376,9 @@
                 beatStats[beatId] = { plays: 0, muted: false };
             }
             const beatState = beatStats[beatId];
-            console.debug('togglePlay called', { beatId, audioUrl });
 
             // If this track is already active, toggle pause/play
             if (currentAudio && currentBeatId === beatId) {
-                // If currently starting, toggle pending pause
                 if (currentAudio._starting) {
                     currentAudio._pendingPause = !currentAudio._pendingPause;
                     return;
@@ -3367,53 +3386,42 @@
 
                 if (currentAudio.paused) {
                     try {
-                        if (audioContext && audioContext.state === 'suspended') audioContext.resume().catch(()=>{});
+                        if (audioContext && audioContext.state === 'suspended') await audioContext.resume();
                         showTrackPlayer(beatId);
-                        // show pause icon immediately and start a starting visualizer
-                        playIcon.classList.remove('fa-play');
-                        playIcon.classList.add('fa-pause');
+                        playIcon?.classList.remove('fa-play');
+                        playIcon?.classList.add('fa-pause');
                         const canvas = getBeatControl(beatId, `#waveform-${beatId}`);
                         renderStartingVisualizer(canvas);
 
-                        const p = currentAudio.play();
                         currentAudio._starting = true;
                         currentAudio._pendingPause = false;
-                        if (p && typeof p.then === 'function') {
-                            p.then(() => {
-                                currentAudio._starting = false;
-                                if (currentAudio._pendingPause) {
-                                    currentAudio.pause();
-                                    playIcon.classList.remove('fa-pause');
-                                    playIcon.classList.add('fa-play');
-                                    stopTrackVisualizer();
-                                } else {
-                                    startTrackVisualizer(beatId);
-                                }
-                            }).catch((err) => {
-                                currentAudio._starting = false;
-                                playIcon.classList.remove('fa-pause');
-                                playIcon.classList.add('fa-play');
-                                stopTrackVisualizer();
-                                console.warn('Play failed:', err);
-                            });
+                        await currentAudio.play();
+                        currentAudio._starting = false;
+                        if (currentAudio._pendingPause) {
+                            currentAudio.pause();
+                            playIcon?.classList.remove('fa-pause');
+                            playIcon?.classList.add('fa-play');
+                            stopTrackVisualizer();
                         } else {
-                            currentAudio._starting = false;
                             startTrackVisualizer(beatId);
                         }
-                    } catch (e) {
-                        console.warn('Play failed:', e);
+                    } catch (err) {
+                        currentAudio._starting = false;
+                        playIcon?.classList.remove('fa-pause');
+                        playIcon?.classList.add('fa-play');
+                        stopTrackVisualizer();
+                        console.warn('Resume play failed:', err);
                     }
                 } else {
                     currentAudio.pause();
-                    playIcon.classList.remove('fa-pause');
-                    playIcon.classList.add('fa-play');
+                    playIcon?.classList.remove('fa-pause');
+                    playIcon?.classList.add('fa-play');
                     hideTrackPlayer(beatId);
                     stopTrackVisualizer();
                 }
                 return;
             }
 
-            // Stop any other playing audio
             if (currentAudio) {
                 currentAudio.pause();
                 const oldIcon = getBeatControl(currentBeatId, `#play-icon-${currentBeatId}`) || document.getElementById(`play-icon-${currentBeatId}`);
@@ -3430,90 +3438,55 @@
                 stopTrackVisualizer();
             }
 
-            // Create audio element and attach visualizer immediately so resume/play happens in the user gesture
             currentAudio = new Audio();
             currentBeatId = beatId;
             currentAudio.crossOrigin = 'anonymous';
             currentAudio.volume = (volumeSlider ? volumeSlider.value : 50) / 100;
             currentAudio.muted = beatState.muted;
             updateMuteIcon(beatId, beatState.muted);
-showTrackPlayer(beatId);
             progressBar.style.width = '0%';
             setupAudioVisualizer(beatId, currentAudio);
 
-            // Assign src immediately and try to play synchronously (counts as user gesture on mobile)
-            try {
-                // try a few URL variants to handle spaces/special chars
-                const candidates = resolvePlayableUrls(audioUrl);
-                currentAudio.src = candidates[0] || audioUrl;
-                currentAudio.load();
-                if (audioContext && audioContext.state === 'suspended') audioContext.resume().catch(()=>{});
-                // show pause icon and starting visualizer immediately for instant feedback
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
-                const canvas = getBeatControl(beatId, `#waveform-${beatId}`);
-                renderStartingVisualizer(canvas);
+            const candidates = resolvePlayableUrls(audioUrl);
+            const canvas = getBeatControl(beatId, `#waveform-${beatId}`);
+            showTrackPlayer(beatId);
+            playIcon?.classList.remove('fa-play');
+            playIcon?.classList.add('fa-pause');
+            renderStartingVisualizer(canvas);
 
-                const playPromise = currentAudio.play();
-                currentAudio._starting = true;
-                currentAudio._pendingPause = false;
-                if (playPromise && typeof playPromise.then === 'function') {
-                    playPromise.then(() => {
-                        currentAudio._starting = false;
-                        if (currentAudio._pendingPause) {
-                            currentAudio.pause();
-                            playIcon.classList.remove('fa-pause');
-                            playIcon.classList.add('fa-play');
-                            stopTrackVisualizer();
-                        } else {
-                            startTrackVisualizer(beatId);
-                        }
-                    }).catch((err) => {
-                        // try alternate candidate URLs sequentially
-                        (async () => {
-                            let played = false;
-                            for (let i = 1; i < candidates.length; i++) {
-                                try {
-                                    currentAudio.src = candidates[i];
-                                    currentAudio.load();
-                                    await currentAudio.play();
-                                    played = true;
-                                    break;
-                                } catch (e) {
-                                    console.warn('Retry play candidate failed:', candidates[i], e);
-                                }
-                            }
-                            currentAudio._starting = false;
-                            if (played) {
-                                if (currentAudio._pendingPause) {
-                                    currentAudio.pause();
-                                    playIcon.classList.remove('fa-pause');
-                                    playIcon.classList.add('fa-play');
-                                    stopTrackVisualizer();
-                                } else {
-                                    startTrackVisualizer(beatId);
-                                }
-                            } else {
-                                playIcon.classList.remove('fa-pause');
-                                playIcon.classList.add('fa-play');
-                                stopTrackVisualizer();
-                                console.warn('Immediate play attempt failed for all candidates:', err);
-                            }
-                        })();
-                    });
-                } else {
-                    currentAudio._starting = false;
-                    startTrackVisualizer(beatId);
-                }
-            } catch (e) {
-                console.warn('Immediate play attempt failed:', e);
+            currentAudio._starting = true;
+            currentAudio._pendingPause = false;
+            let played = false;
+            try {
+                if (audioContext && audioContext.state === 'suspended') await audioContext.resume();
+                played = await playAudioFromCandidates(currentAudio, candidates);
+            } catch (err) {
+                console.warn('Initial playback failed:', err);
+            }
+            currentAudio._starting = false;
+
+            if (!played) {
+                playIcon?.classList.remove('fa-pause');
+                playIcon?.classList.add('fa-play');
+                hideTrackPlayer(beatId);
+                stopTrackVisualizer();
+                console.warn('Unable to play track with any candidate URL:', beatId, audioUrl);
+                return;
             }
 
-            // If audioUrl is remote (http/https), try protected fetch and swap the blob when ready.
+            if (currentAudio._pendingPause) {
+                currentAudio.pause();
+                playIcon?.classList.remove('fa-pause');
+                playIcon?.classList.add('fa-play');
+                stopTrackVisualizer();
+                return;
+            }
+
+            startTrackVisualizer(beatId);
+
             if (/^https?:\/\//i.test(audioUrl)) {
                 loadProtectedAudio(audioUrl)
                     .then(blobUrl => {
-                        // If fetch failed or returned null (CORS/network), skip swapping to blob
                         if (!blobUrl) return;
                         if (currentBeatId !== beatId) {
                             try { URL.revokeObjectURL(blobUrl); } catch(e){}
@@ -3526,7 +3499,6 @@ showTrackPlayer(beatId);
                             const curTime = currentAudio ? currentAudio.currentTime : 0;
                             currentAudio.src = blobUrl;
                             currentAudio.load();
-                            // try to keep at same playback position
                             currentAudio.currentTime = Math.min(curTime, currentAudio.duration || curTime);
                             if (wasPlaying) currentAudio.play().catch(()=>{});
                         } catch (err) {
@@ -3567,8 +3539,8 @@ showTrackPlayer(beatId);
                     updatePlaysCount(beatId);
                     saveBeatStatsToStorage();
                 }
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
+                playIcon?.classList.remove('fa-pause');
+                playIcon?.classList.add('fa-play');
                 progressBar.style.width = '0%';
                 currentTimeEl.textContent = '0:00';
                 progressContainer.style.display = 'none';

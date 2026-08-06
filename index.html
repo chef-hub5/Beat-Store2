@@ -3091,20 +3091,26 @@
 
         function renderIdleVisualizer(canvas, beatId) {
             if (!canvas) return;
+            const dpr = window.devicePixelRatio || 1;
+            const cssWidth = canvas.clientWidth || 320;
+            const cssHeight = canvas.clientHeight || 56;
+            // set backing store to DPR for crisp rendering on mobile
+            canvas.width = Math.max(1, Math.floor(cssWidth * dpr));
+            canvas.height = Math.max(1, Math.floor(cssHeight * dpr));
             const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
-            ctx.clearRect(0, 0, width, height);
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, cssWidth, cssHeight);
             ctx.fillStyle = 'rgba(15, 23, 42, 0.04)';
-            ctx.fillRect(0, 0, width, height);
+            ctx.fillRect(0, 0, cssWidth, cssHeight);
             ctx.strokeStyle = 'rgba(37, 99, 235, 0.22)';
             ctx.lineWidth = 1;
-            const barWidth = width / 32;
+            const barWidth = cssWidth / 32;
             for (let i = 0; i < 32; i += 1) {
                 const x = i * barWidth + 2;
                 const barHeight = 8 + ((i * 7) % 18);
                 ctx.beginPath();
-                ctx.roundRect(x, height / 2 - barHeight / 2, barWidth - 3, barHeight, 4);
+                ctx.roundRect(x, cssHeight / 2 - barHeight / 2, barWidth - 3, barHeight, 4);
                 ctx.fillStyle = 'rgba(96, 165, 250, 0.35)';
                 ctx.fill();
             }
@@ -3285,9 +3291,16 @@
             if (!canvas || !currentAudio || !analyser) return;
 
             activeVisualizerBeatId = beatId;
+            const dpr = window.devicePixelRatio || 1;
+            const cssWidth = canvas.clientWidth || canvas.width || 320;
+            const cssHeight = canvas.clientHeight || canvas.height || 56;
+            canvas.width = Math.max(1, Math.floor(cssWidth * dpr));
+            canvas.height = Math.max(1, Math.floor(cssHeight * dpr));
             const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            const width = cssWidth;
+            const height = cssHeight;
 
             const draw = () => {
                 if (!currentAudio || currentBeatId !== beatId || currentAudio.paused) {
@@ -3321,7 +3334,7 @@
                     ctx.fill();
                 }
 
-                visualizerRaf = requestAnimationFrame(draw);
+            visualizerRaf = requestAnimationFrame(draw);
             };
 
             visualizerRaf = requestAnimationFrame(draw);
@@ -3330,9 +3343,16 @@
         // Small animated placeholder while audio is buffering/starting
         function renderStartingVisualizer(canvas) {
             if (!canvas) return;
+            const dpr = window.devicePixelRatio || 1;
+            const cssWidth = canvas.clientWidth || 320;
+            const cssHeight = canvas.clientHeight || 56;
+            canvas.width = Math.max(1, Math.floor(cssWidth * dpr));
+            canvas.height = Math.max(1, Math.floor(cssHeight * dpr));
             const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            const width = cssWidth;
+            const height = cssHeight;
             let t = 0;
             const draw = () => {
                 t += 0.05;

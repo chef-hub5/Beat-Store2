@@ -30,14 +30,14 @@ function doGet(e) {
   }
 
   if (type === 'offer_pay' && params.token) {
-    return renderPayLinkPage_v2(params.token);
+    return redirectOfferCartFromToken(params.token);
   }
 
   return HtmlService.createHtmlOutput('Beat Store Apps Script is running.');
 }
 
 function getOfferLookup(params) {
-  const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -131,7 +131,7 @@ function renderOfferHtml(title, message, extraHtml) {
 }
 
 function handleOfferAction(params) {
-  const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
+  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -168,7 +168,11 @@ function handleOfferAction(params) {
     const payLinkToken = generateSecureToken(48);
     const payLinkUrl = frontendUrl
       ? `${frontendUrl}${frontendUrl.indexOf('?') >= 0 ? '&' : '?'}offer_token=${encodeURIComponent(payLinkToken)}`
-      : `${scriptUrl}?type=offer_pay&token=${encodeURIComponent(payLinkToken)}`;
+      : '';
+
+    if (!payLinkUrl) {
+      return renderOfferHtml('Offer accepted blocked', 'This seller accepted offer cannot continue because the website frontend URL is not configured.');
+    }
 
     offersSheet.getRange(rowIndex, statusIndex + 1).setValue('accepted');
     offersSheet.getRange(rowIndex, headers.indexOf('actionTaken') + 1).setValue('accept');
@@ -220,8 +224,35 @@ function handleOfferAction(params) {
   return renderOfferHtml('Invalid action', 'The requested action is not supported.');
 }
 
+function redirectOfferCartFromToken(token) {
+  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
+  const ss = SpreadsheetApp.openById(spreadsheetId);
+  const offersSheet = getOrCreateSheet(ss, 'Offers');
+  ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
+
+  const rowIndex = findRowIndexByColumnValue(offersSheet, 'payLinkToken', token);
+  if (rowIndex < 2) {
+    return renderOfferHtml('Offer checkout link not found', 'This offer cart link is invalid or has expired.');
+  }
+
+  const values = offersSheet.getRange(rowIndex, 1, 1, offersSheet.getLastColumn()).getValues()[0];
+  const headers = offersSheet.getDataRange().getValues()[0];
+  const status = (values[headers.indexOf('status')] || '').toString().toLowerCase();
+  if (status !== 'accepted') {
+    return renderOfferHtml('Offer checkout unavailable', 'This offer is not currently accepted.');
+  }
+
+  const payLinkUrl = (values[headers.indexOf('payLinkUrl')] || '').toString().trim();
+  if (!payLinkUrl) {
+    return renderOfferHtml('Offer cart not found', 'The accepted offer cart link is missing.');
+  }
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Offer checkout</title></head><body><p>Loading your cart...</p><script>window.location.replace(${JSON.stringify(payLinkUrl)});</script></body></html>`;
+  return HtmlService.createHtmlOutput(html).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
 function renderPayLinkPage(token) {
-  const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
+  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -252,7 +283,7 @@ function renderPayLinkPage(token) {
 }
 
 function renderPayLinkPage_v2(token) {
-  const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
+  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -849,7 +880,7 @@ function doPost(e) {
   try {
     Logger.log('doPost called with parameter object: %s', JSON.stringify(e && e.parameter ? e.parameter : {}));
     Logger.log('doPost raw body: %s', e && e.postData ? e.postData.contents : '(none)');
-    const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
+    const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
     const ss = SpreadsheetApp.openById(spreadsheetId);
     let params = e.parameter || {};
     if ((!params || Object.keys(params).length === 0) && e.postData && e.postData.contents) {

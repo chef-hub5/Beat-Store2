@@ -37,7 +37,7 @@ function doGet(e) {
 }
 
 function getOfferLookup(params) {
-  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
+  const spreadsheetId = '1JvJ8Je3Xb786tL1Ipf5QZkeK_4oyvOoHrSgfKCsSrtQ';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -131,7 +131,7 @@ function renderOfferHtml(title, message, extraHtml) {
 }
 
 function handleOfferAction(params) {
-  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
+  const spreadsheetId = '1JvJ8Je3Xb786tL1Ipf5QZkeK_4oyvOoHrSgfKCsSrtQ';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -161,16 +161,17 @@ function handleOfferAction(params) {
   const offerMessage = (values[headers.indexOf('offerMessage')] || '').toString();
   const itemId = (values[headers.indexOf('itemId')] || '').toString();
   const scriptUrl = getWebAppUrl({ scriptUrl: values[headers.indexOf('scriptUrl')] || '' });
-  const frontendUrl = (values[headers.indexOf('frontendUrl')] || '').toString().trim();
+  const fallbackFrontendUrl = (PropertiesService.getScriptProperties().getProperty('STORE_FRONTEND_URL') || '').toString().trim();
+  const frontendUrl = ((values[headers.indexOf('frontendUrl')] || '') || fallbackFrontendUrl || '').toString().trim();
   const actionTimestamp = new Date().toISOString();
 
   if (action === 'accept') {
     const payLinkToken = generateSecureToken(48);
     const payLinkUrl = frontendUrl
       ? `${frontendUrl}${frontendUrl.indexOf('?') >= 0 ? '&' : '?'}offer_token=${encodeURIComponent(payLinkToken)}`
-      : '';
+      : `${scriptUrl}?type=offer_pay&token=${encodeURIComponent(payLinkToken)}`;
 
-    if (!payLinkUrl) {
+    if (!frontendUrl && !scriptUrl) {
       return renderOfferHtml('Offer accepted blocked', 'This seller accepted offer cannot continue because the website frontend URL is not configured.');
     }
 
@@ -225,7 +226,7 @@ function handleOfferAction(params) {
 }
 
 function redirectOfferCartFromToken(token) {
-  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
+  const spreadsheetId = '1JvJ8Je3Xb786tL1Ipf5QZkeK_4oyvOoHrSgfKCsSrtQ';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -252,7 +253,7 @@ function redirectOfferCartFromToken(token) {
 }
 
 function renderPayLinkPage(token) {
-  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
+  const spreadsheetId = '1JvJ8Je3Xb786tL1Ipf5QZkeK_4oyvOoHrSgfKCsSrtQ';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -283,7 +284,7 @@ function renderPayLinkPage(token) {
 }
 
 function renderPayLinkPage_v2(token) {
-  const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
+  const spreadsheetId = '1JvJ8Je3Xb786tL1Ipf5QZkeK_4oyvOoHrSgfKCsSrtQ';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -429,6 +430,38 @@ function getOrCreateSheet(ss, sheetName) {
 function ensureHeaders(sheet, headers) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(headers);
+    return;
+  }
+
+  const existingHeaders = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0] || [];
+  const normalizedExisting = existingHeaders.map(function (value) {
+    return (value || '').toString().trim();
+  });
+
+  for (let i = 0; i < headers.length; i += 1) {
+    const desiredHeader = headers[i];
+    if (normalizedExisting.indexOf(desiredHeader) >= 0) {
+      continue;
+    }
+
+    const priorDesiredHeaders = headers.slice(0, i).filter(function (candidate) {
+      return normalizedExisting.indexOf(candidate) >= 0;
+    });
+
+    let insertAfterColumn = 0;
+    if (priorDesiredHeaders.length > 0) {
+      const latestPrior = priorDesiredHeaders[priorDesiredHeaders.length - 1];
+      const priorIndex = normalizedExisting.indexOf(latestPrior);
+      if (priorIndex >= 0) {
+        insertAfterColumn = priorIndex + 1;
+      }
+    }
+
+    sheet.insertColumnAfter(insertAfterColumn);
+    const targetColumn = insertAfterColumn + 1;
+    sheet.getRange(1, targetColumn).setValue(desiredHeader);
+
+    normalizedExisting.splice(targetColumn - 1, 0, desiredHeader);
   }
 }
 
@@ -880,7 +913,7 @@ function doPost(e) {
   try {
     Logger.log('doPost called with parameter object: %s', JSON.stringify(e && e.parameter ? e.parameter : {}));
     Logger.log('doPost raw body: %s', e && e.postData ? e.postData.contents : '(none)');
-    const spreadsheetId = '10E8267svadeKv1dKbrGJRmVvqIpKZSL2zKf85QtSunY';
+    const spreadsheetId = '1JvJ8Je3Xb786tL1Ipf5QZkeK_4oyvOoHrSgfKCsSrtQ';
     const ss = SpreadsheetApp.openById(spreadsheetId);
     let params = e.parameter || {};
     if ((!params || Object.keys(params).length === 0) && e.postData && e.postData.contents) {
@@ -898,6 +931,13 @@ function doPost(e) {
     Logger.log('doPost final params: %s', JSON.stringify(params));
     const type = (params.type || 'payment').toString().toLowerCase();
     const timestamp = params.timestamp || new Date().toISOString();
+
+  if (type === 'exclusive_offer') {
+    const incomingFrontend = (params.frontendUrl || params.frontend_url || '').toString().trim();
+    if (incomingFrontend) {
+      PropertiesService.getScriptProperties().setProperty('STORE_FRONTEND_URL', incomingFrontend);
+    }
+  }
 
   let sheetName = 'Store Responses';
   let headers = [
@@ -927,7 +967,7 @@ function doPost(e) {
     headers = ['timestamp', 'type', 'name', 'email', 'message', 'phone'];
   } else if (type === 'exclusive_offer') {
     sheetName = 'Offers';
-    headers = ['timestamp', 'type', 'name', 'email', 'customerEmail', 'adminEmail', 'scriptUrl', 'itemId', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl'];
+    headers = ['timestamp', 'type', 'name', 'email', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'itemId', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl'];
   } else {
     sheetName = 'Payments';
     headers = ['timestamp', 'type', 'name', 'email', 'paymentReference', 'amount', 'currency', 'status', 'orderItems', 'orderSummary', 'downloadLinks', 'rawResponse'];

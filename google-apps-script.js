@@ -5,8 +5,386 @@
 // 4) Copy the Web App URL into the site config as google_apps_script_url
 // 5) Replace PASTE_YOUR_SPREADSHEET_ID_HERE with your Google Sheet ID
 
+const DEFAULT_ADMIN_EMAIL = 'debeatjay@gmail.com';
+
+function createCorsJsonOutput(payload) {
+  const output = ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
+  if (typeof output.setHeader === 'function') {
+    output.setHeader('Access-Control-Allow-Origin', '*');
+    output.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    output.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  }
+  return output;
+}
+
 function doGet(e) {
+  const params = e.parameter || {};
+  const type = (params.type || '').toString().toLowerCase();
+
+  if (type === 'offer_action' && params.token && params.action) {
+    return handleOfferAction(params);
+  }
+
+  if (type === 'offer_lookup' && params.token) {
+    return getOfferLookup(params);
+  }
+
+  if (type === 'offer_pay' && params.token) {
+    return renderPayLinkPage_v2(params.token);
+  }
+
   return HtmlService.createHtmlOutput('Beat Store Apps Script is running.');
+}
+
+function getOfferLookup(params) {
+  const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+  const ss = SpreadsheetApp.openById(spreadsheetId);
+  const offersSheet = getOrCreateSheet(ss, 'Offers');
+  ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
+
+  const token = (params.token || params.offer_token || '').toString().trim();
+  const rowIndex = findRowIndexByColumnValue(offersSheet, 'payLinkToken', token);
+  if (rowIndex < 2) {
+    return createCorsJsonOutput({ ok: false, message: 'Offer link not found' });
+  }
+
+  const values = offersSheet.getRange(rowIndex, 1, 1, offersSheet.getLastColumn()).getValues()[0];
+  const headers = offersSheet.getDataRange().getValues()[0];
+  const status = (values[headers.indexOf('status')] || '').toString().toLowerCase();
+
+  if (status !== 'accepted') {
+    return createCorsJsonOutput({ ok: false, message: 'Offer is not accepted yet', status: status || 'unknown' });
+  }
+
+  return createCorsJsonOutput({
+    ok: true,
+    offer: {
+      token: token,
+      beatTitle: values[headers.indexOf('beatTitle')] || '',
+      itemId: values[headers.indexOf('itemId')] || '',
+      offerPrice: values[headers.indexOf('offerPrice')] || '',
+      customerEmail: values[headers.indexOf('customerEmail')] || values[headers.indexOf('email')] || '',
+      adminEmail: values[headers.indexOf('adminEmail')] || '',
+      frontendUrl: values[headers.indexOf('frontendUrl')] || '',
+      payLinkUrl: values[headers.indexOf('payLinkUrl')] || '',
+      checkoutUrl: values[headers.indexOf('payLinkUrl')] || '',
+      cartResumeUrl: values[headers.indexOf('payLinkUrl')] || ''
+    }
+  });
+}
+
+function getWebAppUrl(params) {
+  const scriptUrl = ((params && (params.scriptUrl || params.google_apps_script_url || params.googleAppsScriptUrl)) || '').toString().trim();
+  if (scriptUrl) {
+    return scriptUrl;
+  }
+
+  try {
+    const service = ScriptApp.getService();
+    if (service && typeof service.getUrl === 'function') {
+      const currentUrl = service.getUrl();
+      if (currentUrl) {
+        return currentUrl.toString().trim();
+      }
+    }
+  } catch (e) {
+    // Fall through if service URL is unavailable
+  }
+
+  return '';
+}
+
+function generateSecureToken(length) {
+  length = parseInt(length, 10) || 40;
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const seed = Utilities.getUuid() + Date.now().toString() + Math.random().toString();
+  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, seed);
+  let token = '';
+  for (let i = 0; i < length; i++) {
+    token += alphabet[(digest[i % digest.length] + 256) % alphabet.length];
+  }
+  return token;
+}
+
+function findRowIndexByColumnValue(sheet, columnName, value) {
+  const values = sheet.getDataRange().getValues();
+  if (!values || values.length === 0) {
+    return -1;
+  }
+  const headers = values[0] || [];
+  const columnIndex = headers.indexOf(columnName);
+  if (columnIndex < 0) {
+    return -1;
+  }
+  for (let row = 1; row < values.length; row++) {
+    if ((values[row][columnIndex] || '').toString() === value.toString()) {
+      return row + 1;
+    }
+  }
+  return -1;
+}
+
+function renderOfferHtml(title, message, extraHtml) {
+  return HtmlService.createHtmlOutput(
+    `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title><style>body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#111;margin:0;padding:40px;} .container{max-width:640px;margin:0 auto;background:#fff;padding:32px;border-radius:16px;box-shadow:0 18px 50px rgba(15,23,42,0.12);} h1{font-size:24px;margin-bottom:16px;} p{line-height:1.7;color:#333;} a{color:#2563eb;text-decoration:none;}</style></head><body><div class="container"><h1>${title}</h1><p>${message}</p>${extraHtml || ''}</div></body></html>`
+  );
+}
+
+function handleOfferAction(params) {
+  const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+  const ss = SpreadsheetApp.openById(spreadsheetId);
+  const offersSheet = getOrCreateSheet(ss, 'Offers');
+  ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
+
+  const token = (params.token || '').toString().trim();
+  const action = (params.action || '').toString().toLowerCase();
+  const rowIndex = findRowIndexByColumnValue(offersSheet, 'actionToken', token);
+  if (rowIndex < 2) {
+    return renderOfferHtml('Offer action not found', 'This action link is invalid or has expired.');
+  }
+
+  const values = offersSheet.getRange(rowIndex, 1, 1, offersSheet.getLastColumn()).getValues()[0];
+  const headers = offersSheet.getDataRange().getValues()[0];
+  const statusIndex = headers.indexOf('status');
+  const currentStatus = (values[statusIndex] || '').toString().toLowerCase() || 'pending';
+  if (currentStatus !== 'pending') {
+    return renderOfferHtml('Offer already processed', `This offer has already been ${currentStatus}.`);
+  }
+
+  const customerEmail = (values[headers.indexOf('customerEmail')] || values[headers.indexOf('email')] || '').toString().trim();
+  const adminEmail = (values[headers.indexOf('adminEmail')] || '').toString().trim();
+  const beatTitle = (values[headers.indexOf('beatTitle')] || '').toString();
+  const beatGenre = (values[headers.indexOf('beatGenre')] || '').toString();
+  const beatBpm = (values[headers.indexOf('beatBpm')] || '').toString();
+  const beatKey = (values[headers.indexOf('beatKey')] || '').toString();
+  const offerPrice = (values[headers.indexOf('offerPrice')] || '').toString();
+  const offerMessage = (values[headers.indexOf('offerMessage')] || '').toString();
+  const itemId = (values[headers.indexOf('itemId')] || '').toString();
+  const scriptUrl = getWebAppUrl({ scriptUrl: values[headers.indexOf('scriptUrl')] || '' });
+  const frontendUrl = (values[headers.indexOf('frontendUrl')] || '').toString().trim();
+  const actionTimestamp = new Date().toISOString();
+
+  if (action === 'accept') {
+    const payLinkToken = generateSecureToken(48);
+    const payLinkUrl = frontendUrl
+      ? `${frontendUrl}${frontendUrl.indexOf('?') >= 0 ? '&' : '?'}offer_token=${encodeURIComponent(payLinkToken)}`
+      : `${scriptUrl}?type=offer_pay&token=${encodeURIComponent(payLinkToken)}`;
+
+    offersSheet.getRange(rowIndex, statusIndex + 1).setValue('accepted');
+    offersSheet.getRange(rowIndex, headers.indexOf('actionTaken') + 1).setValue('accept');
+    offersSheet.getRange(rowIndex, headers.indexOf('actionTimestamp') + 1).setValue(actionTimestamp);
+    offersSheet.getRange(rowIndex, headers.indexOf('payLinkToken') + 1).setValue(payLinkToken);
+    offersSheet.getRange(rowIndex, headers.indexOf('payLinkUrl') + 1).setValue(payLinkUrl);
+
+    if (customerEmail) {
+      const body = [`<p>Hi there,</p>`, `<p>Great news! Your offer for <strong>${escapeHtml(beatTitle)}</strong> has been accepted by the seller.</p>`, `<p><strong>Accepted offer amount:</strong> ₦${escapeHtml(offerPrice)}</p>`, `<p>Use the cart link below to continue your purchase on the website with the newly agreed amount.</p>`, `<p><a href="${payLinkUrl}" target="_blank" style="background:#2563eb;color:#fff;padding:12px 18px;border-radius:8px;display:inline-block;text-decoration:none;">Open cart and continue purchase</a></p>`, `<p>This is your unique offer checkout link. It loads the beat in the website cart and continues the normal license checkout flow.</p>`, `<p>If you did not make this offer, please reply to this email immediately.</p>`].join('');
+      sendNotificationEmail({
+        to: customerEmail,
+        replyTo: adminEmail || 'debeatjay@gmail.com',
+        subject: 'Your offer has been accepted — continue cart checkout',
+        htmlBody: body
+      });
+    }
+
+    if (adminEmail) {
+      const body = [`<p>Hi,</p>`, `<p>The offer from <strong>${escapeHtml(customerEmail)}</strong> for <strong>${escapeHtml(beatTitle)}</strong> has been accepted.</p>`, `<p><strong>Offer price:</strong> ₦${escapeHtml(offerPrice)}</p>`, `<p><strong>Item ID:</strong> ${escapeHtml(itemId)}</p>`, `<p>The paylink has been generated and sent to the customer.</p>`].join('');
+      sendNotificationEmail({
+        to: adminEmail,
+        replyTo: customerEmail || '',
+        subject: `Offer accepted for ${beatTitle}`,
+        htmlBody: body
+      });
+    }
+
+    return renderOfferHtml('Offer accepted', `The offer has been accepted and a secure payment link has been sent to ${escapeHtml(customerEmail)}.`, `<p><strong>Paylink URL:</strong> <a href="${payLinkUrl}" target="_blank">${payLinkUrl}</a></p>`);
+  }
+
+  if (action === 'decline') {
+    offersSheet.getRange(rowIndex, statusIndex + 1).setValue('declined');
+    offersSheet.getRange(rowIndex, headers.indexOf('actionTaken') + 1).setValue('decline');
+    offersSheet.getRange(rowIndex, headers.indexOf('actionTimestamp') + 1).setValue(actionTimestamp);
+
+    if (customerEmail) {
+      const body = [`<p>Hi there,</p>`, `<p>We wanted to let you know that your offer for <strong>${escapeHtml(beatTitle)}</strong> was declined.</p>`, `<p>Your offer amount was: ₦${escapeHtml(offerPrice)}</p>`, `<p>Please feel free to submit a new offer or select another beat.</p>`].join('');
+      sendNotificationEmail({
+        to: customerEmail,
+        replyTo: adminEmail || 'debeatjay@gmail.com',
+        subject: 'Your offer was declined',
+        htmlBody: body
+      });
+    }
+
+    return renderOfferHtml('Offer declined', `The offer has been declined and the customer has been notified.`);
+  }
+
+  return renderOfferHtml('Invalid action', 'The requested action is not supported.');
+}
+
+function renderPayLinkPage(token) {
+  const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+  const ss = SpreadsheetApp.openById(spreadsheetId);
+  const offersSheet = getOrCreateSheet(ss, 'Offers');
+  ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
+
+  const rowIndex = findRowIndexByColumnValue(offersSheet, 'payLinkToken', token);
+  if (rowIndex < 2) {
+    return renderOfferHtml('Paylink not found', 'This payment link is invalid or has already been used.');
+  }
+
+  const values = offersSheet.getRange(rowIndex, 1, 1, offersSheet.getLastColumn()).getValues()[0];
+  const headers = offersSheet.getDataRange().getValues()[0];
+  const status = (values[headers.indexOf('status')] || '').toString().toLowerCase();
+  if (status !== 'accepted') {
+    return renderOfferHtml('Payment link unavailable', 'This payment link is not active because the offer is not currently accepted.');
+  }
+
+  const beatTitle = (values[headers.indexOf('beatTitle')] || '').toString();
+  const offerPrice = (values[headers.indexOf('offerPrice')] || '').toString();
+  const itemId = (values[headers.indexOf('itemId')] || '').toString();
+  const customerEmail = (values[headers.indexOf('customerEmail')] || values[headers.indexOf('email')] || '').toString();
+  const adminEmail = (values[headers.indexOf('adminEmail')] || DEFAULT_ADMIN_EMAIL).toString().trim();
+  const amountInKobo = Math.round((parseFloat(offerPrice) || 0) * 100);
+  const paystackPublicKey = 'pk_live_eb5ee595e010a93de485f92afa7d461a179b489b';
+
+  const pageHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Secure payment link</title><style>body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#111;margin:0;padding:24px;} .container{max-width:720px;margin:0 auto;background:#fff;padding:28px;border-radius:18px;box-shadow:0 18px 50px rgba(15,23,42,0.12);} h1{font-size:24px;margin-bottom:16px;} p{line-height:1.75;color:#333;} .details{margin:20px 0;padding:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;} .button{background:#2563eb;color:#fff;padding:14px 20px;border:none;border-radius:12px;font-size:16px;cursor:pointer;text-decoration:none;} .button:disabled{opacity:.65;cursor:not-allowed;} .note{margin-top:18px;color:#475569;font-size:14px;}</style></head><body><div class="container"><h1>Secure payment</h1><p>Hi ${escapeHtml(customerEmail || 'Customer')},</p><p>Your secure payment link for <strong>${escapeHtml(beatTitle)}</strong> is ready.</p><div class="details"><p><strong>Item ID:</strong> ${escapeHtml(itemId)}</p><p><strong>Accepted offer price:</strong> ₦${escapeHtml(offerPrice)}</p><p><strong>Email:</strong> ${escapeHtml(customerEmail)}</p></div><button id="pay-button" class="button">Open secure payment page</button><p id="status-message" class="note">The Paystack checkout should open in a new window or inline modal. If it does not, try using a browser instead of an email viewer.</p></div><script src="https://js.paystack.co/v1/inline.js"></script><script>const payButton=document.getElementById('pay-button');const statusMessage=document.getElementById('status-message');const apiUrl=window.location.origin+window.location.pathname;payButton.addEventListener('click',function(){if(!window.PaystackPop){alert('Unable to load payment widget. Please try again later.');return;}payButton.disabled=true;payButton.textContent='Opening payment...';const handler=PaystackPop.setup({key:'${paystackPublicKey}',email:${JSON.stringify(customerEmail)},amount:${amountInKobo},currency:'NGN',ref:'offer_'+Math.floor(Math.random()*1e12),metadata:{custom_fields:[{display_name:'Offer Token',variable_name:'offer_token',value:${JSON.stringify(token)}},{display_name:'Item ID',variable_name:'item_id',value:${JSON.stringify(itemId)}}]},callback:function(response){statusMessage.textContent='Payment completed. Sending confirmation email...';fetch(apiUrl,{method:'POST',mode:'cors',credentials:'same-origin',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({type:'payment',name:${JSON.stringify(customerEmail)},email:${JSON.stringify(customerEmail)},customerEmail:${JSON.stringify(customerEmail)},adminEmail:${JSON.stringify(adminEmail)},paymentReference:response.reference,amount:${JSON.stringify(offerPrice)},currency:'NGN',status:'success',orderItems:JSON.stringify([{beat:${JSON.stringify(beatTitle)},license:'Accepted offer',price:${JSON.stringify(offerPrice)},allowedFiles:[],downloadLinks:{}}]),orderSummary:JSON.stringify({items:[{beat:${JSON.stringify(beatTitle)},license:'Accepted offer',price:${JSON.stringify(offerPrice)}}],total:${JSON.stringify(offerPrice)}}),downloadLinks:JSON.stringify([{beat:${JSON.stringify(beatTitle)},license:'Accepted offer',allowedFiles:[],downloadLinks:{}}]),rawResponse:JSON.stringify(response),timestamp:new Date().toISOString()}),cache:'no-store',redirect:'follow'}).then(function(r){return r.text().then(function(text){if(r.ok){statusMessage.textContent='Payment confirmed. Server accepted the payment and sent the email.';}else{statusMessage.textContent='Payment confirmed, but server failed to send the email: '+text;}});}).catch(function(err){statusMessage.textContent='Payment confirmed, but could not notify the server: '+err.message;});payButton.disabled=false;payButton.textContent='Open secure payment page';},onClose:function(){payButton.disabled=false;payButton.textContent='Open secure payment page';statusMessage.textContent='Payment was cancelled. Please try again.';}});handler.openIframe();});</script></body></html>`;
+
+  return HtmlService.createHtmlOutput(pageHtml).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function renderPayLinkPage_v2(token) {
+  const spreadsheetId = '1dqPbEa5a_mHG0akGgecSFg445c6pU1VOlkk47k_ITTg';
+  const ss = SpreadsheetApp.openById(spreadsheetId);
+  const offersSheet = getOrCreateSheet(ss, 'Offers');
+  ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
+
+  const rowIndex = findRowIndexByColumnValue(offersSheet, 'payLinkToken', token);
+  if (rowIndex < 2) {
+    return renderOfferHtml('Paylink not found', 'This payment link is invalid or has already been used.');
+  }
+
+  const values = offersSheet.getRange(rowIndex, 1, 1, offersSheet.getLastColumn()).getValues()[0];
+  const headers = offersSheet.getDataRange().getValues()[0];
+  const status = (values[headers.indexOf('status')] || '').toString().toLowerCase();
+  if (status !== 'accepted') {
+    return renderOfferHtml('Payment link unavailable', 'This payment link is not active because the offer is not currently accepted.');
+  }
+
+  const beatTitle = (values[headers.indexOf('beatTitle')] || '').toString();
+  const offerPrice = (values[headers.indexOf('offerPrice')] || '').toString();
+  const itemId = (values[headers.indexOf('itemId')] || '').toString();
+  const customerEmail = (values[headers.indexOf('customerEmail')] || values[headers.indexOf('email')] || '').toString();
+  const adminEmail = (values[headers.indexOf('adminEmail')] || DEFAULT_ADMIN_EMAIL).toString().trim();
+  const amountInKobo = Math.round((parseFloat(offerPrice) || 0) * 100);
+  const paystackPublicKey = 'pk_live_eb5ee595e010a93de485f92afa7d461a179b489b';
+
+  // Build HTML in lines to avoid long single-line template issues
+  const pageLines = [];
+  pageLines.push('<!DOCTYPE html>');
+  pageLines.push('<html>');
+  pageLines.push('<head>');
+  pageLines.push('<meta charset="utf-8">');
+  pageLines.push('<meta name="viewport" content="width=device-width,initial-scale=1">');
+  pageLines.push('<title>Secure payment link</title>');
+  pageLines.push('<style>body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#111;margin:0;padding:24px;} .container{max-width:720px;margin:0 auto;background:#fff;padding:28px;border-radius:18px;box-shadow:0 18px 50px rgba(15,23,42,0.12);} h1{font-size:24px;margin-bottom:16px;} p{line-height:1.75;color:#333;} .details{margin:20px 0;padding:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;} .button{background:#2563eb;color:#fff;padding:14px 20px;border:none;border-radius:12px;font-size:16px;cursor:pointer;text-decoration:none;} .note{margin-top:18px;color:#475569;font-size:14px;}</style>');
+  pageLines.push('</head>');
+  pageLines.push('<body>');
+  pageLines.push('<div class="container">');
+  pageLines.push('<h1>Secure payment</h1>');
+  pageLines.push('<p>Hi ' + escapeHtml(customerEmail || 'Customer') + ',</p>');
+  pageLines.push('<p>Your secure payment link for <strong>' + escapeHtml(beatTitle) + '</strong> is ready.</p>');
+  pageLines.push('<div class="details">');
+  pageLines.push('<p><strong>Item ID:</strong> ' + escapeHtml(itemId) + '</p>');
+  pageLines.push('<p><strong>Accepted offer price:</strong> ₦' + escapeHtml(offerPrice) + '</p>');
+  pageLines.push('<p><strong>Email:</strong> ' + escapeHtml(customerEmail) + '</p>');
+  pageLines.push('</div>');
+  pageLines.push('<button id="pay-button" class="button">Open secure payment page</button>');
+  pageLines.push('<p id="status-message" class="note">The Paystack checkout should open in a new window or inline modal. If it does not, try using a browser instead of an email viewer.</p>');
+  pageLines.push('</div>');
+  pageLines.push('<script src="https://js.paystack.co/v1/inline.js"></script>');
+
+  // Client JS: opens Paystack and POSTS a form-encoded `type=payment` payload back to Apps Script
+  pageLines.push('<script>');
+  pageLines.push('(function(){');
+  pageLines.push('  const payButton = document.getElementById("pay-button");');
+  pageLines.push('  const statusMessage = document.getElementById("status-message");');
+  pageLines.push('  const apiUrl = window.location.origin + window.location.pathname;');
+  pageLines.push('  function serializeFormParams(params) {');
+  pageLines.push('    return Object.keys(params).map(function(key) { return encodeURIComponent(key) + "=" + encodeURIComponent(params[key] || ""); }).join("&");');
+  pageLines.push('  }');
+  pageLines.push('  function submitFallbackForm(url, params) {');
+  pageLines.push('    const form = document.createElement("form");');
+  pageLines.push('    form.method = "POST";');
+  pageLines.push('    form.action = url;');
+  pageLines.push('    form.target = "_blank";');
+  pageLines.push('    form.style.display = "none";');
+  pageLines.push('    Object.keys(params).forEach(function(key) {');
+  pageLines.push('      const input = document.createElement("input");');
+  pageLines.push('      input.type = "hidden";');
+  pageLines.push('      input.name = key;');
+  pageLines.push('      input.value = params[key] || "";');
+  pageLines.push('      form.appendChild(input);');
+  pageLines.push('    });');
+  pageLines.push('    document.body.appendChild(form);');
+  pageLines.push('    form.submit();');
+  pageLines.push('  }');
+  pageLines.push('  function sendPaymentToServer(payload) {');
+  pageLines.push('    const body = serializeFormParams(payload);');
+  pageLines.push('    return fetch(apiUrl, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body, cache: "no-store" })');
+  pageLines.push('      .then(function(res) { return res.text().then(function(text) { if (!res.ok) { throw new Error("HTTP " + res.status + " " + res.statusText + " — " + text); } try { return JSON.parse(text); } catch (parseError) { throw new Error("Invalid JSON response: " + text); } }); })');
+  pageLines.push('      .catch(function(err) {');
+  pageLines.push('        console.warn("Payment sync failed, using form fallback", err);');
+  pageLines.push('        submitFallbackForm(apiUrl, payload);');
+  pageLines.push('        throw err;');
+  pageLines.push('      });');
+  pageLines.push('  }');
+  pageLines.push('  payButton.addEventListener("click", function(){');
+  pageLines.push('    if(!window.PaystackPop){ alert("Unable to load payment widget. Please try again later."); return; }');
+  pageLines.push('    payButton.disabled = true; payButton.textContent = "Opening payment...";');
+  pageLines.push('    const handler = PaystackPop.setup({');
+  pageLines.push('      key: ' + JSON.stringify(paystackPublicKey) + ',');
+  pageLines.push('      email: ' + JSON.stringify(customerEmail) + ',');
+  pageLines.push('      amount: ' + amountInKobo + ',');
+  pageLines.push('      currency: "NGN",');
+  pageLines.push('      metadata: { custom_fields: [' + '{display_name:"Offer Token",variable_name:"offer_token",value:' + JSON.stringify(token) + '},' + '{display_name:"Item ID",variable_name:"item_id",value:' + JSON.stringify(itemId) + '}' + '] },');
+  pageLines.push('      callback: function(response){');
+  pageLines.push('        statusMessage.textContent = "Payment completed. Sending confirmation email...";');
+  pageLines.push('        try {');
+  pageLines.push('          const payload = {');
+  pageLines.push('            type: "payment",');
+  pageLines.push('            name: ' + JSON.stringify('Customer') + ',');
+  pageLines.push('            email: ' + JSON.stringify(customerEmail) + ',');
+  pageLines.push('            customerEmail: ' + JSON.stringify(customerEmail) + ',');
+  pageLines.push('            adminEmail: ' + JSON.stringify(adminEmail) + ',');
+  pageLines.push('            paymentReference: response.reference || "",');
+  pageLines.push('            amount: ' + JSON.stringify(offerPrice) + ',');
+  pageLines.push('            currency: "NGN",');
+  pageLines.push('            status: "success",');
+  pageLines.push('            orderItems: JSON.stringify([{ beat: ' + JSON.stringify(beatTitle) + ', license: "Accepted offer", price: ' + JSON.stringify(offerPrice) + ', itemId: ' + JSON.stringify(itemId) + ' }]),');
+  pageLines.push('            orderSummary: JSON.stringify({ items: [{ beat: ' + JSON.stringify(beatTitle) + ', price: ' + JSON.stringify(offerPrice) + ' }], total: ' + JSON.stringify(offerPrice) + ' }),');
+  pageLines.push('            downloadLinks: JSON.stringify([]),');
+  pageLines.push('            rawResponse: JSON.stringify(response)');
+  pageLines.push('          };');
+  pageLines.push('          sendPaymentToServer(payload)');
+  pageLines.push('            .then(function(body){');
+  pageLines.push('              statusMessage.textContent = "Payment recorded. Confirmation email sent.";');
+  pageLines.push('              payButton.textContent = "Payment complete";');
+  pageLines.push('            })');
+  pageLines.push('            .catch(function(err){');
+  pageLines.push('              statusMessage.textContent = "Payment completed. Server sync failed; opening fallback tab to submit payment. If your payment is not recorded, follow the fallback link.";');
+  pageLines.push('              payButton.textContent = "Retry sync?";');
+  pageLines.push('            });');
+  pageLines.push('        } catch(err) { statusMessage.textContent = "Error preparing server notification: " + err.message; }');
+  pageLines.push('      },');
+  pageLines.push('      onClose: function(){ statusMessage.textContent = "Payment window closed. If you completed payment, refresh this page."; payButton.disabled = false; payButton.textContent = "Open secure payment page"; }');
+  pageLines.push('    });');
+  pageLines.push('    handler.openIframe();');
+  pageLines.push('  });');
+  pageLines.push('})();');
+  pageLines.push('</script>');
+  pageLines.push('</body>');
+  pageLines.push('</html>');
+
+  return HtmlService.createHtmlOutput(pageLines.join('\n')).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 function getOrCreateSheet(ss, sheetName) {
@@ -76,7 +454,7 @@ function sendNotificationEmail(options) {
 
   const mailOptions = {
     to: options.to,
-    replyTo: options.replyTo || 'omoluwajames2024@gmail.com',
+    replyTo: options.replyTo || 'debeatjay@gmail.com',
     subject: options.subject,
     htmlBody: options.htmlBody
   };
@@ -468,11 +846,27 @@ function buildLicenseAgreementAttachment(customerName, customerEmail, orderDetai
 }
 
 function doPost(e) {
-  const spreadsheetId = '1N6njGC0TX4fZfz8csYEDc_T0I0pRRge7dJqK3aQay4g';
-  const ss = SpreadsheetApp.openById(spreadsheetId);
-  const params = e.parameter || {};
-  const type = (params.type || 'payment').toString().toLowerCase();
-  const timestamp = params.timestamp || new Date().toISOString();
+  try {
+    Logger.log('doPost called with parameter object: %s', JSON.stringify(e && e.parameter ? e.parameter : {}));
+    Logger.log('doPost raw body: %s', e && e.postData ? e.postData.contents : '(none)');
+    const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+    const ss = SpreadsheetApp.openById(spreadsheetId);
+    let params = e.parameter || {};
+    if ((!params || Object.keys(params).length === 0) && e.postData && e.postData.contents) {
+      try {
+        params = Object.fromEntries(
+          e.postData.contents.split('&').map(function(pair) {
+            const parts = pair.split('=');
+            return [decodeURIComponent(parts[0] || '').trim(), decodeURIComponent(parts.slice(1).join('=' ) || '').trim()];
+          })
+        );
+      } catch (parseError) {
+        Logger.log('doPost fallback parse error: %s', parseError && parseError.stack ? parseError.stack : parseError);
+      }
+    }
+    Logger.log('doPost final params: %s', JSON.stringify(params));
+    const type = (params.type || 'payment').toString().toLowerCase();
+    const timestamp = params.timestamp || new Date().toISOString();
 
   let sheetName = 'Store Responses';
   let headers = [
@@ -502,7 +896,7 @@ function doPost(e) {
     headers = ['timestamp', 'type', 'name', 'email', 'message', 'phone'];
   } else if (type === 'exclusive_offer') {
     sheetName = 'Offers';
-    headers = ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage'];
+    headers = ['timestamp', 'type', 'name', 'email', 'customerEmail', 'adminEmail', 'scriptUrl', 'itemId', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl'];
   } else {
     sheetName = 'Payments';
     headers = ['timestamp', 'type', 'name', 'email', 'paymentReference', 'amount', 'currency', 'status', 'orderItems', 'orderSummary', 'downloadLinks', 'rawResponse'];
@@ -516,91 +910,101 @@ function doPost(e) {
 
     if (type === 'account_create') {
       if (!name || !email || !password) {
-        return ContentService.createTextOutput(JSON.stringify({
+        return createCorsJsonOutput({
           ok: false,
           message: 'Please provide your name, email, and password.'
-        })).setMimeType(ContentService.MimeType.JSON);
+        });
       }
 
       const existingAccount = findAccountByEmail(accountSheet, email);
       if (existingAccount) {
-        return ContentService.createTextOutput(JSON.stringify({
+        return createCorsJsonOutput({
           ok: false,
           message: 'An account with this email already exists.'
-        })).setMimeType(ContentService.MimeType.JSON);
+        });
       }
 
       accountSheet.appendRow([timestamp, type, name, email, hashPassword(password), 'active']);
-      return ContentService.createTextOutput(JSON.stringify({
+      return createCorsJsonOutput({
         ok: true,
         message: 'Account created successfully.',
         user: { name: name, email: email }
-      })).setMimeType(ContentService.MimeType.JSON);
+      });
     }
 
     if (type === 'account_forgot_password') {
       if (!email || !password) {
-        return ContentService.createTextOutput(JSON.stringify({
+        return createCorsJsonOutput({
           ok: false,
           message: 'Please provide your email and new password.'
-        })).setMimeType(ContentService.MimeType.JSON);
+        });
       }
 
       const updated = updateAccountPassword(accountSheet, email, password);
       if (!updated) {
-        return ContentService.createTextOutput(JSON.stringify({
+        return createCorsJsonOutput({
           ok: false,
           message: 'No account found with that email.'
-        })).setMimeType(ContentService.MimeType.JSON);
+        });
       }
 
-      return ContentService.createTextOutput(JSON.stringify({
+      return createCorsJsonOutput({
         ok: true,
         message: 'Password reset successfully.'
-      })).setMimeType(ContentService.MimeType.JSON);
+      });
     }
 
     if (!email || !password) {
-      return ContentService.createTextOutput(JSON.stringify({
+      return createCorsJsonOutput({
         ok: false,
         message: 'Please provide your email and password.'
-      })).setMimeType(ContentService.MimeType.JSON);
+      });
     }
 
     const account = findAccountByEmail(accountSheet, email);
     if (!account || account.password !== hashPassword(password)) {
-      return ContentService.createTextOutput(JSON.stringify({
+      return createCorsJsonOutput({
         ok: false,
         message: 'Invalid email or password.'
-      })).setMimeType(ContentService.MimeType.JSON);
+      });
     }
 
-    return ContentService.createTextOutput(JSON.stringify({
+    return createCorsJsonOutput({
       ok: true,
       message: 'Signed in successfully.',
       user: { name: account.name, email: account.email }
-    })).setMimeType(ContentService.MimeType.JSON);
+    });
   }
 
   const sheet = getOrCreateSheet(ss, sheetName);
   ensureHeaders(sheet, headers);
 
+  const offerToken = type === 'exclusive_offer' ? generateSecureToken(48) : '';
   const data = {
     timestamp: timestamp,
     type: type,
     name: params.name || '',
     email: params.email || params.offerEmail || '',
-    message: params.message || '',
+    customerEmail: params.customerEmail || params.email || params.offerEmail || '',
+    adminEmail: params.adminEmail || params.admin_email || '',
+    scriptUrl: params.scriptUrl || '',
+    frontendUrl: params.frontendUrl || params.frontend_url || '',
+    itemId: params.itemId || '',
     beatTitle: params.beatTitle || '',
     beatGenre: params.beatGenre || '',
     beatBpm: params.beatBpm || '',
     beatKey: params.beatKey || '',
     offerPrice: params.offerPrice || '',
     offerMessage: params.offerMessage || '',
+    actionToken: offerToken,
+    status: type === 'exclusive_offer' ? 'pending' : params.status || '',
+    actionTaken: '',
+    actionTimestamp: '',
+    payLinkToken: '',
+    payLinkUrl: '',
     paymentReference: params.paymentReference || '',
     amount: params.amount || '',
     currency: params.currency || '',
-    status: params.status || '',
     orderItems: params.orderItems || '',
     orderSummary: params.orderSummary || '',
     downloadLinks: params.downloadLinks || '',
@@ -614,11 +1018,52 @@ function doPost(e) {
 
   sheet.appendRow(row);
 
-  const customerEmail = (params.customerEmail || params.email || '').toString().trim();
-  const adminEmail = (params.adminEmail || params.admin_email || '').toString().trim();
+  const customerEmail = (data.customerEmail || params.customerEmail || params.email || params.offerEmail || '').toString().trim();
+  const adminEmail = (data.adminEmail || params.adminEmail || params.admin_email || DEFAULT_ADMIN_EMAIL).toString().trim();
+  const scriptUrl = getWebAppUrl(data) || getWebAppUrl(params);
+  const actionToken = data.actionToken || '';
   const customerName = (params.name || 'Customer').toString().trim() || 'Customer';
   const customerMessage = (params.message || '').toString();
   const notificationResults = [];
+
+  if (type === 'exclusive_offer' && adminEmail) {
+    const acceptUrl = `${scriptUrl}?type=offer_action&action=accept&token=${encodeURIComponent(actionToken)}`;
+    const declineUrl = `${scriptUrl}?type=offer_action&action=decline&token=${encodeURIComponent(actionToken)}`;
+    const sellerBody = [
+      `<p>Hi,</p>`,
+      `<p>You have received a new exclusive offer from <strong>${escapeHtml(customerEmail)}</strong> for <strong>${escapeHtml(params.beatTitle || 'Unknown Beat')}</strong>.</p>`,
+      `<p><strong>Offer amount:</strong> ₦${escapeHtml(params.offerPrice || 'N/A')}</p>`,
+      `<p><strong>Message:</strong></p>`,
+      `<p>${escapeHtml(params.offerMessage || 'No message provided').replace(/\n/g, '<br>')}</p>`,
+      '<p>Please choose one of the actions below:</p>',
+      `<p><a href="${acceptUrl}" style="background:#16a34a;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;display:inline-block;margin-right:8px;">Accept offer</a><a href="${declineUrl}" style="background:#dc2626;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;display:inline-block;">Decline offer</a></p>`,
+      `<p>Offer ID: ${escapeHtml(params.itemId || 'N/A')}</p>`
+    ].join('');
+
+    notificationResults.push(sendNotificationEmail({
+      to: adminEmail,
+      replyTo: customerEmail || '',
+      subject: `New exclusive offer for ${params.beatTitle || 'your beat'}`,
+      htmlBody: sellerBody
+    }));
+
+    if (customerEmail) {
+      const customerOfferBody = [
+        `<p>Hi ${escapeHtml(customerName)},</p>`,
+        `<p>Your offer for <strong>${escapeHtml(params.beatTitle || 'the beat')}</strong> has been received.</p>`,
+        `<p><strong>Offer amount:</strong> ₦${escapeHtml(params.offerPrice || 'N/A')}</p>`,
+        '<p>The seller will review it and get back to you shortly.</p>',
+        '<p>Best regards,<br>De Beat Chef</p>'
+      ].join('');
+
+      notificationResults.push(sendNotificationEmail({
+        to: customerEmail,
+        replyTo: adminEmail || 'debeatjay@gmail.com',
+        subject: 'Your offer has been submitted',
+        htmlBody: customerOfferBody
+      }));
+    }
+  }
 
   if (type === 'contact' && customerEmail) {
     const customerBody = [
@@ -719,11 +1164,19 @@ function doPost(e) {
     }
   }
 
-  return ContentService.createTextOutput(JSON.stringify({
+  return createCorsJsonOutput({
     ok: true,
     message: 'Saved to sheet and sent notifications',
     type: type,
     sheetName: sheetName,
     notifications: notificationResults
-  })).setMimeType(ContentService.MimeType.JSON);
+  });
+  } catch (error) {
+    Logger.log('doPost error: %s', error && error.stack ? error.stack : error);
+    return createCorsJsonOutput({
+      ok: false,
+      message: 'Server error in doPost: ' + (error && error.message ? error.message : 'unknown'),
+      error: String(error)
+    });
+  }
 }

@@ -613,6 +613,74 @@
             color: #f8fafc;
         }
 
+        .success-modal-content {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+        }
+
+        .success-modal-panel {
+            background-image: linear-gradient(135deg, #eff6ff, #ede9fe);
+            color: #0f172a;
+        }
+
+        .success-modal-warning {
+            background-color: #fef3c7;
+            border-color: #fde68a;
+            color: #0f172a;
+        }
+
+        body.dark-theme .success-modal-content {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+        }
+
+        body.dark-theme .success-modal-content .text-gray-900,
+        body.dark-theme .success-modal-content .text-gray-700,
+        body.dark-theme .success-modal-content .text-gray-600,
+        body.dark-theme .success-modal-content .text-gray-500,
+        body.dark-theme .success-modal-content .text-gray-400 {
+            color: inherit !important;
+        }
+
+        body.dark-theme .success-modal-panel {
+            background-image: linear-gradient(135deg, #eff6ff, #ede9fe) !important;
+            color: #0f172a !important;
+        }
+
+        body.dark-theme .success-modal-warning {
+            background-color: #fef3c7 !important;
+            border-color: #fcd34d !important;
+            color: #0f172a !important;
+        }
+
+        .offer-modal-content {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+        }
+
+        .offer-modal-panel {
+            background-image: linear-gradient(135deg, #eff6ff, #ede9fe);
+            color: #0f172a;
+        }
+
+        body.dark-theme .offer-modal-content {
+            background-color: #111827 !important;
+            color: #f8fafc !important;
+        }
+
+        body.dark-theme .offer-modal-content .text-gray-900,
+        body.dark-theme .offer-modal-content .text-gray-700,
+        body.dark-theme .offer-modal-content .text-gray-600,
+        body.dark-theme .offer-modal-content .text-gray-500,
+        body.dark-theme .offer-modal-content strong {
+            color: #f8fafc !important;
+        }
+
+        body.dark-theme .offer-modal-panel {
+            background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.35), rgba(30, 41, 59, 0.25)) !important;
+            color: #f8fafc !important;
+        }
+
         body.dark-theme .mobile-menu {
             background: linear-gradient(135deg, #111827 0%, #0f172a 100%) !important;
         }
@@ -1713,8 +1781,8 @@
             hero_image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=400&fit=crop",
             logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
             paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b",
-            google_apps_script_url: "https://script.google.com/macros/s/AKfycbz2TxcY74NIlvhEuHBEzjKTblU_9hUvu-iDPA_wb7TBx1uuZcW4TmvQzuuSgqBNzGkN/exec",
-            admin_email: "omoluwajames2024@gmail.com"
+            google_apps_script_url: "https://script.google.com/macros/s/AKfycbzjqGuZlwPFoESD_11CjroykgvfByK1qP3F2FyFP6EMnr8ewot7Hg6Xsgafb8_RVVI3/exec",
+            admin_email: "debeatjay@gmail.com"
         };
 
         let currentAudio = null;
@@ -2064,6 +2132,67 @@
             showToast('Signed out.', 'info');
         }
 
+        async function preloadOfferFromToken() {
+            const params = new URLSearchParams(window.location.search || '');
+            const offerToken = (params.get('offer_token') || params.get('token') || '').toString().trim();
+            if (!offerToken) {
+                return;
+            }
+
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+            if (!scriptUrl) {
+                showToast('Offer checkout could not be loaded because the backend URL is missing.', 'error');
+                return;
+            }
+
+            try {
+                const lookupUrl = `${scriptUrl}?type=offer_lookup&token=${encodeURIComponent(offerToken)}`;
+                const response = await fetch(lookupUrl, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Offer lookup failed with HTTP ' + response.status);
+                }
+
+                const result = await response.json().catch(() => ({}));
+                if (!result || !result.ok || !result.offer) {
+                    showToast('This offer link is no longer valid.', 'error');
+                    return;
+                }
+
+                const offer = result.offer;
+                const beat = beats.find(b => String(b.id) === String(offer.itemId) || b.title === offer.beatTitle);
+                if (!beat) {
+                    showToast('The beat from this offer could not be found on the website.', 'error');
+                    return;
+                }
+
+                const acceptedPrice = Number(offer.offerPrice || 0);
+                cart = [{
+                    beatId: beat.id,
+                    beatTitle: beat.title,
+                    licenseName: 'Accepted Offer License',
+                    licenseType: 'exclusive',
+                    price: Number.isFinite(acceptedPrice) ? acceptedPrice : beat.price.mp3,
+                    downloadLinks: beat.downloadLinks,
+                    allowedFiles: beat.downloadLinks ? Object.keys(beat.downloadLinks) : ['mp3']
+                }];
+
+                saveCartToStorage();
+                updateCartBadge();
+                updateBulkDealBanner();
+                renderCart();
+                toggleCart();
+                showToast('Offer checkout ready — continue payment from the cart.', 'success');
+            } catch (error) {
+                console.error('Error loading offer token:', error);
+                showToast('Unable to load this offer checkout link.', 'error');
+            }
+        }
+
         // Load cart from localStorage on page load
         function loadCartFromStorage() {
             try {
@@ -2122,33 +2251,17 @@
                 bpm: 97,
                 genre: "Reggaeton, Wizkid Type Beat",
                 key: "E minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 200, wav: 59999, premium: 139999, unlimited: 279999 },
                 image: "photo/1.jpg",
                 audioUrl: "New folder/Falling_E minor_97bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/file/d/1HFSx4WU6az-SIU3m2t11vWimN4ju6sQD/view?usp=sharing",
-                    wav: "hhttps://drive.google.com/file/d/1HFSx4WU6az-SIU3m2t11vWimN4ju6sQD/view?usp=sharing",
+                    mp3: "https://drive.google.com/file/d/10lr6m-K0EYD6MDT_WK_qzhXMtiAegMqn/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1eUIWtOSbgAz4dH3Gnx3ptw-EV8VSH9u5/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
                 id: 2,
-                title: "Polo",
-                producer: "De Beat Chef",
-                bpm: 114,
-                genre: "Amapiano",
-                key: "F minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/32.jpg",
-                audioUrl: "New folder (2)/Polo_Fminor_114.mp3",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
-                }
-            },
-            {
-                id: 3,
                 title: "Dey Play",
                 producer: "De Beat Chef",
                 bpm: 100,
@@ -2158,13 +2271,13 @@
                 image: "photo/2.jpg",
                 audioUrl: "New folder/Dey Play_F minor_100bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1zYSzm8ofeol88Ke2nHxEKwDDXr0BRnQo/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1aVFGDsz217UgKA68QxpKKZdG9l4QgFuD/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 4,
+                id: 3,
                 title: "Low key",
                 producer: "De Beat Chef",
                 bpm: 95,
@@ -2174,45 +2287,13 @@
                 image: "photo/3.jpg",
                 audioUrl: "New folder/Low key_Eflat minor_95bpm tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1W4iBiZd2gDcJ8yiSfbQGZ4dQzcgdWYXt/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1IjfOUmbesE58v6m_C4Z92vI_vlW1QVa0/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 5,
-                title: "Everything",
-                producer: "De Beat Chef",
-                bpm: 109,
-                genre: "Afrobeat",
-                key: "A Minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/4.jpg",
-                audioUrl: "New folder/Everything_B_109bpm_tagged.mp3",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_3",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_3",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_3"
-                }
-            },
-            {
-                id: 6,
-                title: "Chocolate",
-                producer: "De Beat Chef",
-                bpm: 107,
-                genre: "Afrobeat, Burna Boy Type Beat",
-                key: "A Major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/5.jpg",
-                audioUrl: "New folder/Chocolate_A_107bpm_tagged.mp3",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_4",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_4",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_4"
-                }
-            },
-            {
-                id: 7,
+                id: 4,
                 title: "Bebe",
                 producer: "De Beat Chef",
                 bpm: 102,
@@ -2222,13 +2303,13 @@
                 image: "photo/7.jpg",
                 audioUrl: "New folder/Bebe_F sharp_102bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_5",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_5",
+                    mp3: "https://drive.google.com/file/d/1mcQxXBiL7T9kjT9JpHaapUBxToI_KKNe/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1vTK_Dz9tOJP8Vz_iFx7pVWLF6GuUnNGr/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_5"
                 }
             },
             {
-                id: 8,
+                id: 5,
                 title: "Gbedu",
                 producer: "De Beat Chef",
                 bpm: 100,
@@ -2238,14 +2319,14 @@
                 image: "photo/8.jpg",
                 audioUrl: "New folder/Gbedu_E minor_100bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1a04DfWWUe2J8DaiBcZ9qqTS6KI5TyEXn/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1wBXYnWSWCI5c4Yo51DnJXR5O5QAp_9oV/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 9,
-                title: "mon désir",
+                id: 6,
+                title: "Bend You",
                 producer: "De Beat Chef",
                 bpm: 130,
                 genre: "Afrobeat, Burna Boy Type Beat, Omah Lay Type Beat",
@@ -2254,13 +2335,13 @@
                 image: "photo/9.jpg",
                 audioUrl: "New folder/mon désir_F_130bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1Y7o7VRJ-d6YrYHBiK4PM2wXl_LmKlQPl/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1hVBrn7hhZL5gFZL-9eUqeiIFtNfN1pcb/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 10,
+                id: 7,
                 title: "Nobody",
                 producer: "De Beat Chef",
                 bpm: 110,
@@ -2270,45 +2351,45 @@
                 image: "photo/10.jpg",
                 audioUrl: "New folder/Nobody_B flat_110bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1Ea3-tL1DYX2srmMW38Y_Glp-APZYKHTZ/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/17xDC7sNeCgJFalS6nM5Imt-QLf7kda1f/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 11,
-                title: "Slice",
+                id: 8,
+                title: "Haley",
                 producer: "De Beat Chef",
                 bpm: 100,
-                genre: "Afrobeat, Afrobeat, FireBoy Type Beat",
-                key: "B flat",
+                genre: "Afrobeat, FireBoy Type Beat",
+                key: "C sharp minor",
                 price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
                 image: "photo/11.jpg",
-                audioUrl: "New folder/Slice_B flat_100bpm_tagged.mp3",
+                audioUrl: "Beats 2/Haley  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1JWvjG7jocbPyRqi_WwyeRtPwqE6TX2PX/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1OlIgHMjHAb5i55JrAwsw-lVb2txN1pxv/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 12,
-                title: "Space",
+                id: 9,
+                title: "Bend",
                 producer: "De Beat Chef",
                 bpm: 110,
                 genre: "Afrobeat",
-                key: "D minor",
+                key: "G major",
                 price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
                 image: "photo/12.jpg",
-                audioUrl: "New folder/Space_D minor_ 110bpm_tagged.mp3",
+                audioUrl: "Beats 2/Bend  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1xgWPgRHKET8eYxTkoQnjzzVnUKGsUb-f/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1_Q-hQMYJvSF7PHAJOWcTWaFawv5jbsB2/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 13,
+                id: 10,
                 title: "Stranger",
                 producer: "De Beat Chef",
                 bpm: 103,
@@ -2318,93 +2399,93 @@
                 image: "photo/13.jpg",
                 audioUrl: "New folder/Stranger_E flat_103bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1q5MTNoE7czplb8uccec7z6aZ6f4N3uan/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1_MkHHUfLTexFUrc7W3aT8qCzkO1zV-mZ/view?usp=sharing",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                }
+            },
+            {
+                id: 11,
+                title: "Vibez",
+                producer: "De Beat Chef",
+                bpm: 102,
+                genre: "Afrobeat",
+                key: "A flat major",
+                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                image: "photo/14.jpg",
+                audioUrl: "Beats 2/Vibez  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1vYn9zxyERTfiPuihe9G8kByYNSGbKRiu/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1zosm4tMEU4IW9JTaMKLU0kgOcZgjPqti/view?usp=sharing",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                }
+            },
+            {
+                id: 12,
+                title: "Shoko",
+                producer: "De Beat Chef",
+                bpm: 113,
+                genre: "Amapiano",
+                key: "A minor",
+                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                image: "photo/15.jpg",
+                audioUrl: "Beats 2/Shoko  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1ikCrwc_2oE0lWfmcmpIao40-kKXmWlpI/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1Bm8m07JzV7ooB_k8L8rZyxGVrwtHBWO0/view?usp=sharing",
+                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                }
+            },
+            {
+                id: 13,
+                title: "Slang",
+                producer: "De Beat Chef",
+                bpm: 88,
+                genre: "Afrobeat",
+                key: "C sharp major",
+                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                image: "photo/17.jpg",
+                audioUrl: "Beats 2/Slang  Ayra Starr x Wizkid x Fireboy x Raggaeton Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1JXDoIlA4CCJ5il-t9wFBBMeKvzNsSYDz/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1T8rnujcLQ9Eb0k3RsapOQlL4zD2USQN7/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
                 id: 14,
-                title: "Vibe",
+                title: "Reset",
                 producer: "De Beat Chef",
-                bpm: 115,
+                bpm: 98,
                 genre: "Afrobeat",
-                key: "B major",
+                key: "A flat minor",
                 price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/14.jpg",
-                audioUrl: "New folder/Vibe_B_115bpm_tagged.mp3",
+                image: "photo/18.jpg",
+                audioUrl: "Beats 2/Reset  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/16A6yNq3Ve1uDrGAZK74_59T8rB3rxMki/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1yDuQCpKiLEG_mHKYJ2NMCYms2UtfS85e/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
                 id: 15,
-                title: "Tight",
+                title: "Panya",
                 producer: "De Beat Chef",
-                bpm: 90,
-                genre: "Afrobeat, Burna Boy Type Beat",
-                key: "C minor",
+                bpm: 92,
+                genre: "Afrobeat, Wizkid Type Beat",
+                key: "F sharp minor",
                 price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/15.jpg",
-                audioUrl: "New folder/Tight_Cminor_90.mp3",
+                image: "photo/19.jpg",
+                audioUrl: "Beats 2/Panya  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1wVlT6eQ8Fh7JzcYCMJtlab6ymp4iIpSU/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1rlJoO58kJVXRN31v8q3Arf8IVuGHlgEI/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
                 id: 16,
-                title: "Sad",
-                producer: "De Beat Chef",
-                bpm: 100,
-                genre: "Afrobeat",
-                key: "C sharp minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/17.jpg",
-                audioUrl: "New folder/Sad_Csharpminor_100.mp3",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
-                }
-            },
-            {
-                id: 17,
-                title: "Sango",
-                producer: "De Beat Chef",
-                bpm: 115,
-                genre: "Amapiano",
-                key: "F sharp minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/18.jpg",
-                audioUrl: "New folder/Sango_Fsharpminor_115.mp3",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
-                }
-            },
-            {
-                id: 18,
-                title: "Sleep",
-                producer: "De Beat Chef",
-                bpm: 101,
-                genre: "Afrobeat, Wizkid Type Beat",
-                key: "B flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
-                image: "photo/19.jpg",
-                audioUrl: "New folder/Sleep_Bflatminor_101.mp3",
-                downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
-                }
-            },
-            {
-                id: 19,
                 title: "Banda",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2414,13 +2495,13 @@
                 image: "photo/20.jpg",
                 audioUrl: "New folder (2)/Banda+Eflat_112.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    mp3: "https://drive.google.com/file/d/1tqsXpKP9JOnqXLWL3AqO4AgRRf0wEvGk/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1J7HNVVNorneDaRDBj-CLS_zuuEddeTDN/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/14RbVomT0Y4T-VeWTUeSuWmFu8G3Q-gYK/view?usp=sharing"
                 }
             },
             {
-                id: 20,
+                id: 17,
                 title: "Calm",
                 producer: "De Beat Chef",
                 bpm: 107,
@@ -2430,13 +2511,13 @@
                 image: "photo/21.jpg",
                 audioUrl: "New folder (2)/Calm_107_Fmajor.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/19DAGuQRr3DW-u4gm4r5iU5I9Si97WBcH/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1vBLpXlPTlgvCgU3HCrEIBxvmRPS6FjZw/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 21,
+                id: 18,
                 title: "Story",
                 producer: "De Beat Chef",
                 bpm: 98,
@@ -2446,13 +2527,13 @@
                 image: "photo/22.jpg",
                 audioUrl: "New folder (2)/Story_Fmajor_98.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1PkOYB5UZpM1gmcHVurNLH2fYLgacXjPB/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1qw8RTXp4aC-UMLER1MUC6bgArVafQSyz/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 22,
+                id: 19,
                 title: "Today",
                 producer: "De Beat Chef",
                 bpm: 98,
@@ -2462,13 +2543,13 @@
                 image: "photo/23.jpg",
                 audioUrl: "New folder (2)/Today_98_Amajor.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1TTyDdXhftYKcjfqRU5hBQktdoUHirxe6/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1-WTLEcShP7Sk_f4M4mtR8PATYWPe8WhU/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 23,
+                id: 20,
                 title: "Shanla",
                 producer: "De Beat Chef",
                 bpm: 113,
@@ -2478,13 +2559,13 @@
                 image: "photo/24.jpg",
                 audioUrl: "New folder (2)/Shanla_Eminor_113.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1W72e_J6JLLiZNCiKZ6iEwj2rLdL4jv5a/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1TGV-U_XwiIwgXtvk_gDTEgW5YwXc5mRk/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 24,
+                id: 21,
                 title: "Sanla",
                 producer: "De Beat Chef",
                 bpm: 113,
@@ -2494,13 +2575,13 @@
                 image: "photo/25.jpg",
                 audioUrl: "New folder (2)/Sanla_Asharpminor_113.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1VoxhoUI8meST23Uznm-NNOZO5G-ZlSPT/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1f0HUWyRhD4BxwrkMvdxMEX9f-9s2O7TS/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 25,
+                id: 22,
                 title: "Banla",
                 producer: "De Beat Chef",
                 bpm: 107,
@@ -2510,13 +2591,13 @@
                 image: "photo/27.jpg",
                 audioUrl: "New folder (2)/Banla_Gsharpminor_107.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1Cs639aQVJHhqpdA0Z0L_l8fWwOhkjR6i/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1MLWJuigt0F6SpjQS2YkULY3vzGS1f6yC/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 26,
+                id: 23,
                 title: "Drown",
                 producer: "De Beat Chef",
                 bpm: 90,
@@ -2526,13 +2607,13 @@
                 image: "photo/28.jpg",
                 audioUrl: "New folder (2)/Drown_Cminor_90.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1mHTX8Z0DeWbiSQTZirJdkVKPnF8mdV0B/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1yh0hs_pkqLuBwleKuECjWmdxq0Z_k7SE/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 27,
+                id: 24,
                 title: "Knows",
                 producer: "De Beat Chef",
                 bpm: 154,
@@ -2542,13 +2623,13 @@
                 image: "photo/29.jpg",
                 audioUrl: "New folder (2)/Knows_Csharpmajor_154.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1wG2EMBXZ88wxGcYbY5tK_7w2ppgw95tL/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/10JlmEYA9Tq9QZqQjbiTDmpDSKTFULP-3/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 28,
+                id: 25,
                 title: "Wire",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2558,13 +2639,13 @@
                 image: "photo/30.jpg",
                 audioUrl: "New folder (2)/Wire_Cmajor_112.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1dywrvWBBaWn9fS_R4AbvI2328D7JYTck/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1775HXVoZGSeBU0nBI_kzRTjd9_ilC9ny/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 29,
+                id: 26,
                 title: "Yours",
                 producer: "De Beat Chef",
                 bpm: 90,
@@ -2574,13 +2655,13 @@
                 image: "photo/31.jpg",
                 audioUrl: "New folder (2)/Yours_Eminor_90.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1Xjf1LAy41uW5quahGQ9zm9nzjOJAbqj-/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1dGePAjCHw3zbjFp5ScWnwQ4kpxxMrnNk/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 30,
+                id: 27,
                 title: "Amber",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2590,13 +2671,13 @@
                 image: "photo 2/1.jfif",
                 audioUrl: "Beats/Amber_B flatminor_112bpm.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1Be-izdchFE4Ju6ykwke5wTTsp7rFV3tk/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1qKQFKK8XrE0tkr5H1Lr4aQOTCRLA72Bm/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 31,
+                id: 28,
                 title: "Dongo",
                 producer: "De Beat Chef",
                 bpm: 114,
@@ -2606,13 +2687,13 @@
                 image: "photo 2/2.jfif",
                 audioUrl: "Beats/Dongo_Bflatminor_114bpm.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1HAuFB9ISUAF0PizGwAFAB2NcWnhy57aG/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1Ofye4xs6PR_xc-AWMRd2S3AeiEgKtZ4y/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 32,
+                id: 29,
                 title: "Guitar",
                 producer: "De Beat Chef",
                 bpm: 100,
@@ -2622,13 +2703,13 @@
                 image: "photo 2/3.jfif",
                 audioUrl: "Beats/Guitar_Bflatmajor_100bpm.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1g6WyN4jf2PlBkMa_lRsDyhJF-V_2KHVv/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1nzKYOIUdfHQ1TUVRl-S9zYmRs3tcEdTJ/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 33,
+                id: 30,
                 title: "Heart",
                 producer: "De Beat Chef",
                 bpm: 74,
@@ -2638,13 +2719,13 @@
                 image: "photo 2/4.jfif",
                 audioUrl: "Beats/Heart_Aflatmajor_74bpm.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1QweS2Rc7MdXJ5Qi8-LG7D8ci6deDFYhR/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1rGRsoz2AwKEvx5MF0UV-2RRKtWE7lDh2/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 34,
+                id: 31,
                 title: "System",
                 producer: "De Beat Chef",
                 bpm: 100,
@@ -2654,13 +2735,13 @@
                 image: "photo 2/5.jfif",
                 audioUrl: "Beats/System_Fsharpmajor_100bpm.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1NrQCO9yJgj-Iku_lQJKNpxOa8VnHR2vm/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1P6PNYvwjgFyWAZXgalJAG9xrn2FACTL6/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 35,
+                id: 32,
                 title: "Zaga",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2670,13 +2751,13 @@
                 image: "photo 2/6.jfif",
                 audioUrl: "Beats/Zaga_Bminor_112bpm.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1OM9RvZlSELUEh1vkuEPyBR250a-UMxKZ/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1TRLpJCd-Hihy221Vu3KW_k5AreUlWsIm/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 36,
+                id: 33,
                 title: "Ajebo",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2686,13 +2767,13 @@
                 image: "photo 2/7.jfif",
                 audioUrl: "Beats/Ajebo Cminor 112.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/12fzxzpVnHIulEiEhWLhHHV_wR6Lexwni/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1LdPChmlFb67BEeZckNp7X3ueYx2LdhXy/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 37,
+                id: 34,
                 title: "Comot",
                 producer: "De Beat Chef",
                 bpm: 107,
@@ -2702,13 +2783,13 @@
                 image: "photo 2/8.jfif",
                 audioUrl: "Beats/Comot Amajor 107bpm.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1gwGYT43r1OGo_owB8qcVazbVA_0AVD3-/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/17y952v22wAs9WHmvFfqCD-Im0lj-ztKO/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 38,
+                id: 35,
                 title: "Kumba",
                 producer: "De Beat Chef",
                 bpm: 113,
@@ -2718,13 +2799,13 @@
                 image: "photo 2/9.jfif",
                 audioUrl: "Beats/Kumba Ab minor 113.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1S5igLppxW1YNDd7uH3dfqZVkrssNcOh-/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1kcinAe7oJ6pMRpfzHxuKASeZ9r25qpcd/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 39,
+                id: 36,
                 title: "Yanga",
                 producer: "De Beat Chef",
                 bpm: 113,
@@ -2734,13 +2815,13 @@
                 image: "photo 2/10.jfif",
                 audioUrl: "Beats/Yanga Csharp major 113.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_6",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_6",
+                    mp3: "https://drive.google.com/file/d/1ijROXDTudlMmqq_3x3nQJpuVIAR-xfN-/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1vPzahFQ6jnj8euJH3umyqExki0oOXJ8h/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
                 }
             },
             {
-                id: 40,
+                id: 37,
                 title: "Jaga",
                 producer: "De Beat Chef",
                 bpm: 111,
@@ -2750,13 +2831,13 @@
                 image: "photo 2/11.jfif",
                 audioUrl: "New folder/Jaga_Csharp_111bpm_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1oYXUZrc-6uJnbrtaxJo47nYO-nc2AXoF/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1fpISRKlXd8bjS--eq-JRZ9oxKuYYg-mo/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 41,
+                id: 38,
                 title: "GanGan",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2766,13 +2847,13 @@
                 image: "Photo 3/GanGan.png",
                 audioUrl: "Beats 2/GanGan  Asake x Ayra Starr BUY 1 GET 1 FREE_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1cQ5yBdkXfFT5DHZuw9DagD0Au1IexHxr/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1QSHcv3NQrDQT1xg0h-5khdkknvZ_NH3F/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 42,
+                id: 39,
                 title: "Ataya",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2782,13 +2863,13 @@
                 image: "Photo 3/Ataya.png",
                 audioUrl: "Beats 2/Ataya  Tems x Wizkid x Fireboy BUY 1 GET 1 FREE_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1sH8Wb1UqeV_1A2iDaJJsYLGqwvkyGXkO/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1zXnrBM2lIjJDCoMh4iLjW8-odveokFMR/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 43,
+                id: 40,
                 title: "Empire",
                 producer: "De Beat Chef",
                 bpm: 102,
@@ -2798,13 +2879,13 @@
                 image: "Photo 3/Empire.png",
                 audioUrl: "Beats 2/Empire  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/162MyoLNcaH49AlMxo19D1sWTZplOmQyS/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/18dspRQafr1Ut6IKA4FdRqRgEGQl85mAr/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 44,
+                id: 41,
                 title: "Focus",
                 producer: "De Beat Chef",
                 bpm: 97,
@@ -2814,13 +2895,13 @@
                 image: "Photo 3/Focus.png",
                 audioUrl: "Beats 2/Focus  Ayra Starr x Wizkid x Fireboy x Raggaeton Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1GNbAcY483mKx7OZFGKOPXejMEYRA6C8R/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1_W3IWG82__4Vgdz-GrReSdPtXB8APxr1/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 45,
+                id: 42,
                 title: "Kpanla",
                 producer: "De Beat Chef",
                 bpm: 112,
@@ -2830,13 +2911,13 @@
                 image: "Photo 3/Kpanla.png",
                 audioUrl: "Beats 2/Kpanla  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1sB1HakWyW2amIElCKeX7z65mHu_FTDE6/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1jF0LZCFEHX_HUyOHM9rng-YMI7_CNvII/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 46,
+                id: 43,
                 title: "Pain",
                 producer: "De Beat Chef",
                 bpm: 100,
@@ -2846,13 +2927,13 @@
                 image: "Photo 3/PAIN.png",
                 audioUrl: "Beats 2/Pain  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1_HUCmSHn8JeozfDv7jWi5ZrPPge2jV8u/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1WHb8-ihHAgTFaiuAK34Lzc6ZRDug5lAR/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 47,
+                id: 44,
                 title: "Sain",
                 producer: "De Beat Chef",
                 bpm: 100,
@@ -2862,13 +2943,13 @@
                 image: "Photo 3/SAIN.png",
                 audioUrl: "Beats 2/Sain  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/13MeSTOxtkzdqClZLTuD30jJIW3xSitrm/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1i-TMCtdxPyAb_js7_1rzFLAnsLkjId79/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 48,
+                id: 45,
                 title: "Shame",
                 producer: "De Beat Chef",
                 bpm: 102,
@@ -2878,13 +2959,13 @@
                 image: "Photo 3/Shame.png",
                 audioUrl: "Beats 2/Shame  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1InYYJ88-emMv1NsZECUrCgBDqqoBHDpJ/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1cDegyXKFweDbwUZovBAlsC-i33R6_28q/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             },
             {
-                id: 49,
+                id: 46,
                 title: "Spend",
                 producer: "De Beat Chef",
                 bpm: 100,
@@ -2894,13 +2975,22 @@
                 image: "Photo 3/SPEND.png",
                 audioUrl: "Beats 2/Spend  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
-                    mp3: "https://drive.google.com/uc?export=download&id=YOUR_MP3_FILE_ID_2",
-                    wav: "https://drive.google.com/uc?export=download&id=YOUR_WAV_FILE_ID_2",
+                    mp3: "https://drive.google.com/file/d/1jQeZPVrucV5YtUeMzRlamgIiK0Uxfvue/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1DwlDJpWULFXLfOQjNSvDoahCc-mAtY2N/view?usp=sharing",
                     zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
                 }
             }
 
         ];
+
+        beats.forEach(beat => {
+            if (beat && beat.audioUrl) {
+                beat.downloadLinks = beat.downloadLinks || {};
+                if (!beat.downloadLinks.taggedMp3) {
+                    beat.downloadLinks.taggedMp3 = beat.audioUrl;
+                }
+            }
+        });
 
         const beatStats = beats.reduce((acc, beat) => {
             acc[beat.id] = { plays: 0, muted: false, countedThisSession: false };
@@ -3084,9 +3174,11 @@
                                 <p class="text-xs sm:text-sm text-gray-600">Starting at</p>
                                 <p class="text-xl sm:text-2xl font-bold price-badge">${formatNaira(beat.price.mp3)}</p>
                             </div>
-                            <button onclick="openLicenseModal(${beatId})" class="btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base whitespace-nowrap ${isGridView ? 'mt-3' : ''}">
-                                <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
-                            </button>
+                            <div class="flex ${isGridView ? 'flex-col gap-3' : 'items-center gap-3 sm:gap-4'} w-full">
+                                <button onclick="openLicenseModal(${beatId})" class="btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base whitespace-nowrap ${isGridView ? '' : ''}">
+                                    <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -3750,7 +3842,7 @@
                                     <textarea id="offer-message-${beatId}" rows="3" placeholder="Tell us about your project..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"></textarea>
                                 </div>
                             </div>
-                            <button onclick="submitExclusiveOffer(${beatId})" class="w-full mt-4 btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">
+                            <button id="offer-submit-${beatId}" type="button" onclick="submitExclusiveOffer(${beatId})" class="w-full mt-4 btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">
                                 Submit Offer
                             </button>
                         </div>
@@ -4265,6 +4357,11 @@
 
         async function submitExclusiveOffer(beatId) {
             const beat = beats.find(b => b.id === beatId);
+            if (!beat) {
+                showToast('Unable to find the selected beat. Please refresh the page and try again.', 'error');
+                return;
+            }
+
             const offerPrice = document.getElementById(`offer-price-${beatId}`).value;
             const offerEmail = document.getElementById(`offer-email-${beatId}`).value;
             const offerMessage = document.getElementById(`offer-message-${beatId}`).value;
@@ -4276,6 +4373,7 @@
 
             const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
             const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+            const adminEmail = (config.admin_email || defaultConfig.admin_email || '').toString().trim();
 
             if (!scriptUrl) {
                 showSuccessModal(beat, offerPrice, offerEmail, offerMessage);
@@ -4283,42 +4381,63 @@
             }
 
             // Show loading state
-            const submitButton = event.target;
-            const originalText = submitButton.innerHTML;
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+            const submitButton = document.getElementById(`offer-submit-${beatId}`);
+            const originalText = submitButton ? submitButton.innerHTML : 'Submit Offer';
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending offer...';
+            }
 
             try {
-                const response = await fetch(scriptUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        type: 'exclusive_offer',
-                        beatTitle: beat.title,
-                        beatGenre: beat.genre,
-                        beatBpm: beat.bpm,
-                        beatKey: beat.key,
-                        offerPrice: offerPrice,
-                        offerEmail: offerEmail,
-                        offerMessage: offerMessage || 'No message provided',
-                        timestamp: new Date().toISOString()
-                    })
+                console.log('Submitting offer to:', scriptUrl);
+                const payload = new URLSearchParams({
+                    type: 'exclusive_offer',
+                    name: offerEmail,
+                    email: offerEmail,
+                    customerEmail: offerEmail,
+                    adminEmail: adminEmail,
+                    scriptUrl: scriptUrl,
+                    itemId: beat.id || '',
+                    beatTitle: beat.title,
+                    beatGenre: beat.genre,
+                    beatBpm: beat.bpm,
+                    beatKey: beat.key,
+                    offerPrice: offerPrice,
+                    offerMessage: offerMessage || 'No message provided',
+                    frontendUrl: (config.frontend_url || defaultConfig.frontend_url || (window.location.origin + window.location.pathname)),
+                    timestamp: new Date().toISOString()
                 });
 
-                if (response.ok) {
+                const response = await fetch(scriptUrl, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-store',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json'
+                    },
+                    body: payload,
+                    credentials: 'omit'
+                });
+
+                if (response.ok || response.type === 'opaque') {
                     showSuccessModal(beat, offerPrice, offerEmail, offerMessage);
                 } else {
-                    showToast('Failed to send offer. Please try again.', 'error');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = originalText;
+                    const errorText = await response.text().catch(() => 'Unable to read error response.');
+                    console.error('Offer submission failed:', response.status, response.statusText, errorText);
+                    showToast('Failed to send offer. Please check your Apps Script URL and deployment.', 'error');
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                    }
                 }
             } catch (error) {
                 console.error('Error submitting offer:', error);
                 showToast('Network error. Please check your connection.', 'error');
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalText;
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
             }
         }
 
@@ -4326,13 +4445,13 @@
             const successModal = document.createElement('div');
             successModal.className = 'modal active';
             successModal.innerHTML = `
-                <div class="modal-content bg-white rounded-2xl max-w-md w-full mx-4 p-6 sm:p-8 text-center shadow-2xl">
+                <div class="modal-content bg-white offer-modal-content rounded-2xl max-w-md w-full mx-4 p-6 sm:p-8 text-center shadow-2xl">
                     <div class="w-14 h-14 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-paper-plane text-green-500 text-2xl sm:text-3xl"></i>
                     </div>
                     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Offer Submitted!</h3>
                     <p class="text-sm sm:text-base text-gray-600 mb-4">Your exclusive license offer has been sent successfully.</p>
-                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-6 text-left">
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 offer-modal-panel rounded-xl p-4 mb-6 text-left">
                         <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Offer Details:</h4>
                         <p class="text-xs sm:text-sm text-gray-700"><strong>Beat:</strong> ${beat.title}</p>
                         <p class="text-xs sm:text-sm text-gray-700"><strong>Offer Price:</strong> ${formatNaira(parseInt(offerPrice))}</p>
@@ -4427,7 +4546,12 @@
                 if (!tracksPageBeats || !tracksPageBeats.length) {
                     tracksPageBeats = [...beats];
                 }
-                renderBeats('tracks-beats-container', tracksPageBeats, getActiveTracksViewMode());
+                const currentQuery = document.getElementById('search-input').value;
+                if (currentQuery) {
+                    updateSearchFilters();
+                } else {
+                    setTracksPageBeats(tracksPageBeats);
+                }
                 updateTracksViewToggle();
                 updateBulkDealBanner();
             } else if (targetPage === 'services') {
@@ -4474,11 +4598,17 @@
         });
 
         function getSearchFilterValues() {
+            const currentPage = window.currentPage || 'home';
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const genreField = currentPage === 'tracks'
+                ? document.getElementById('genre-filter')
+                : document.getElementById('search-genre-filter');
+
             return {
-                query: document.getElementById('search-input').value.toLowerCase().trim(),
-                tempo: document.getElementById('tempo-filter-input').value.toLowerCase().trim(),
-                key: document.getElementById('key-filter-input').value.toLowerCase().trim(),
-                genre: document.getElementById('search-genre-filter').value
+                query,
+                tempo: currentPage === 'home' ? document.getElementById('tempo-filter-input').value.toLowerCase().trim() : '',
+                key: currentPage === 'home' ? document.getElementById('key-filter-input').value.toLowerCase().trim() : '',
+                genre: genreField ? genreField.value : 'all'
             };
         }
 
@@ -4487,6 +4617,7 @@
         }
 
         function updateSearchFilters() {
+            const currentPage = window.currentPage || 'home';
             const { query, tempo, key, genre } = getSearchFilterValues();
             const clearButton = document.getElementById('clear-search');
             const searchInfo = document.getElementById('search-results-info');
@@ -4508,7 +4639,12 @@
             if (query.length === 0 && tempo.length === 0 && key.length === 0 && genre === 'all') {
                 clearButton.style.display = 'none';
                 searchInfo.style.display = 'none';
-                renderBeats('beats-container', beats, 'list');
+
+                if (currentPage === 'tracks') {
+                    setTracksPageBeats(beats);
+                } else {
+                    renderBeats('beats-container', beats, 'list');
+                }
                 return;
             }
 
@@ -4522,9 +4658,13 @@
                 searchInfo.className = 'text-center mt-2 text-xs sm:text-sm text-green-600 font-medium';
             }
 
-            renderBeats('beats-container', filtered, 'list');
-            if (filtered.length > 0) {
-                scrollToBeatCard(filtered[0].id);
+            if (currentPage === 'tracks') {
+                setTracksPageBeats(filtered);
+            } else {
+                renderBeats('beats-container', filtered, 'list');
+                if (filtered.length > 0) {
+                    scrollToBeatCard(filtered[0].id);
+                }
             }
         }
 
@@ -4536,7 +4676,12 @@
             document.getElementById('clear-search').style.display = 'none';
             const searchInfo = document.getElementById('search-results-info');
             searchInfo.style.display = 'none';
-            renderBeats('beats-container', beats, 'list');
+
+            if (window.currentPage === 'tracks') {
+                setTracksPageBeats(beats);
+            } else {
+                renderBeats('beats-container', beats, 'list');
+            }
         }
 
         let tracksPageBeats = [...beats];
@@ -4980,21 +5125,21 @@
             const successModal = document.createElement('div');
             successModal.className = 'modal active';
             successModal.innerHTML = `
-                <div class="modal-content bg-white rounded-2xl max-w-lg w-full mx-4 p-6 sm:p-8 text-center shadow-2xl">
+                <div class="modal-content bg-white success-modal-content rounded-2xl max-w-lg w-full mx-4 p-6 sm:p-8 text-center shadow-2xl">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-check-circle text-green-500 text-4xl sm:text-5xl"></i>
                     </div>
                     <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
-                    <p class="text-sm sm:text-base text-gray-600 mb-4">Thank you for your purchase, ${name}!</p>
+                    <p class="text-sm sm:text-base text-gray-900 mb-4">Thank you for your purchase, ${name}!</p>
                     
-                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 text-left">
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 success-modal-panel rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 text-left">
                         <div class="flex items-start mb-3 sm:mb-4">
                             <i class="fas fa-info-circle text-blue-500 text-lg sm:text-xl mr-2 sm:mr-3 mt-1"></i>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Next Steps:</h4>
-                                <p class="text-xs sm:text-sm text-gray-700 mb-2">Your download links are listed below and will also be sent to:</p>
+                                <p class="text-xs sm:text-sm text-gray-900 mb-2">Your download links are listed below and will also be sent to:</p>
                                 <p class="text-xs sm:text-sm font-semibold text-blue-600 mb-3">${email}</p>
-                                <p class="text-xs sm:text-sm text-gray-700">Please check your inbox (and spam folder) within the next 5-10 minutes.</p>
+                                <p class="text-xs sm:text-sm text-gray-900">Please check your inbox (and spam folder) within the next 5-10 minutes.</p>
                             </div>
                         </div>
                         
@@ -5004,20 +5149,20 @@
                                 ${orderItemsHtml}
                             </div>
                             <div class="border-t-2 mt-3 pt-3 flex justify-between text-sm sm:text-base">
-                                <span class="font-bold">Total Paid:</span>
+                                <span class="font-bold text-gray-900">Total Paid:</span>
                                 <span class="font-bold text-green-600">${formatNaira(paidTotal)}</span>
                             </div>
                         </div>
                         
-                        <div class="mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-600">
+                        <div class="mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-900">
                             <p><strong>Reference:</strong> ${response.reference}</p>
                         </div>
                     </div>
                     
-                    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 text-left">
+                    <div class="bg-yellow-50 border-2 border-yellow-200 success-modal-warning rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 text-left">
                         <div class="flex items-start">
                             <i class="fas fa-exclamation-triangle text-yellow-600 text-base sm:text-lg mr-2 sm:mr-3 mt-1"></i>
-                            <div class="text-xs sm:text-sm text-gray-700">
+                            <div class="text-xs sm:text-sm text-gray-900">
                                 <p class="font-semibold mb-1">Important Notice:</p>
                                 <p>If you don't receive the email within 15 minutes, please contact us with your reference number.</p>
                             </div>
@@ -5093,6 +5238,7 @@
 
         // Load cart and render beats on page load
         loadCartFromStorage();
+        preloadOfferFromToken();
         renderAuthButton();
         renderAccountView();
         renderBeats('beats-container', beats, 'list');

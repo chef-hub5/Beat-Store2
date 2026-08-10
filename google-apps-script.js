@@ -131,7 +131,7 @@ function renderOfferHtml(title, message, extraHtml) {
 }
 
 function handleOfferAction(params) {
-  const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+  const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -221,7 +221,7 @@ function handleOfferAction(params) {
 }
 
 function renderPayLinkPage(token) {
-  const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+  const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -252,10 +252,10 @@ function renderPayLinkPage(token) {
 }
 
 function renderPayLinkPage_v2(token) {
-  const spreadsheetId = '1dqPbEa5a_mHG0akGgecSFg445c6pU1VOlkk47k_ITTg';
+  const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
-  ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
+  ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
 
   const rowIndex = findRowIndexByColumnValue(offersSheet, 'payLinkToken', token);
   if (rowIndex < 2) {
@@ -849,7 +849,7 @@ function doPost(e) {
   try {
     Logger.log('doPost called with parameter object: %s', JSON.stringify(e && e.parameter ? e.parameter : {}));
     Logger.log('doPost raw body: %s', e && e.postData ? e.postData.contents : '(none)');
-    const spreadsheetId = '1Gm-8UzVt7A3gyx67ezEHqx5P4pi11T4hWMiTIQPsrqk';
+    const spreadsheetId = '1s_2cax4x9YFsMuq5tTtD3ZmvgrTmszPpZparPQot8ho';
     const ss = SpreadsheetApp.openById(spreadsheetId);
     let params = e.parameter || {};
     if ((!params || Object.keys(params).length === 0) && e.postData && e.postData.contents) {

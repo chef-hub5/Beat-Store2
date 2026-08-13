@@ -62,6 +62,18 @@
             animation: slideDownFade 0.25s ease-out;
         }
 
+        .page-panel {
+            opacity: 0;
+            transform: translateY(18px) scale(0.985);
+            transition: opacity 0.42s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        .page-panel.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
         @keyframes slideDownFade {
             from {
                 opacity: 0;
@@ -794,22 +806,13 @@
             </div>
          </div>
         </div>
-     <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
+     <nav class="hidden md:flex space-x-8"><a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('home'); return false;">Home</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('tracks'); return false;">Tracks</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('services'); return false;">Services</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('about'); return false;">About</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('faq'); return false;">FAQs</a> <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors" onclick="showPage('contact'); return false;">Contact</a>
      </nav>
-     <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="openAccountModal()" id="account-button" class="p-2 text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2" aria-label="Account"> <i class="fas fa-user-circle text-xl sm:text-2xl"></i> <span id="account-button-label" class="hidden sm:inline text-sm font-medium">Account</span> </button><button onclick="toggleTheme()" id="theme-toggle" class="p-2 text-gray-700 hover:text-blue-600 transition-colors" aria-label="Toggle theme"> <i class="fas fa-moon text-xl sm:text-2xl" id="theme-icon"></i> </button><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
+     <div class="flex items-center space-x-2 sm:space-x-4"><button onclick="openAccountModal()" id="account-button" class="p-2 text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2" aria-label="Account"> <i class="fas fa-user-circle text-xl sm:text-2xl"></i> <span id="account-button-label" class="hidden sm:inline text-sm font-medium">Account</span> </button><button onclick="toggleTheme()" id="theme-toggle" class="p-2 text-gray-700 hover:text-blue-600 transition-colors" aria-label="Toggle theme"> <i class="fas fa-moon text-xl sm:text-2xl" id="theme-icon"></i> </button><button onclick="toggleWishlist()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors" aria-label="Wishlist"> <i class="fas fa-heart text-xl sm:text-2xl"></i> <span id="wishlist-badge" class="cart-badge" style="display: none;">0</span> </button><button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-shopping-cart text-xl sm:text-2xl"></i> <span id="cart-badge" class="cart-badge" style="display: none;">0</span> </button> <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-bars text-xl sm:text-2xl" id="menu-icon"></i> </button>
      </div>
     </div><!-- Search Bar -->
     <div class="pb-3 sm:pb-4">
      <div class="relative max-w-2xl mx-auto"><input type="text" id="search-input" placeholder="Search beats..." class="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 pr-10 sm:pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" onkeyup="handleGlobalSearch(event)" oninput="handleGlobalSearch(event)"> <i class="fas fa-search absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-base"></i> <button onclick="clearSearch()" id="clear-search" class="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" style="display: none;"> <i class="fas fa-times text-sm sm:text-base"></i> </button>
-     </div>
-     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
-      <input type="text" id="tempo-filter-input" placeholder="Tempo (BPM)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="updateSearchFilters()">
-      <input type="text" id="key-filter-input" placeholder="Key (e.g. F minor)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="updateSearchFilters()">
-      <select id="search-genre-filter" onchange="updateSearchFilters()" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
-       <option value="all">All Genres</option>
-       <option value="Afrobeat">Afrobeat</option>
-       <option value="Amapiano">Amapiano</option>
-      </select>
      </div>
      <div id="search-results-info" class="text-center mt-2 text-xs sm:text-sm text-gray-600 font-medium" style="display: none;"></div>
     </div>
@@ -822,7 +825,7 @@
      <h2 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Menu</h2><button onclick="toggleMobileMenu()" class="p-2 text-gray-700 hover:text-blue-600 transition-colors"> <i class="fas fa-times text-2xl"></i> </button>
     </div>
    </div>
-   <nav class="py-4"><a href="#" class="mobile-menu-item" onclick="showPage('home'); toggleMobileMenu(); return false;"> <i class="fas fa-home"></i> <span>Home</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('tracks'); toggleMobileMenu(); return false;"> <i class="fas fa-music"></i> <span>Tracks</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('services'); toggleMobileMenu(); return false;"> <i class="fas fa-briefcase"></i> <span>Services</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('about'); toggleMobileMenu(); return false;"> <i class="fas fa-info-circle"></i> <span>About</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('contact'); toggleMobileMenu(); return false;"> <i class="fas fa-envelope"></i> <span>Contact</span> </a> <button type="button" class="mobile-menu-item w-full text-left" onclick="openAccountModal(); toggleMobileMenu(); return false;"> <i class="fas fa-user-circle"></i> <span>Account</span> </button>
+   <nav class="py-4"><a href="#" class="mobile-menu-item" onclick="showPage('home'); toggleMobileMenu(); return false;"> <i class="fas fa-home"></i> <span>Home</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('tracks'); toggleMobileMenu(); return false;"> <i class="fas fa-music"></i> <span>Tracks</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('services'); toggleMobileMenu(); return false;"> <i class="fas fa-briefcase"></i> <span>Services</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('about'); toggleMobileMenu(); return false;"> <i class="fas fa-info-circle"></i> <span>About</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('faq'); toggleMobileMenu(); return false;"> <i class="fas fa-question-circle"></i> <span>FAQs</span> </a> <a href="#" class="mobile-menu-item" onclick="showPage('contact'); toggleMobileMenu(); return false;"> <i class="fas fa-envelope"></i> <span>Contact</span> </a> <button type="button" class="mobile-menu-item w-full text-left" onclick="openAccountModal(); toggleMobileMenu(); return false;"> <i class="fas fa-user-circle"></i> <span>Account</span> </button>
    </nav>
    <div class="p-6 border-t border-gray-200">
     <div class="text-center">
@@ -841,8 +844,17 @@
      </div>
     </section><!-- Genre Filter -->
     <div class="mb-6 sm:mb-8">
-     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Browse by Genre</h3>
-     <div class="flex flex-wrap gap-2 sm:gap-3"><button onclick="filterByGenre('all')" class="genre-btn px-4 sm:px-6 py-1.5 sm:py-2 bg-blue-600 text-white rounded-full font-medium shadow-md text-sm sm:text-base"> All </button> <button onclick="filterByGenre('Afrobeat')" class="genre-btn px-4 sm:px-6 py-1.5 sm:py-2 bg-gray-200 text-gray-700 rounded-full font-medium text-sm sm:text-base"> Afrobeat </button> <button onclick="filterByGenre('Amapiano')" class="genre-btn px-4 sm:px-6 py-1.5 sm:py-2 bg-gray-200 text-gray-700 rounded-full font-medium text-sm sm:text-base"> Amapiano </button>
+     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">All Tracks</h2>
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <input type="text" id="tempo-filter-input" placeholder="Tempo (BPM)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="updateSearchFilters()">
+      <input type="text" id="key-filter-input" placeholder="Key (e.g. F minor)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="updateSearchFilters()">
+      <select id="search-genre-filter" onchange="updateSearchFilters()" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+       <option value="all">All Genres</option>
+       <option value="Afrobeat">Afrobeat</option>
+       <option value="Amapiano">Amapiano</option>
+       <option value="Reggaeton">Reggaeton</option>
+       <option value="Highlife">Highlife</option>
+      </select>
      </div>
     </div><!-- Beats List -->
     <div id="beats-container"></div>
@@ -850,13 +862,18 @@
    <div id="tracks-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">All Tracks</h2>
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-6 sm:mb-8">
-     <div class="w-full max-w-md">
-      <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Genre</label>
-      <select id="genre-filter" onchange="applyTrackFilters()" class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
-       <option value="all">All Genres</option>
-       <option value="Afrobeat">Afrobeat</option>
-       <option value="Amapiano">Amapiano</option>
-      </select>
+     <div class="w-full max-w-3xl">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+       <input type="text" id="track-tempo-filter-input" placeholder="Tempo (BPM)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="applyTrackFilters()">
+       <input type="text" id="track-key-filter-input" placeholder="Key (e.g. F minor)" class="w-full px-3 sm:px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" oninput="applyTrackFilters()">
+       <select id="genre-filter" onchange="applyTrackFilters()" class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+        <option value="all">All Genres</option>
+        <option value="Afrobeat">Afrobeat</option>
+        <option value="Amapiano">Amapiano</option>
+        <option value="Reggaeton">Reggaeton</option>
+        <option value="Highlife">Highlife</option>
+       </select>
+      </div>
      </div>
      <div class="flex items-center gap-2 rounded-full border border-gray-200 bg-white p-1 shadow-sm">
       <button type="button" id="track-view-list-btn" onclick="setTracksViewMode('list')" class="rounded-full px-3 py-2 text-sm font-semibold transition-all bg-blue-600 text-white shadow-sm">List</button>
@@ -1256,6 +1273,197 @@
      <p class="text-sm sm:text-base text-gray-700">By continuing to use this website, you acknowledge that you have read, understood, and accepted these terms.</p>
     </div>
    </div>
+   <div id="faq-page" style="display: none;">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Frequently Asked Questions</h2>
+    <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+     <div class="space-y-6">
+      
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">What is De Beat Chef?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>De Beat Chef is a premium platform for buying high-quality beats and instrumentals. We offer a curated collection of beats across various genres including Afrobeat, Amapiano, Reggaeton, and Highlife. Each beat is produced with professional standards and available under multiple licensing options to suit your needs.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">What license types are available?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p><strong>MP3 License (₦29,999):</strong> Personal use only, MP3 file included.</p>
+        <p class="mt-2"><strong>WAV License (₦59,999):</strong> Personal and limited commercial use, MP3 and WAV files included.</p>
+        <p class="mt-2"><strong>Premium Plus License (₦139,999):</strong> Non-exclusive rights for commercial use including radio, streaming, and music videos. Includes MP3, WAV, and project files.</p>
+        <p class="mt-2"><strong>Unlimited License (₦279,999):</strong> Full unlimited rights for all uses. Best for producers who want maximum flexibility. Includes all file formats and project files.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Can I preview beats before purchasing?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>Yes! All beats on our platform have a preview player. You can listen to the full beat to determine if it fits your project before making a purchase. Simply click on any beat card to preview it.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">How do I search and filter beats?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>You can search beats by title, filter by genre (Afrobeat, Amapiano, Reggaeton, Highlife), and sort by BPM and musical key. Use the search bar and filter dropdowns on the Tracks page to find exactly what you need.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">What's included with each license?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p><strong>MP3:</strong> MP3 file only</p>
+        <p class="mt-2"><strong>WAV:</strong> MP3 and WAV files (lossless quality)</p>
+        <p class="mt-2"><strong>Premium Plus:</strong> MP3, WAV files, and project files (stems)</p>
+        <p class="mt-2"><strong>Unlimited:</strong> MP3, WAV, project files, and all production assets</p>
+        <p class="mt-2">All purchases include instant download delivery via email.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Is there a first-time buyer discount?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>Yes! Create an account and sign in to unlock a 15% first-time discount on Premium Plus License purchases. This discount applies only once per email address on your first purchase.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Do you offer bulk discounts?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>Yes! We offer a special bulk discount: Buy 2 tracks with Unlimited License and get 2 more for free. This is automatically applied when you add eligible items to your cart.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">How do I download my purchased beats?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>After completing your purchase, you will receive an email with download links to your beat files. The download is instant and available immediately after payment confirmation.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Can I use the same beat for multiple projects?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>It depends on your license type. MP3 and WAV licenses are for single personal use. Premium Plus and Unlimited licenses allow multiple projects, but review your specific license terms for details. For more information, click "Read License" on any beat to see the full contract.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">What payment methods do you accept?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>We accept all major payment methods including credit cards, debit cards, and mobile payments. All transactions are processed securely through our trusted payment partner. Your financial information is never stored on our servers.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Is there a refund policy?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>All purchases are final. However, if you experience any technical issues with your download or have concerns about your purchase, please contact our support team within 24 hours of purchase for assistance.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Can I license a beat for commercial use?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>Yes! Both Premium Plus and Unlimited licenses include commercial rights. You can use these licenses for YouTube monetization, streaming platforms, radio broadcasting, and more. Each license has specific terms - read the full license agreement to understand what's included.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Do you offer custom beat production?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>Yes! We offer custom beat production services including:</p>
+        <ul class="mt-2 space-y-1 ml-4">
+         <li>• Music Lessons</li>
+         <li>• Production Consultation</li>
+         <li>• Mastering Services</li>
+         <li>• Collaboration</li>
+         <li>• Full Mixing</li>
+         <li>• Mixing & Mastering</li>
+        </ul>
+        <p class="mt-2">Contact us to negotiate pricing for your specific project needs.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">What's the difference between Premium Plus and Unlimited?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p><strong>Premium Plus (₦139,999):</strong> Non-exclusive rights. Multiple people can license and use the same beat. Great for new producers and independent artists.</p>
+        <p class="mt-2"><strong>Unlimited (₦279,999):</strong> Full unrestricted rights with unlimited term. Best for professionals who want maximum flexibility and exclusivity options.</p>
+       </div>
+      </div>
+
+      <div class="border-b border-gray-200 pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">How do I contact support?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>You can reach our support team by:</p>
+        <ul class="mt-2 space-y-1 ml-4">
+         <li>• Filling out the contact form on our <strong><a href="#" onclick="showPage('contact'); return false;" class="text-blue-600 hover:text-blue-700">Contact page</a></strong></li>
+         <li>• Emailing us directly</li>
+         <li>• Following us on Instagram, YouTube, or TikTok</li>
+        </ul>
+        <p class="mt-2">We typically respond within 24 hours.</p>
+       </div>
+      </div>
+
+      <div class="pb-6">
+       <button onclick="toggleFAQ(this)" class="w-full text-left flex justify-between items-center py-2 hover:text-blue-600 transition-colors">
+        <h3 class="text-lg font-semibold text-gray-900">Can I request a specific beat or collaboration?</h3>
+        <i class="fas fa-chevron-down text-blue-600"></i>
+       </button>
+       <div class="faq-answer hidden mt-3 text-sm sm:text-base text-gray-700">
+        <p>Absolutely! We love custom requests and collaborations. Use the <strong><a href="#" onclick="showPage('contact'); return false;" class="text-blue-600 hover:text-blue-700">Contact page</a></strong> or visit the <strong><a href="#" onclick="showPage('services'); return false;" class="text-blue-600 hover:text-blue-700">Services page</a></strong> to discuss your project. We can work with you to create exactly what you need.</p>
+       </div>
+      </div>
+
+     </div>
+    </div>
+   </div>
    <div id="privacy-page" style="display: none;">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Privacy Policy</h2>
     <div class="max-w-5xl bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-6">
@@ -1308,6 +1516,14 @@
      <p class="text-sm sm:text-base text-gray-700">We may update this policy from time to time. Continued use of the website after changes are posted means you accept the updated terms.</p>
     </div>
    </div>
+   <div id="wishlist-page" style="display: none;">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">My Wishlist</h2>
+    <div class="max-w-6xl">
+     <div id="wishlist-items-container" class="space-y-4">
+      <p class="text-center text-gray-500 py-8">Your wishlist is empty</p>
+     </div>
+    </div>
+   </div>
   </main><!-- Footer -->
   <footer class="bg-gray-900 text-white mt-12 sm:mt-16">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
@@ -1329,6 +1545,7 @@
        <li><a href="#" onclick="showPage('tracks'); return false;" class="text-gray-400 hover:text-white transition-colors">Tracks</a></li>
        <li><a href="#" onclick="showPage('services'); return false;" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
        <li><a href="#" onclick="showPage('about'); return false;" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+       <li><a href="#" onclick="showPage('faq'); return false;" class="text-gray-400 hover:text-white transition-colors">FAQs</a></li>
        <li><a href="#" onclick="showPage('contact'); return false;" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
        <li><a href="#" onclick="showPage('license'); return false;" class="text-gray-400 hover:text-white transition-colors">Licensing Info</a></li>
        <li><a href="#" onclick="showPage('terms'); return false;" class="text-gray-400 hover:text-white transition-colors">Terms of Use</a></li>
@@ -1796,6 +2013,7 @@
         let visualizerRaf = null;
         let activeVisualizerBeatId = null;
         let cart = [];
+        let wishlist = [];
         let currentGenreFilter = 'all';
         let pendingExternalLink = null;
         let pendingExternalTarget = null;
@@ -2290,7 +2508,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1W4iBiZd2gDcJ8yiSfbQGZ4dQzcgdWYXt/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1IjfOUmbesE58v6m_C4Z92vI_vlW1QVa0/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
+                    zip: "https://drive.google.com/file/d/1g_99wxiM8XwaoTeLCepqaclkkk6HA-cS/view?usp=sharing"
                 }
             },
             {
@@ -2546,7 +2764,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1TTyDdXhftYKcjfqRU5hBQktdoUHirxe6/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1-WTLEcShP7Sk_f4M4mtR8PATYWPe8WhU/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1DcJMRv2tHNx8Pekj8RGAddJj6hsuwfCD/view?usp=sharing"
                 }
             },
             {
@@ -2562,7 +2780,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1W72e_J6JLLiZNCiKZ6iEwj2rLdL4jv5a/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1TGV-U_XwiIwgXtvk_gDTEgW5YwXc5mRk/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1yThpw3TK3VC5LuZ_zeHyVfScUhqRHJvP/view?usp=sharing"
                 }
             },
             {
@@ -2578,7 +2796,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1VoxhoUI8meST23Uznm-NNOZO5G-ZlSPT/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1f0HUWyRhD4BxwrkMvdxMEX9f-9s2O7TS/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1UR4mb08Dbu-9KLMRbIMlPs1uVlxf6Id7/view?usp=sharing"
                 }
             },
             {
@@ -2594,7 +2812,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1Cs639aQVJHhqpdA0Z0L_l8fWwOhkjR6i/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1MLWJuigt0F6SpjQS2YkULY3vzGS1f6yC/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1S67NTLqKaNz_nlX71NPCy5RzPhOQ3dTC/view?usp=sharing"
                 }
             },
             {
@@ -2610,7 +2828,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1mHTX8Z0DeWbiSQTZirJdkVKPnF8mdV0B/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1yh0hs_pkqLuBwleKuECjWmdxq0Z_k7SE/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1KivhmVHsfkwF5eEcJi9OV_pe6qP7kK6U/view?usp=sharing"
                 }
             },
             {
@@ -2626,7 +2844,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1wG2EMBXZ88wxGcYbY5tK_7w2ppgw95tL/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/10JlmEYA9Tq9QZqQjbiTDmpDSKTFULP-3/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1TEE2ciRKjg7s-YOJtoR72TZSxk_SpX27/view?usp=sharing"
                 }
             },
             {
@@ -2642,7 +2860,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1dywrvWBBaWn9fS_R4AbvI2328D7JYTck/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1775HXVoZGSeBU0nBI_kzRTjd9_ilC9ny/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1KZi370tJ8Z-wctEfY9D21PaMo5xhS5US/view?usp=sharing"
                 }
             },
             {
@@ -2658,7 +2876,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1Xjf1LAy41uW5quahGQ9zm9nzjOJAbqj-/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1dGePAjCHw3zbjFp5ScWnwQ4kpxxMrnNk/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1_BcMs6mdcOtCsQZVZ09yzJ8Jc-UwCHk7/view?usp=sharing"
                 }
             },
             {
@@ -2674,7 +2892,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1Be-izdchFE4Ju6ykwke5wTTsp7rFV3tk/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1qKQFKK8XrE0tkr5H1Lr4aQOTCRLA72Bm/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1Tkt4OfbUxBuZJEaKsLc001o1eZhzl0yS/view?usp=sharing"
                 }
             },
             {
@@ -2690,7 +2908,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1HAuFB9ISUAF0PizGwAFAB2NcWnhy57aG/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1Ofye4xs6PR_xc-AWMRd2S3AeiEgKtZ4y/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1rzzp-qihizY-N0naYG6SA0z-RYceGaOx/view?usp=sharing"
                 }
             },
             {
@@ -2706,7 +2924,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1g6WyN4jf2PlBkMa_lRsDyhJF-V_2KHVv/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1nzKYOIUdfHQ1TUVRl-S9zYmRs3tcEdTJ/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1Pc-zQsM5blVySWxqNvaupvuVdMaq0ZHr/view?usp=sharing"
                 }
             },
             {
@@ -2722,7 +2940,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1QweS2Rc7MdXJ5Qi8-LG7D8ci6deDFYhR/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1rGRsoz2AwKEvx5MF0UV-2RRKtWE7lDh2/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1hBIqSkYcwyrDpcJ6PoIZ69EMOxjsF0ee/view?usp=sharing"
                 }
             },
             {
@@ -2738,7 +2956,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1NrQCO9yJgj-Iku_lQJKNpxOa8VnHR2vm/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1P6PNYvwjgFyWAZXgalJAG9xrn2FACTL6/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/16fwgPWG1XJEe9bgXDIS853LeUJ6pJcd3/view?usp=sharing"
                 }
             },
             {
@@ -2754,7 +2972,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1OM9RvZlSELUEh1vkuEPyBR250a-UMxKZ/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1TRLpJCd-Hihy221Vu3KW_k5AreUlWsIm/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/19B0smiL0C0cLaQWRGHFbNgcWbrqxmMqO/view?usp=sharing"
                 }
             },
             {
@@ -2770,7 +2988,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/12fzxzpVnHIulEiEhWLhHHV_wR6Lexwni/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1LdPChmlFb67BEeZckNp7X3ueYx2LdhXy/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1svLgevNRh-SR1pvItN9tUq2TX07nSzL7/view?usp=sharing"
                 }
             },
             {
@@ -2786,7 +3004,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1gwGYT43r1OGo_owB8qcVazbVA_0AVD3-/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/17y952v22wAs9WHmvFfqCD-Im0lj-ztKO/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1UI6ouSOOKLUtPxBOoECLfhgsbfv_U9yT/view?usp=sharing"
                 }
             },
             {
@@ -2802,7 +3020,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1S5igLppxW1YNDd7uH3dfqZVkrssNcOh-/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1kcinAe7oJ6pMRpfzHxuKASeZ9r25qpcd/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1dQMyvN2Y947UL5B6_bV1aNg1IAxj00lf/view?usp=sharing"
                 }
             },
             {
@@ -2818,7 +3036,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1ijROXDTudlMmqq_3x3nQJpuVIAR-xfN-/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1vPzahFQ6jnj8euJH3umyqExki0oOXJ8h/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_6"
+                    zip: "https://drive.google.com/file/d/1kpTub_PS01w_rgorf1hFwNA2bJeaysOi/view?usp=sharing"
                 }
             },
             {
@@ -2834,7 +3052,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1oYXUZrc-6uJnbrtaxJo47nYO-nc2AXoF/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1fpISRKlXd8bjS--eq-JRZ9oxKuYYg-mo/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
+                    zip: "https://drive.google.com/file/d/1wZ5uDf8BFIcWE-XBJK_XH8ETWjO9zRpe/view?usp=sharing"
                 }
             },
             {
@@ -2850,7 +3068,7 @@
                 downloadLinks: {
                     mp3: "https://drive.google.com/file/d/1cQ5yBdkXfFT5DHZuw9DagD0Au1IexHxr/view?usp=sharing",
                     wav: "https://drive.google.com/file/d/1QSHcv3NQrDQT1xg0h-5khdkknvZ_NH3F/view?usp=sharing",
-                    zip: "https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID_2"
+                    zip: "https://drive.google.com/file/d/1LzQyxDuIES_clqD9dciXNlz28tsELI6P/view?usp=sharing"
                 }
             },
             {
@@ -2999,6 +3217,54 @@
         }, {});
 
         const trackDurations = {};
+        const trackDurationOverrides = {
+            1: 165.308,
+            2: 158.464,
+            3: 187.898,
+            4: 169.769,
+            5: 180.062,
+            6: 169.095,
+            7: 161.52,
+            8: 176.483,
+            9: 163.186,
+            10: 153.84,
+            11: 171.833,
+            12: 159.66,
+            13: 190.328,
+            14: 183.248,
+            15: 182.021,
+            16: 154.279,
+            17: 168.306,
+            18: 175.464,
+            19: 174.654,
+            20: 156.212,
+            21: 162.533,
+            22: 178.86,
+            23: 189.648,
+            24: 202.971,
+            25: 175.568,
+            26: 179.565,
+            27: 158.093,
+            28: 146.991,
+            29: 167.314,
+            30: 215.954,
+            31: 168.724,
+            32: 189.44,
+            33: 160.341,
+            34: 169.954,
+            35: 160.263,
+            36: 157.285,
+            37: 160.057,
+            38: 147.722,
+            39: 181.707,
+            40: 166.4,
+            41: 191.764,
+            42: 151.013,
+            43: 165.198,
+            44: 170.266,
+            45: 195.448,
+            46: 175.281
+        };
         const MIN_PLAY_SECONDS = 30;
 
         loadBeatStatsFromStorage();
@@ -3010,18 +3276,55 @@
             return '₦' + amount.toLocaleString('en-NG');
         }
 
+        function resolveTrackDuration(beatId) {
+            if (Number.isFinite(trackDurationOverrides[beatId])) {
+                return trackDurationOverrides[beatId];
+            }
+            return Number.isFinite(trackDurations[beatId]) ? trackDurations[beatId] : 0;
+        }
+
+        function setTrackDurationDisplay(beatId, seconds) {
+            const safeSeconds = Number.isFinite(seconds) ? seconds : 0;
+            const formatted = formatTime(safeSeconds);
+            const durationEls = [
+                document.getElementById(`track-duration-${beatId}`),
+                document.getElementById(`track-duration-grid-${beatId}`)
+            ].filter(Boolean);
+
+            durationEls.forEach(el => {
+                el.textContent = formatted;
+            });
+
+            if (safeSeconds > 0) {
+                trackDurations[beatId] = safeSeconds;
+            }
+        }
+
         function loadBeatDurations() {
             beats.forEach(beat => {
+                const initialDuration = resolveTrackDuration(beat.id);
+                setTrackDurationDisplay(beat.id, initialDuration);
+
                 const candidates = resolvePlayableUrls(beat.audioUrl);
                 const audio = new Audio(candidates[0] || beat.audioUrl);
                 audio.preload = 'metadata';
-                audio.addEventListener('loadedmetadata', () => {
-                    trackDurations[beat.id] = audio.duration;
-                    const durationEl = document.getElementById(`track-duration-${beat.id}`);
-                    if (durationEl) {
-                        durationEl.textContent = formatTime(audio.duration);
+                audio.muted = true;
+
+                const updateDuration = () => {
+                    if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+                    if (!Number.isFinite(trackDurationOverrides[beat.id])) {
+                        setTrackDurationDisplay(beat.id, audio.duration);
+                    }
+                };
+
+                audio.addEventListener('loadedmetadata', updateDuration);
+                audio.addEventListener('canplay', updateDuration);
+                audio.addEventListener('error', () => {
+                    if (!Number.isFinite(trackDurationOverrides[beat.id])) {
+                        setTrackDurationDisplay(beat.id, 0);
                     }
                 });
+                audio.load();
             });
         }
 
@@ -3084,15 +3387,16 @@
                                     <h3 class="text-base sm:text-lg font-semibold text-slate-900 truncate">${beat.title}</h3>
                                     <p class="text-xs sm:text-sm text-slate-500 truncate">${beat.producer}</p>
                                     <div class="flex flex-wrap items-center gap-2 mt-2 text-xs text-slate-500">
-                                        <span class="inline-flex items-center gap-1"><i class="fas fa-clock"></i>${trackDurations[beatId] ? formatTime(trackDurations[beatId]) : '--:--'}</span>
+                                        <span class="inline-flex items-center gap-1"><i class="fas fa-clock"></i><span id="track-duration-${beatId}">${formatTime(resolveTrackDuration(beatId))}</span></span>
                                         <span class="inline-flex items-center gap-1"><i class="fas fa-key"></i>${beat.key}</span>
                                         <span class="inline-flex items-center gap-1"><i class="fas fa-drum"></i>${beat.bpm} BPM</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 sm:gap-3">
+                                <button onclick="addToWishlist(${beatId})" type="button" class="track-row-action-btn px-3 py-2 rounded-2xl text-sm" id="wishlist-btn-${beatId}" title="Add to wishlist"><i class="fas fa-heart"></i></button>
+                                <button onclick="openLicenseModal(${beatId})" type="button" class="track-row-action-btn px-3 py-2 rounded-2xl text-sm" title="Select license"><i class="fas fa-shopping-cart"></i></button>
                                 <button onclick="openLicenseModal(${beatId})" class="track-row-action-btn px-4 py-2 rounded-2xl text-sm font-semibold">${formatNaira(beat.price.mp3)}</button>
-                                <button onclick="copyTrackLink(${beatId})" type="button" class="track-row-action-btn px-3 py-2 rounded-2xl text-sm"><i class="fas fa-share-alt"></i></button>
                             </div>
                         </div>
                         <div class="track-row-tags mt-4">
@@ -3146,7 +3450,7 @@
                                     <span><i class="fas fa-key mr-1"></i>${beat.key}</span>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-3 mt-3 text-xs sm:text-sm text-gray-500">
-                                    <span class="inline-flex items-center gap-1"><i class="fas fa-clock"></i>${trackDurations[beatId] ? formatTime(trackDurations[beatId]) : '--:--'}</span>
+                                    <span class="inline-flex items-center gap-1"><i class="fas fa-clock"></i><span id="track-duration-grid-${beatId}">${formatTime(resolveTrackDuration(beatId))}</span></span>
                                     <span class="inline-flex items-center gap-1"><i class="fas fa-play"></i>Plays: ${beatStats[beatId]?.plays || 0}</span>
                                 </div>
                                 <div id="progress-${beatId}" class="mt-2 sm:mt-3 w-full" style="display: none;">
@@ -3187,6 +3491,7 @@
 
             const wrapperClass = viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6' : 'space-y-4';
             document.getElementById(container).innerHTML = `<div class="${wrapperClass}">${cardsHtml}</div>`;
+            updateWishlistButtonStates();
         }
 
         function getBeatIdFromHash(hashValue) {
@@ -4194,6 +4499,116 @@
             }
         }
 
+        function updateWishlistBadge() {
+            const badge = document.getElementById('wishlist-badge');
+            if (wishlist.length > 0) {
+                badge.textContent = wishlist.length;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function addToWishlist(beatId) {
+            const beat = beats.find(b => b.id === beatId);
+            if (!beat) return;
+            
+            const existingIndex = wishlist.findIndex(item => item.id === beatId);
+            const btn = document.getElementById(`wishlist-btn-${beatId}`);
+            
+            if (existingIndex > -1) {
+                wishlist.splice(existingIndex, 1);
+                if (btn) {
+                    btn.classList.remove('text-red-500');
+                    btn.classList.add('text-gray-700');
+                }
+                showToast('Removed from wishlist', 'success');
+                // Re-render wishlist page if currently viewing it
+                if (window.currentPage === 'wishlist') {
+                    renderWishlistPage();
+                }
+            } else {
+                wishlist.push({ id: beatId, title: beat.title, producer: beat.producer, price: beat.price.mp3 });
+                if (btn) {
+                    btn.classList.remove('text-gray-700');
+                    btn.classList.add('text-red-500');
+                }
+                showToast('Added to wishlist', 'success');
+            }
+            
+            updateWishlistBadge();
+            saveWishlist();
+        }
+
+        function saveWishlist() {
+            try { localStorage.setItem('debeat_wishlist', JSON.stringify(wishlist)); } catch (e) {}
+        }
+
+        function loadWishlist() {
+            try {
+                const saved = localStorage.getItem('debeat_wishlist');
+                if (saved) wishlist = JSON.parse(saved);
+            } catch (e) {}
+            updateWishlistBadge();
+            updateWishlistButtonStates();
+        }
+
+        function updateWishlistButtonStates() {
+            wishlist.forEach(item => {
+                const btn = document.getElementById(`wishlist-btn-${item.id}`);
+                if (btn) {
+                    btn.classList.remove('text-gray-700');
+                    btn.classList.add('text-red-500');
+                }
+            });
+        }
+
+        function toggleWishlist() {
+            renderWishlistPage();
+            showPage('wishlist');
+        }
+
+        function renderWishlistPage() {
+            const container = document.getElementById('wishlist-items-container');
+            
+            if (wishlist.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500 py-8">Your wishlist is empty</p>';
+                return;
+            }
+
+            const itemsHtml = wishlist.map(item => {
+                const beat = beats.find(b => b.id === item.id);
+                if (!beat) return '';
+                
+                return `
+                    <div class="flex items-center justify-between gap-4 p-4 bg-gray-50 rounded-xl border border-gray-200 hover:border-blue-300 transition-colors">
+                        <div class="flex items-center gap-3 flex-1 min-w-0">
+                            <img src="${beat.image}" alt="${beat.title}" class="w-16 h-16 rounded-lg object-cover shadow-md" onerror="this.src=''; this.alt='Image failed to load';">
+                            <div class="min-w-0 flex-1">
+                                <h3 class="font-semibold text-gray-900 truncate">${beat.title}</h3>
+                                <p class="text-sm text-gray-500 truncate">${beat.producer}</p>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    <i class="fas fa-key mr-1"></i>${beat.key} • 
+                                    <i class="fas fa-drum mr-1"></i>${beat.bpm} BPM
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="openLicenseModal(${item.id})" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors" title="Add to cart"><i class="fas fa-shopping-cart"></i></button>
+                            <button onclick="openLicenseModal(${item.id})" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm">
+                                ${formatNaira(item.price)}
+                            </button>
+                            <button onclick="addToWishlist(${item.id})" class="px-3 py-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Remove from wishlist">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = `<div class="space-y-4">${itemsHtml}</div>`;
+        }
+
         function toggleCart() {
             const modal = document.getElementById('cart-modal');
             if (!modal) {
@@ -4264,7 +4679,7 @@
                 if (!currentUser || !currentUser.email) return 0;
                 const key = 'debeat_first_discount_used_' + currentUser.email.toLowerCase();
                 if (localStorage.getItem(key) === '1') return 0;
-                const eligible = items.filter(i => i.licenseType === 'premium' || i.licenseType === 'unlimited');
+                const eligible = items.filter(i => i.licenseType === 'premium');
                 const eligibleSum = eligible.reduce((s, it) => s + (it.price || 0), 0);
                 const discount = Math.round(eligibleSum * 0.15 * 100) / 100;
                 return discount;
@@ -4326,8 +4741,8 @@
             if (firstTimeDiscount > 0 && currentUser) {
                 discountText += `<p class="text-sm sm:text-base text-blue-700 mt-2">First-time signed-in discount applied: -${formatNaira(firstTimeDiscount)}</p>`;
                 cartTotal = Math.max(0, summary.total - firstTimeDiscount);
-            } else if (cart.some(item => item.licenseType === 'premium' || item.licenseType === 'unlimited') && !currentUser) {
-                signInHint = '<p class="text-sm sm:text-base text-blue-700 mt-4">Sign in to unlock a 15% first-time discount on Premium and Unlimited licenses.</p>';
+            } else if (cart.some(item => item.licenseType === 'premium') && !currentUser) {
+                signInHint = '<p class="text-sm sm:text-base text-blue-700 mt-4">Sign in to unlock a 15% first-time discount on Premium Plus license.</p>';
             }
 
             document.getElementById('cart-total').textContent = formatNaira(cartTotal);
@@ -4340,7 +4755,7 @@
 
             const badge = document.getElementById('checkout-discount-badge');
             if (badge) {
-                if (cart.some(item => item.licenseType === 'premium' || item.licenseType === 'unlimited') && !currentUser) {
+                if (cart.some(item => item.licenseType === 'premium') && !currentUser) {
                     badge.classList.remove('hidden');
                 } else {
                     badge.classList.add('hidden');
@@ -4477,19 +4892,35 @@
             }
         }
 
-        function filterByGenre(genre, button) {
-            currentGenreFilter = genre;
-            const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
+        function applyGenreSelection(genre, source) {
+            const selectedGenre = genre || 'all';
+            syncGenreDropdowns(selectedGenre);
+            currentGenreFilter = selectedGenre;
+
+            const filtered = selectedGenre === 'all' ? beats : beats.filter(b => beatMatchesGenre(b, selectedGenre));
+
+            if (window.currentPage === 'tracks') {
+                setTracksPageBeats(filtered);
+                return filtered;
+            }
+
             renderBeats('beats-container', filtered, 'list');
-            
+
             document.querySelectorAll('.genre-btn').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
                 btn.classList.add('bg-gray-200', 'text-gray-700');
             });
-            if (button) {
-                button.classList.remove('bg-gray-200', 'text-gray-700');
-                button.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+
+            if (source && source.classList && source.classList.contains('genre-btn')) {
+                source.classList.remove('bg-gray-200', 'text-gray-700');
+                source.classList.add('bg-blue-600', 'text-white', 'shadow-md');
             }
+
+            return filtered;
+        }
+
+        function filterByGenre(genre, button) {
+            applyGenreSelection(genre, button);
         }
 
         function applyTheme(isDark) {
@@ -4508,6 +4939,87 @@
             applyTheme(isDark);
         }
 
+        function normalizeGenreToken(value) {
+            const label = String(value || '').trim().toLowerCase();
+            if (!label) return '';
+
+            if (label.includes('afrobeat')) return 'Afrobeat';
+            if (label.includes('amapiano')) return 'Amapiano';
+            if (label.includes('reggaeton') || label.includes('raggaeton')) return 'Reggaeton';
+            if (label.includes('highlife')) return 'Highlife';
+
+            return '';
+        }
+
+        function getBeatGenreTokens(beat) {
+            if (!beat || !beat.genre) return [];
+            return String(beat.genre)
+                .split(',')
+                .map(normalizeGenreToken)
+                .filter(Boolean);
+        }
+
+        function beatMatchesGenre(beat, selectedGenre) {
+            const target = normalizeGenreToken(selectedGenre);
+            if (!target || target.toLowerCase() === 'all') return true;
+            const genres = getBeatGenreTokens(beat);
+            return genres.some(genre => genre.toLowerCase() === target.toLowerCase());
+        }
+
+        function getAllGenreOptions() {
+            return ['Afrobeat', 'Amapiano', 'Reggaeton', 'Highlife'];
+        }
+
+        function syncGenreDropdowns(selectedValue) {
+            const value = selectedValue || 'all';
+            const dropdowns = [
+                document.getElementById('search-genre-filter'),
+                document.getElementById('genre-filter')
+            ];
+
+            dropdowns.forEach((dropdown) => {
+                if (!dropdown) return;
+                if (dropdown.value !== value) {
+                    dropdown.value = value;
+                }
+            });
+        }
+
+        function populateGenreDropdowns() {
+            const dropdowns = [
+                document.getElementById('search-genre-filter'),
+                document.getElementById('genre-filter')
+            ];
+
+            const availableGenres = getAllGenreOptions();
+
+            dropdowns.forEach((dropdown) => {
+                if (!dropdown) return;
+
+                const currentValue = dropdown.value || 'all';
+                dropdown.innerHTML = '';
+
+                const allOption = document.createElement('option');
+                allOption.value = 'all';
+                allOption.textContent = 'All Genres';
+                dropdown.appendChild(allOption);
+
+                availableGenres.forEach((genre) => {
+                    const option = document.createElement('option');
+                    option.value = genre;
+                    option.textContent = genre;
+                    dropdown.appendChild(option);
+                });
+
+                dropdown.value = availableGenres.includes(currentValue) ? currentValue : 'all';
+            });
+
+            const syncedValue = document.getElementById('genre-filter')
+                ? document.getElementById('genre-filter').value
+                : document.getElementById('search-genre-filter')?.value || 'all';
+            syncGenreDropdowns(syncedValue);
+        }
+
         function togglePasswordVisibility(inputId, iconId) {
             const input = document.getElementById(inputId);
             const icon = document.getElementById(iconId);
@@ -4522,20 +5034,42 @@
             if (!page) page = 'home';
             const beatId = getBeatIdFromHash(page);
             const targetPage = beatId ? 'home' : page;
+            const pageMap = {
+                home: 'home-page',
+                tracks: 'tracks-page',
+                services: 'services-page',
+                about: 'about-page',
+                faq: 'faq-page',
+                contact: 'contact-page',
+                license: 'license-page',
+                terms: 'terms-page',
+                privacy: 'privacy-page',
+                wishlist: 'wishlist-page'
+            };
+
             window.highlightBeatId = beatId || null;
             window.currentPage = targetPage;
 
-            document.getElementById('home-page').style.display = 'none';
-            document.getElementById('tracks-page').style.display = 'none';
-            document.getElementById('services-page').style.display = 'none';
-            document.getElementById('about-page').style.display = 'none';
-            document.getElementById('contact-page').style.display = 'none';
-            document.getElementById('license-page').style.display = 'none';
-            document.getElementById('terms-page').style.display = 'none';
-            document.getElementById('privacy-page').style.display = 'none';
+            Object.keys(pageMap).forEach((pageKey) => {
+                const section = document.getElementById(pageMap[pageKey]);
+                if (!section) return;
+                section.classList.remove('is-visible');
+                section.style.display = 'none';
+                section.classList.add('page-panel');
+            });
+
+            const selectedSection = document.getElementById(pageMap[targetPage]);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+                selectedSection.classList.add('page-panel');
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        selectedSection.classList.add('is-visible');
+                    });
+                });
+            }
             
             if (targetPage === 'home') {
-                document.getElementById('home-page').style.display = 'block';
                 const currentQuery = document.getElementById('search-input').value;
                 if (currentQuery) {
                     handleGlobalSearch({ target: { value: currentQuery } });
@@ -4543,30 +5077,20 @@
                     renderBeats('beats-container', beats, 'list');
                 }
             } else if (targetPage === 'tracks') {
-                document.getElementById('tracks-page').style.display = 'block';
                 if (!tracksPageBeats || !tracksPageBeats.length) {
                     tracksPageBeats = [...beats];
                 }
                 const currentQuery = document.getElementById('search-input').value;
+                const genreFilter = document.getElementById('genre-filter');
                 if (currentQuery) {
                     updateSearchFilters();
+                } else if (genreFilter && genreFilter.value && genreFilter.value !== 'all') {
+                    applyTrackFilters();
                 } else {
                     setTracksPageBeats(tracksPageBeats);
                 }
                 updateTracksViewToggle();
                 updateBulkDealBanner();
-            } else if (targetPage === 'services') {
-                document.getElementById('services-page').style.display = 'block';
-            } else if (targetPage === 'about') {
-                document.getElementById('about-page').style.display = 'block';
-            } else if (targetPage === 'contact') {
-                document.getElementById('contact-page').style.display = 'block';
-            } else if (targetPage === 'license') {
-                document.getElementById('license-page').style.display = 'block';
-            } else if (targetPage === 'terms') {
-                document.getElementById('terms-page').style.display = 'block';
-            } else if (targetPage === 'privacy') {
-                document.getElementById('privacy-page').style.display = 'block';
             }
             
             window.scrollTo(0, 0);
@@ -4587,6 +5111,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const storedTheme = localStorage.getItem('beatstore-theme');
             applyTheme(storedTheme !== 'light');
+            populateGenreDropdowns();
             updateTracksViewToggle();
             const initial = (location.hash && location.hash.length > 1) ? location.hash.slice(1) : 'home';
             showPage(initial);
@@ -4601,16 +5126,37 @@
         function getSearchFilterValues() {
             const currentPage = window.currentPage || 'home';
             const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const tempoField = currentPage === 'tracks'
+                ? document.getElementById('track-tempo-filter-input')
+                : document.getElementById('tempo-filter-input');
+            const keyField = currentPage === 'tracks'
+                ? document.getElementById('track-key-filter-input')
+                : document.getElementById('key-filter-input');
             const genreField = currentPage === 'tracks'
                 ? document.getElementById('genre-filter')
                 : document.getElementById('search-genre-filter');
 
             return {
                 query,
-                tempo: currentPage === 'home' ? document.getElementById('tempo-filter-input').value.toLowerCase().trim() : '',
-                key: currentPage === 'home' ? document.getElementById('key-filter-input').value.toLowerCase().trim() : '',
+                tempo: tempoField ? tempoField.value.toLowerCase().trim() : '',
+                key: keyField ? keyField.value.toLowerCase().trim() : '',
                 genre: genreField ? genreField.value : 'all'
             };
+        }
+
+        function toggleFAQ(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (answer.classList.contains('hidden')) {
+                answer.classList.remove('hidden');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                answer.classList.add('hidden');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
         }
 
         function handleGlobalSearch(event) {
@@ -4620,6 +5166,7 @@
         function updateSearchFilters() {
             const currentPage = window.currentPage || 'home';
             const { query, tempo, key, genre } = getSearchFilterValues();
+            syncGenreDropdowns(genre || 'all');
             const clearButton = document.getElementById('clear-search');
             const searchInfo = document.getElementById('search-results-info');
             const filtered = beats.filter(beat => {
@@ -4632,7 +5179,7 @@
 
                 const matchesTempo = tempo.length === 0 || beat.bpm.toString().includes(tempo);
                 const matchesKey = key.length === 0 || beat.key.toLowerCase().includes(key);
-                const matchesGenre = genre === 'all' || beat.genre === genre;
+                const matchesGenre = genre === 'all' || beatMatchesGenre(beat, genre);
 
                 return matchesQuery && matchesTempo && matchesKey && matchesGenre;
             });
@@ -4671,9 +5218,18 @@
 
         function clearSearch() {
             document.getElementById('search-input').value = '';
-            document.getElementById('tempo-filter-input').value = '';
-            document.getElementById('key-filter-input').value = '';
-            document.getElementById('search-genre-filter').value = 'all';
+            const homeTempo = document.getElementById('tempo-filter-input');
+            const homeKey = document.getElementById('key-filter-input');
+            const trackTempo = document.getElementById('track-tempo-filter-input');
+            const trackKey = document.getElementById('track-key-filter-input');
+            if (homeTempo) homeTempo.value = '';
+            if (homeKey) homeKey.value = '';
+            if (trackTempo) trackTempo.value = '';
+            if (trackKey) trackKey.value = '';
+            const searchGenre = document.getElementById('search-genre-filter');
+            const trackGenre = document.getElementById('genre-filter');
+            if (searchGenre) searchGenre.value = 'all';
+            if (trackGenre) trackGenre.value = 'all';
             document.getElementById('clear-search').style.display = 'none';
             const searchInfo = document.getElementById('search-results-info');
             searchInfo.style.display = 'none';
@@ -4693,9 +5249,26 @@
         }
 
         function applyTrackFilters() {
-            const genre = document.getElementById('genre-filter').value;
-            const filtered = genre === 'all' ? beats : beats.filter(b => b.genre === genre);
+            const genreFilter = document.getElementById('genre-filter');
+            const tempoInput = document.getElementById('track-tempo-filter-input');
+            const keyInput = document.getElementById('track-key-filter-input');
+            if (!genreFilter) return;
+
+            const genre = genreFilter.value || 'all';
+            const tempo = (tempoInput ? tempoInput.value : '').toLowerCase().trim();
+            const key = (keyInput ? keyInput.value : '').toLowerCase().trim();
+
+            syncGenreDropdowns(genre);
+
+            const filtered = beats.filter(beat => {
+                const matchesTempo = tempo.length === 0 || beat.bpm.toString().includes(tempo);
+                const matchesKey = key.length === 0 || beat.key.toLowerCase().includes(key);
+                const matchesGenre = genre === 'all' || beatMatchesGenre(beat, genre);
+                return matchesTempo && matchesKey && matchesGenre;
+            });
+
             setTracksPageBeats(filtered);
+            return filtered;
         }
 
         function shuffleTracks() {
@@ -4861,9 +5434,9 @@
             }
 
             const currentUser = getCurrentUser();
-            const hasPremiumUnlimited = cart.some(item => item.licenseType === 'premium' || item.licenseType === 'unlimited');
-            if (hasPremiumUnlimited && !currentUser) {
-                showToast('Sign in to access the 15% first-time discount for Premium and Unlimited licenses.', 'info');
+            const hasPremium = cart.some(item => item.licenseType === 'premium');
+            if (hasPremium && !currentUser) {
+                showToast('Sign in to access the 15% first-time discount for Premium Plus license.', 'info');
                 openAccountModal();
                 return;
             }
@@ -5239,6 +5812,7 @@
 
         // Load cart and render beats on page load
         loadCartFromStorage();
+        loadWishlist();
         preloadOfferFromToken();
         renderAuthButton();
         renderAccountView();

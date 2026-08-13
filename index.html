@@ -2096,6 +2096,36 @@
         let pendingExternalLink = null;
         let pendingExternalTarget = null;
         let exitPromptShown = false;
+        const googleFallbackState = {
+            isBlocked: false,
+            lastError: null
+        };
+
+        function markGoogleDependencyBlocked(error) {
+            googleFallbackState.isBlocked = true;
+            googleFallbackState.lastError = error;
+            console.warn('Google dependency unavailable. Falling back to local-only behavior.', error);
+        }
+
+        async function fetchWithFallback(url, options = {}, fallbackValue = null) {
+            if (!url) return fallbackValue;
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 7000);
+
+            try {
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                if (!response || (!response.ok && response.status !== 0)) {
+                    throw new Error(`HTTP ${response ? response.status : 'unknown'} for ${url}`);
+                }
+                return response;
+            } catch (error) {
+                markGoogleDependencyBlocked(error);
+                return fallbackValue;
+            } finally {
+                clearTimeout(timeoutId);
+            }
+        }
 
         function getCurrentUser() {
             try {
@@ -2318,7 +2348,7 @@
                         return;
                     }
 
-                    const response = await fetch(scriptUrl, {
+                    const response = await fetchWithFallback(scriptUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: new URLSearchParams({
@@ -2329,6 +2359,11 @@
                             timestamp: new Date().toISOString()
                         })
                     });
+
+                    if (!response) {
+                        showToast('Google backend is not reachable on this network. The site will still work in local mode.', 'info');
+                        return;
+                    }
 
                     const result = await response.json().catch(() => ({}));
                     if (!response.ok || !result.ok) {
@@ -2362,7 +2397,7 @@
                         return;
                     }
 
-                    const response = await fetch(scriptUrl, {
+                    const response = await fetchWithFallback(scriptUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: new URLSearchParams({
@@ -2372,6 +2407,11 @@
                             timestamp: new Date().toISOString()
                         })
                     });
+
+                    if (!response) {
+                        showToast('Google backend is not reachable on this network. Please try again on another network or continue in local mode.', 'info');
+                        return;
+                    }
 
                     const result = await response.json().catch(() => ({}));
                     if (!response.ok || !result.ok) {
@@ -2395,7 +2435,7 @@
                         return;
                     }
 
-                    const response = await fetch(scriptUrl, {
+                    const response = await fetchWithFallback(scriptUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: new URLSearchParams({
@@ -2405,6 +2445,11 @@
                             timestamp: new Date().toISOString()
                         })
                     });
+
+                    if (!response) {
+                        showToast('Google backend is not reachable on this network. Local browsing still works, but sign-in is unavailable right now.', 'info');
+                        return;
+                    }
 
                     const result = await response.json().catch(() => ({}));
                     if (!response.ok || !result.ok) {
@@ -2455,10 +2500,15 @@
 
             try {
                 const lookupUrl = `${scriptUrl}?type=offer_lookup&token=${encodeURIComponent(offerToken)}`;
-                const response = await fetch(lookupUrl, {
+                const response = await fetchWithFallback(lookupUrl, {
                     method: 'GET',
                     headers: { 'Accept': 'application/json' }
                 });
+
+                if (!response) {
+                    showToast('Offer checkout is temporarily unavailable because the Google backend is blocked on this network.', 'info');
+                    return;
+                }
 
                 if (!response.ok) {
                     throw new Error('Offer lookup failed with HTTP ' + response.status);
@@ -3647,13 +3697,14 @@
 
         async function loadProtectedAudio(audioUrl) {
             try {
-                const response = await fetch(audioUrl, {
+                const response = await fetchWithFallback(audioUrl, {
                     method: 'GET',
                     cache: 'no-store',
                     credentials: 'omit',
                     mode: 'cors'
-                });
-                if (!response.ok) return null;
+                }, null);
+
+                if (!response || !response.ok) return null;
                 const blob = await response.blob();
                 return URL.createObjectURL(blob);
             } catch (err) {
@@ -4912,7 +4963,7 @@
                     timestamp: new Date().toISOString()
                 });
 
-                const response = await fetch(scriptUrl, {
+                const response = await fetchWithFallback(scriptUrl, {
                     method: 'POST',
                     mode: 'cors',
                     cache: 'no-store',
@@ -4923,6 +4974,11 @@
                     body: payload,
                     credentials: 'omit'
                 });
+
+                if (!response) {
+                    showToast('The backend is blocked on this network, but the page is still working locally.', 'info');
+                    return;
+                }
 
                 if (response.ok || response.type === 'opaque') {
                     showSuccessModal(beat, offerPrice, offerEmail, offerMessage);
@@ -5500,7 +5556,7 @@
             }
 
             try {
-                const response = await fetch(scriptUrl, {
+                const response = await fetchWithFallback(scriptUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -5516,6 +5572,19 @@
                         timestamp: new Date().toISOString()
                     })
                 });
+
+                if (!response) {
+                    document.getElementById('contact-form').style.display = 'none';
+                    document.getElementById('contact-success').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('contact-form').style.display = 'block';
+                        document.getElementById('contact-success').style.display = 'none';
+                        document.getElementById('contact-form').reset();
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                    }, 3000);
+                    return;
+                }
 
                 if (response.ok) {
                     document.getElementById('contact-form').style.display = 'none';
@@ -5718,7 +5787,7 @@
             }
 
             try {
-                const response = await fetch(scriptUrl, {
+                const response = await fetchWithFallback(scriptUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -5738,6 +5807,11 @@
                         timestamp: new Date().toISOString()
                     })
                 });
+
+                if (!response) {
+                    console.warn('Google Sheets sync skipped because the backend is blocked on this network.');
+                    return;
+                }
 
                 if (!response.ok) {
                     throw new Error(`Google Sheets sync failed with status ${response.status}`);

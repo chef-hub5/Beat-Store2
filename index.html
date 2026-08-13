@@ -1936,12 +1936,14 @@
        <label for="signin-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
        <input type="email" id="signin-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
       </div>
-      <div class="relative">
-       <label for="signin-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-       <input type="password" id="signin-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Enter password">
-       <button type="button" onclick="togglePasswordVisibility('signin-password', 'signin-password-toggle')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
-        <i id="signin-password-toggle" class="fas fa-eye"></i>
-       </button>
+      <div class="space-y-2">
+       <label for="signin-password" class="block text-sm font-medium text-gray-700">Password</label>
+       <div class="relative">
+        <input type="password" id="signin-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Enter password">
+        <button type="button" onclick="togglePasswordVisibility('signin-password', 'signin-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+         <i id="signin-password-toggle" class="fas fa-eye"></i>
+        </button>
+       </div>
       </div>
       <button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">Sign In</button>
       <button type="button" onclick="switchAuthMode('forgot')" class="w-full text-center text-sm font-medium text-blue-600 hover:text-blue-700">Forgot password?</button>
@@ -1955,19 +1957,23 @@
        <label for="signup-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
        <input type="email" id="signup-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
       </div>
-      <div class="relative">
-       <label for="signup-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-       <input type="password" id="signup-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Create password">
-       <button type="button" onclick="togglePasswordVisibility('signup-password', 'signup-password-toggle')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
-        <i id="signup-password-toggle" class="fas fa-eye"></i>
-       </button>
+      <div class="space-y-2">
+       <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
+       <div class="relative">
+        <input type="password" id="signup-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Create password">
+        <button type="button" onclick="togglePasswordVisibility('signup-password', 'signup-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+         <i id="signup-password-toggle" class="fas fa-eye"></i>
+        </button>
+       </div>
       </div>
-      <div class="relative">
-       <label for="signup-confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-       <input type="password" id="signup-confirm-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm password">
-       <button type="button" onclick="togglePasswordVisibility('signup-confirm-password', 'signup-confirm-password-toggle')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
-        <i id="signup-confirm-password-toggle" class="fas fa-eye"></i>
-       </button>
+      <div class="space-y-2">
+       <label for="signup-confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+       <div class="relative">
+        <input type="password" id="signup-confirm-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm password">
+        <button type="button" onclick="togglePasswordVisibility('signup-confirm-password', 'signup-confirm-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+         <i id="signup-confirm-password-toggle" class="fas fa-eye"></i>
+        </button>
+       </div>
       </div>
       <button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">Create Account</button>
      </form>
@@ -1976,19 +1982,23 @@
        <label for="forgot-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
        <input type="email" id="forgot-email" required class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="your@email.com">
       </div>
-      <div class="relative">
-       <label for="forgot-password" class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
-       <input type="password" id="forgot-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="New password">
-       <button type="button" onclick="togglePasswordVisibility('forgot-password', 'forgot-password-toggle')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
-        <i id="forgot-password-toggle" class="fas fa-eye"></i>
-       </button>
+      <div class="space-y-2">
+       <label for="forgot-password" class="block text-sm font-medium text-gray-700">New Password</label>
+       <div class="relative">
+        <input type="password" id="forgot-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="New password">
+        <button type="button" onclick="togglePasswordVisibility('forgot-password', 'forgot-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+         <i id="forgot-password-toggle" class="fas fa-eye"></i>
+        </button>
+       </div>
       </div>
-      <div class="relative">
-       <label for="forgot-confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
-       <input type="password" id="forgot-confirm-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm new password">
-       <button type="button" onclick="togglePasswordVisibility('forgot-confirm-password', 'forgot-confirm-password-toggle')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
-        <i id="forgot-confirm-password-toggle" class="fas fa-eye"></i>
-       </button>
+      <div class="space-y-2">
+       <label for="forgot-confirm-password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+       <div class="relative">
+        <input type="password" id="forgot-confirm-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm new password">
+        <button type="button" onclick="togglePasswordVisibility('forgot-confirm-password', 'forgot-confirm-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+         <i id="forgot-confirm-password-toggle" class="fas fa-eye"></i>
+        </button>
+       </div>
       </div>
       <button type="submit" class="w-full btn-primary text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-md text-sm sm:text-base">Reset Password</button>
       <button type="button" onclick="switchAuthMode('signin')" class="w-full text-center text-sm font-medium text-blue-600 hover:text-blue-700">Back to Sign In</button>

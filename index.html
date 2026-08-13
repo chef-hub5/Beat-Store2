@@ -62,6 +62,23 @@
             animation: slideDownFade 0.25s ease-out;
         }
 
+        .password-toggle-btn {
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            color: #6b7280;
+        }
+
+        .password-toggle-btn:hover {
+            color: #374151;
+        }
+
         .page-panel {
             opacity: 0;
             transform: translateY(18px) scale(0.985);
@@ -1940,7 +1957,7 @@
        <label for="signin-password" class="block text-sm font-medium text-gray-700">Password</label>
        <div class="relative">
         <input type="password" id="signin-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Enter password">
-        <button type="button" onclick="togglePasswordVisibility('signin-password', 'signin-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+        <button type="button" onclick="togglePasswordVisibility('signin-password', 'signin-password-toggle')" class="password-toggle-btn focus:outline-none" aria-label="Toggle password visibility">
          <i id="signin-password-toggle" class="fas fa-eye"></i>
         </button>
        </div>
@@ -1961,7 +1978,7 @@
        <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
        <div class="relative">
         <input type="password" id="signup-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Create password">
-        <button type="button" onclick="togglePasswordVisibility('signup-password', 'signup-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+        <button type="button" onclick="togglePasswordVisibility('signup-password', 'signup-password-toggle')" class="password-toggle-btn focus:outline-none" aria-label="Toggle password visibility">
          <i id="signup-password-toggle" class="fas fa-eye"></i>
         </button>
        </div>
@@ -1970,7 +1987,7 @@
        <label for="signup-confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
        <div class="relative">
         <input type="password" id="signup-confirm-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm password">
-        <button type="button" onclick="togglePasswordVisibility('signup-confirm-password', 'signup-confirm-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+        <button type="button" onclick="togglePasswordVisibility('signup-confirm-password', 'signup-confirm-password-toggle')" class="password-toggle-btn focus:outline-none" aria-label="Toggle password visibility">
          <i id="signup-confirm-password-toggle" class="fas fa-eye"></i>
         </button>
        </div>
@@ -1986,7 +2003,7 @@
        <label for="forgot-password" class="block text-sm font-medium text-gray-700">New Password</label>
        <div class="relative">
         <input type="password" id="forgot-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="New password">
-        <button type="button" onclick="togglePasswordVisibility('forgot-password', 'forgot-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+        <button type="button" onclick="togglePasswordVisibility('forgot-password', 'forgot-password-toggle')" class="password-toggle-btn focus:outline-none" aria-label="Toggle password visibility">
          <i id="forgot-password-toggle" class="fas fa-eye"></i>
         </button>
        </div>
@@ -1995,7 +2012,7 @@
        <label for="forgot-confirm-password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
        <div class="relative">
         <input type="password" id="forgot-confirm-password" required class="w-full px-3 sm:px-4 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base" placeholder="Confirm new password">
-        <button type="button" onclick="togglePasswordVisibility('forgot-confirm-password', 'forgot-confirm-password-toggle')" class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none" aria-label="Toggle password visibility">
+        <button type="button" onclick="togglePasswordVisibility('forgot-confirm-password', 'forgot-confirm-password-toggle')" class="password-toggle-btn focus:outline-none" aria-label="Toggle password visibility">
          <i id="forgot-confirm-password-toggle" class="fas fa-eye"></i>
         </button>
        </div>

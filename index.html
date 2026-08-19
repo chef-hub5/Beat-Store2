@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://js.paystack.co/v1/inline.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="photo 2/logo-removebg-preview (1).png">
   <style>
         body {
             box-sizing: border-box;
@@ -444,6 +445,69 @@
             z-index: 2;
         }
         
+        @keyframes bounce-down {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(8px);
+                opacity: 0.7;
+            }
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce-down 2s infinite;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            margin-bottom: 12px;
+        }
+        
+        .hero-cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+            font-size: 1rem;
+        }
+        
+        .hero-cta-button:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .hero-cta-button:active {
+            transform: translateY(0);
+        }
+        
         .price-badge {
             background: linear-gradient(135deg, #3b82f6, #3b82f6);
             -webkit-background-clip: text;
@@ -748,6 +812,11 @@
         body.dark-theme .hero-section::before {
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(30, 41, 59, 0.7));
         }
+        
+        body.dark-theme .hero-badge {
+            background: rgba(15, 23, 42, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -905,10 +974,23 @@
   </div><!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8"><!-- Home Page -->
    <div id="home-page"><!-- Hero Section -->
-    <section class="hero-section relative rounded-2xl p-6 sm:p-12 mb-6 sm:mb-12 text-white overflow-hidden min-h-[250px] sm:min-h-[400px] flex flex-col justify-center shadow-2xl"><img id="hero-image" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&amp;h=400&amp;fit=crop" alt="Hero background" class="absolute inset-0 w-full h-full object-cover" style="z-index: 0;" onerror="this.style.display='none';">
-     <div class="relative z-10">
-      <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 drop-shadow-lg" id="hero-title">Discover Premium Beats</h2>
-      <p class="text-sm sm:text-lg lg:text-xl mb-4 sm:mb-8 opacity-95 drop-shadow" id="hero-subtitle">High-quality instrumentals for your next hit</p>
+    <section class="hero-section relative rounded-2xl p-6 sm:p-12 mb-6 sm:mb-12 text-white overflow-hidden min-h-[300px] sm:min-h-[500px] flex flex-col justify-center items-start shadow-2xl">
+     <img id="hero-image" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&amp;h=400&amp;fit=crop" alt="Hero background" class="absolute inset-0 w-full h-full object-cover" style="z-index: 0;" onerror="this.style.display='none';">
+     <div class="hero-section::before absolute inset-0" style="background: linear-gradient(135deg, rgba(20, 49, 94, 0.45), rgba(28, 71, 142, 0.45)); z-index: 1;"></div>
+     <div class="relative z-10 max-w-2xl">
+      <div class="hero-badge" style="display: inline-flex !important;">
+       <i class="fas fa-bolt text-yellow-300" style="display: inline-block;"></i>
+       <span style="display: inline;">Instant Download</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 drop-shadow-lg" id="hero-title" style="z-index: 10; position: relative;">Discover Premium Beats</h2>
+      <p class="text-sm sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-95 drop-shadow" id="hero-subtitle" style="z-index: 10; position: relative;">High-quality instrumentals for your next hit</p>
+      <button type="button" onclick="showPage('tracks'); window.scrollTo({top: document.getElementById('tracks-page')?.offsetTop || 0, behavior: 'smooth'});" class="hero-cta-button" style="display: inline-flex !important; z-index: 10; position: relative;">
+       <i class="fas fa-music"></i>
+       Browse Beats Now
+      </button>
+     </div>
+     <div class="scroll-indicator" style="z-index: 10; position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); animation: bounce-down 2s infinite; color: white; font-size: 24px; cursor: pointer;" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'});" title="Scroll down">
+      <i class="fas fa-chevron-down"></i>
      </div>
     </section><!-- Genre Filter -->
     <div class="mb-6 sm:mb-8">
@@ -2061,7 +2143,7 @@
     </div>
     <div id="cart-items-container" class="space-y-3 sm:space-y-4 mb-4 sm:mb-6"></div>
     <div class="border-t-2 pt-4">
-     <div class="flex justify-between items-center mb-4 sm:mb-6"><span class="text-lg sm:text-xl font-bold">Total:</span> <span class="text-xl sm:text-2xl font-bold price-badge" id="cart-total">₦0</span>
+    <div class="flex justify-between items-center mb-4 sm:mb-6"><span class="text-lg sm:text-xl font-bold">Total (USD):</span> <span class="text-xl sm:text-2xl font-bold price-badge" id="cart-total">$0.00</span>
      </div><button id="checkout-action-button" onclick="proceedToCheckout()" class="block w-full btn-primary text-white py-3 sm:py-4 rounded-xl font-semibold text-center shadow-md text-sm sm:text-base"> <i class="fas fa-credit-card mr-2"></i>Proceed to Checkout <span id="checkout-discount-badge" class="hidden ml-2 inline-flex items-center rounded-full bg-yellow-100 text-yellow-700 px-2 py-1 text-[10px] font-semibold">Sign in to activate discount</span></button>
     </div>
    </div>
@@ -2077,7 +2159,7 @@
             logo_image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=40&h=40&fit=crop",
             frontend_url: (typeof window !== 'undefined' && window.location) ? (window.location.origin + window.location.pathname) : '',
             paystack_public_key: "pk_live_eb5ee595e010a93de485f92afa7d461a179b489b",
-            google_apps_script_url: "https://script.google.com/macros/s/AKfycbxqzc8M4g4S0bohiu4fY-CYgcI4ZwZuE2dvH-zv0j0V0T1K2tW_6ZXBmxLyZInFDLUlBA/exec",
+            google_apps_script_url: "https://script.google.com/macros/s/AKfycbxNLukm8eRPzjjpKnnyFzQ2WyB-CjzV04kI6Um8_e7mo87Gz9QuUqmwsuzfzIZPomg/exec",
             admin_email: "debeatjay@gmail.com"
         };
 
@@ -2483,7 +2565,7 @@
                     beatTitle: beat.title,
                     licenseName: 'Accepted Offer License',
                     licenseType: 'exclusive',
-                    price: Number.isFinite(acceptedPrice) ? acceptedPrice : beat.price.mp3,
+                    price: Number.isFinite(acceptedPrice) ? (acceptedPrice > 1000 ? Math.round(acceptedPrice / 1000 * 100) / 100 : acceptedPrice) : beat.price.mp3,
                     downloadLinks: beat.downloadLinks,
                     allowedFiles: beat.downloadLinks ? Object.keys(beat.downloadLinks) : ['mp3']
                 }];
@@ -2506,6 +2588,10 @@
                 const savedCart = localStorage.getItem('debeat_cart');
                 if (savedCart) {
                     cart = JSON.parse(savedCart);
+                    cart = cart.map(item => ({
+                        ...item,
+                        price: Number(item.price) > 1000 ? Math.round(Number(item.price) / 1000 * 100) / 100 : Number(item.price)
+                    }));
                     updateCartBadge();
                     updateBulkDealBanner();
                 }
@@ -2553,12 +2639,12 @@
         const beats = [
             {
                 id: 1,
-                title: "Falling",
+                title: "Fallingss",
                 producer: "De Beat Chef",
                 bpm: 97,
                 genre: "Reggaeton, Wizkid Type Beat",
                 key: "E minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 0.2, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/1.jpg",
                 audioUrl: "New folder/Falling_E minor_97bpm_tagged.mp3",
                 downloadLinks: {
@@ -2574,7 +2660,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Oxlade Type Beat",
                 key: "F minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/2.jpg",
                 audioUrl: "New folder/Dey Play_F minor_100bpm_tagged.mp3",
                 downloadLinks: {
@@ -2590,7 +2676,7 @@
                 bpm: 95,
                 genre: "Afrobeat, Burna Boy Type Beat",
                 key: "Eflat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/3.jpg",
                 audioUrl: "New folder/Low key_Eflat minor_95bpm tagged.mp3",
                 downloadLinks: {
@@ -2606,7 +2692,7 @@
                 bpm: 102,
                 genre: "Afrobeat",
                 key: "F Sharp",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/7.jpg",
                 audioUrl: "New folder/Bebe_F sharp_102bpm_tagged.mp3",
                 downloadLinks: {
@@ -2622,7 +2708,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Burna Boy Type Beat",
                 key: "E minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/8.jpg",
                 audioUrl: "New folder/Gbedu_E minor_100bpm_tagged.mp3",
                 downloadLinks: {
@@ -2638,7 +2724,7 @@
                 bpm: 130,
                 genre: "Afrobeat, Burna Boy Type Beat, Omah Lay Type Beat",
                 key: "F minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/9.jpg",
                 audioUrl: "New folder/mon désir_F_130bpm_tagged.mp3",
                 downloadLinks: {
@@ -2654,7 +2740,7 @@
                 bpm: 110,
                 genre: "Afrobeat, FireBoy Type Beat",
                 key: "B flat",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/10.jpg",
                 audioUrl: "New folder/Nobody_B flat_110bpm_tagged.mp3",
                 downloadLinks: {
@@ -2670,7 +2756,7 @@
                 bpm: 100,
                 genre: "Afrobeat, FireBoy Type Beat",
                 key: "C sharp minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/11.jpg",
                 audioUrl: "Beats 2/Haley  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -2686,7 +2772,7 @@
                 bpm: 110,
                 genre: "Afrobeat",
                 key: "G major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/12.jpg",
                 audioUrl: "Beats 2/Bend  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -2702,7 +2788,7 @@
                 bpm: 103,
                 genre: "Afrobeat, FireBoy Type Beat",
                 key: "E flat",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/13.jpg",
                 audioUrl: "New folder/Stranger_E flat_103bpm_tagged.mp3",
                 downloadLinks: {
@@ -2718,7 +2804,7 @@
                 bpm: 102,
                 genre: "Afrobeat",
                 key: "A flat major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/14.jpg",
                 audioUrl: "Beats 2/Vibez  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -2734,7 +2820,7 @@
                 bpm: 113,
                 genre: "Amapiano",
                 key: "A minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/15.jpg",
                 audioUrl: "Beats 2/Shoko  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -2750,7 +2836,7 @@
                 bpm: 88,
                 genre: "Afrobeat",
                 key: "C sharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/17.jpg",
                 audioUrl: "Beats 2/Slang  Ayra Starr x Wizkid x Fireboy x Raggaeton Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -2766,7 +2852,7 @@
                 bpm: 98,
                 genre: "Afrobeat",
                 key: "A flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/18.jpg",
                 audioUrl: "Beats 2/Reset  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -2782,7 +2868,7 @@
                 bpm: 92,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "F sharp minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/19.jpg",
                 audioUrl: "Beats 2/Panya  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -2798,7 +2884,7 @@
                 bpm: 112,
                 genre: "Amapiano, Asake Type beat",
                 key: "E flat",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/20.jpg",
                 audioUrl: "New folder (2)/Banda+Eflat_112.mp3",
                 downloadLinks: {
@@ -2814,7 +2900,7 @@
                 bpm: 107,
                 genre: "Afrobeat",
                 key: "F major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/21.jpg",
                 audioUrl: "New folder (2)/Calm_107_Fmajor.mp3",
                 downloadLinks: {
@@ -2830,7 +2916,7 @@
                 bpm: 98,
                 genre: "Highlife, Burna Boy Type Beat",
                 key: "F major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/22.jpg",
                 audioUrl: "New folder (2)/Story_Fmajor_98.mp3",
                 downloadLinks: {
@@ -2846,7 +2932,7 @@
                 bpm: 98,
                 genre: "Afrobeat",
                 key: "A major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/23.jpg",
                 audioUrl: "New folder (2)/Today_98_Amajor.mp3",
                 downloadLinks: {
@@ -2862,7 +2948,7 @@
                 bpm: 113,
                 genre: "Amapiano, Asake Type Beat",
                 key: "E minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/24.jpg",
                 audioUrl: "New folder (2)/Shanla_Eminor_113.mp3",
                 downloadLinks: {
@@ -2878,7 +2964,7 @@
                 bpm: 113,
                 genre: "Amapiano, Asake Type Beat",
                 key: "A sharp minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/25.jpg",
                 audioUrl: "New folder (2)/Sanla_Asharpminor_113.mp3",
                 downloadLinks: {
@@ -2894,7 +2980,7 @@
                 bpm: 107,
                 genre: "Amapiano, Asake Type Beat",
                 key: "G sharp minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/27.jpg",
                 audioUrl: "New folder (2)/Banla_Gsharpminor_107.mp3",
                 downloadLinks: {
@@ -2910,7 +2996,7 @@
                 bpm: 90,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "C minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/28.jpg",
                 audioUrl: "New folder (2)/Drown_Cminor_90.mp3",
                 downloadLinks: {
@@ -2926,7 +3012,7 @@
                 bpm: 154,
                 genre: "Reggaeton",
                 key: "C sharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/29.jpg",
                 audioUrl: "New folder (2)/Knows_Csharpmajor_154.mp3",
                 downloadLinks: {
@@ -2942,7 +3028,7 @@
                 bpm: 112,
                 genre: "Afrobeat",
                 key: "C major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/30.jpg",
                 audioUrl: "New folder (2)/Wire_Cmajor_112.mp3",
                 downloadLinks: {
@@ -2958,7 +3044,7 @@
                 bpm: 90,
                 genre: "Afrobeat, Burna Boy",
                 key: "E minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo/31.jpg",
                 audioUrl: "New folder (2)/Yours_Eminor_90.mp3",
                 downloadLinks: {
@@ -2974,7 +3060,7 @@
                 bpm: 112,
                 genre: "Amapiano, Asake Type Beat",
                 key: "Bflat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/1.jfif",
                 audioUrl: "Beats/Amber_B flatminor_112bpm.mp3",
                 downloadLinks: {
@@ -2990,7 +3076,7 @@
                 bpm: 114,
                 genre: "Amapiano",
                 key: "Bflat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/2.jfif",
                 audioUrl: "Beats/Dongo_Bflatminor_114bpm.mp3",
                 downloadLinks: {
@@ -3006,7 +3092,7 @@
                 bpm: 100,
                 genre: "Afrobeat",
                 key: "Bflat major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/3.jfif",
                 audioUrl: "Beats/Guitar_Bflatmajor_100bpm.mp3",
                 downloadLinks: {
@@ -3022,7 +3108,7 @@
                 bpm: 74,
                 genre: "Reggaeton",
                 key: "Aflat major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/4.jfif",
                 audioUrl: "Beats/Heart_Aflatmajor_74bpm.mp3",
                 downloadLinks: {
@@ -3038,7 +3124,7 @@
                 bpm: 100,
                 genre: "Afrobeat",
                 key: "Fsharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/5.jfif",
                 audioUrl: "Beats/System_Fsharpmajor_100bpm.mp3",
                 downloadLinks: {
@@ -3054,7 +3140,7 @@
                 bpm: 112,
                 genre: "Afrobeat, Wizkid Type Beat, Fire Boy",
                 key: "B minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/6.jfif",
                 audioUrl: "Beats/Zaga_Bminor_112bpm.mp3",
                 downloadLinks: {
@@ -3070,7 +3156,7 @@
                 bpm: 112,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "C minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/7.jfif",
                 audioUrl: "Beats/Ajebo Cminor 112.mp3",
                 downloadLinks: {
@@ -3086,7 +3172,7 @@
                 bpm: 107,
                 genre: "Afrobeat, Omah Lay, Wizkid Type Beat",
                 key: "A major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/8.jfif",
                 audioUrl: "Beats/Comot Amajor 107bpm.mp3",
                 downloadLinks: {
@@ -3102,7 +3188,7 @@
                 bpm: 113,
                 genre: "Amapiano, Asake Type Beat",
                 key: "Ab minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/9.jfif",
                 audioUrl: "Beats/Kumba Ab minor 113.mp3",
                 downloadLinks: {
@@ -3118,7 +3204,7 @@
                 bpm: 113,
                 genre: "Amapiano, Asake Type beat, WIzkid",
                 key: "Csharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/10.jfif",
                 audioUrl: "Beats/Yanga Csharp major 113.mp3",
                 downloadLinks: {
@@ -3134,7 +3220,7 @@
                 bpm: 111,
                 genre: "Amapiano, Asake Type Beat",
                 key: "C sharp",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "photo 2/11.jfif",
                 audioUrl: "New folder/Jaga_Csharp_111bpm_tagged.mp3",
                 downloadLinks: {
@@ -3150,7 +3236,7 @@
                 bpm: 112,
                 genre: "Amapiano, Asake Type Beat",
                 key: "F sharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/GanGan.png",
                 audioUrl: "Beats 2/GanGan  Asake x Ayra Starr BUY 1 GET 1 FREE_tagged.mp3",
                 downloadLinks: {
@@ -3166,7 +3252,7 @@
                 bpm: 112,
                 genre: "Amapiano, Asake Type Beat",
                 key: "F sharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/Ataya.png",
                 audioUrl: "Beats 2/Ataya  Tems x Wizkid x Fireboy BUY 1 GET 1 FREE_tagged.mp3",
                 downloadLinks: {
@@ -3182,7 +3268,7 @@
                 bpm: 102,
                 genre: "Afrobeat, Burna Boy",
                 key: "A flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/Empire.png",
                 audioUrl: "Beats 2/Empire  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3198,7 +3284,7 @@
                 bpm: 97,
                 genre: "Raggaeton",
                 key: "B flat major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/Focus.png",
                 audioUrl: "Beats 2/Focus  Ayra Starr x Wizkid x Fireboy x Raggaeton Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3214,7 +3300,7 @@
                 bpm: 112,
                 genre: "Amapiano, Asake Type Beat",
                 key: "G minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/Kpanla.png",
                 audioUrl: "Beats 2/Kpanla  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3230,7 +3316,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Wizkid, FireBoy",
                 key: "G minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/PAIN.png",
                 audioUrl: "Beats 2/Pain  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3246,7 +3332,7 @@
                 bpm: 100,
                 genre: "Afrobeat",
                 key: "F major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/SAIN.png",
                 audioUrl: "Beats 2/Sain  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3262,7 +3348,7 @@
                 bpm: 102,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "A flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/Shame.png",
                 audioUrl: "Beats 2/Shame  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3278,7 +3364,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "B flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 3/SPEND.png",
                 audioUrl: "Beats 2/Spend  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3294,7 +3380,7 @@
                 bpm: 110,
                 genre: "Amapiano, Asake Type Beat",
                 key: "G major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (1).jpg",
                 audioUrl: "Beats 2/Jollo  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3310,7 +3396,7 @@
                 bpm: 97,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "E flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (2).jpg",
                 audioUrl: "Beats 2/Jolof  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3326,7 +3412,7 @@
                 bpm: 92,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "E flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (3).jpg",
                 audioUrl: "Beat 3/Babe  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3342,7 +3428,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "F sharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (4).jpg",
                 audioUrl: "Beat 3/Chills  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3358,7 +3444,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "C sharp major",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (5).jpg",
                 audioUrl: "Beat 3/Mafo  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3374,7 +3460,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "D minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (6).jpg",
                 audioUrl: "Beat 3/Ojoro  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3390,7 +3476,7 @@
                 bpm: 100,
                 genre: "Afrobeat, Wizkid Type Beat",
                 key: "E flat minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (7).jpg",
                 audioUrl: "Beat 3/Pulse  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3406,7 +3492,7 @@
                 bpm: 110,
                 genre: "Amapiano, Asake Type Beat",
                 key: "C sharp minor",
-                price: { mp3: 29999, wav: 59999, premium: 139999, unlimited: 279999 },
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
                 image: "Photo 4/Cat (8).jpg",
                 audioUrl: "Beat 3/Shaya  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
                 downloadLinks: {
@@ -3414,11 +3500,193 @@
                     wav: "https://drive.google.com/file/d/1GtAJ_rbxR_zOMR2PgEzkG7d4CaG_0mTg/view?usp=sharing",
                     zip: "https://drive.google.com/file/d/1BNvDwPeDaD8I-zH_gzAG_ZLZ91xgCqlx/view?usp=sharing"
                 }
+            },
+            {
+                id: 55,
+                title: "Candy",
+                producer: "De Beat Chef",
+                bpm: 97,
+                genre: "Afrobeat, Wizkid Type Beat",
+                key: "E minor",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 4/Cat (9).jpg",
+                audioUrl: "beat 4/Candy  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1FRBMaWE2ZtLw7TBSBDbi53oCD1_jvzjA/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/12Rx_0TIKzXFAN33m3pE_XleqKHvMXnNb/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1mn8c7vvRabNJ0Z8RP1pUoOEnjnnq4FWl/view?usp=sharing"
+                }
+            },
+            {
+                id: 56,
+                title: "Condo",
+                producer: "De Beat Chef",
+                bpm: 104,
+                genre: "Afrobeat, Wizkid Type Beat",
+                key: "C major",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 4/Cat (10).jpg",
+                audioUrl: "beat 4/Condo  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1XLsnUBUlvCylSGue5Il62Q-rzEsH05O2/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1Ag5peYoGZ3Ri0UkZTSOPQmjcqeleU_OQ/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1mBhZDPrlJ4DfwUk3yGjIyw9IoSgwymTb/view?usp=sharing"
+                }
+            },
+            {
+                id: 57,
+                title: "Felow",
+                producer: "De Beat Chef",
+                bpm: 126,
+                genre: "Reggae, Wizkid Type Beat",
+                key: "G minor",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 4/Cat (11).jpg",
+                audioUrl: "beat 4/Felow  Tems x Wizkid x Fireboy x Reggae Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1L9zMy5_GTZtGF9ojGygk5zLeoQRWppPz/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1pHnPdo_FxXqvSbY94EtQ2mYHh5JZEhRX/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/141joaBMVkA_v0cq1MRAvs5jav0CDdBaC/view?usp=sharing"
+                }
+            },
+            {
+                id: 58,
+                title: "Fresh",
+                producer: "De Beat Chef",
+                bpm: 108,
+                genre: "Afrobeat, Wizkid Type Beat",
+                key: "A flat minor",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (1).jpg",
+                audioUrl: "beat 4/Fresh  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1x1-OzFmtG_S6bizWPL7JDDSXVQeAM28I/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1Q1T8ytpFeITgBzcLQwFbA1rUPhVu4x7F/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1J8lYR_czw5zdjLzYyRU5ZREgeOoT48Do/view?usp=sharing"
+                }
+            },
+            {
+                id: 59,
+                title: "Lana",
+                producer: "De Beat Chef",
+                bpm: 95,
+                genre: "Reggaeton, Wizkid Type Beat",
+                key: "F sharp minor",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (2).jpg",
+                audioUrl: "beat 4/Lana  Ayra Starr x Wizkid x Fireboy x Raggaeton Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1sCnLqM8wmcuKmuXcQsVrOO2Yi5K9sIpy/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1gbk-0HiuA8JYAsmMhtBspR3XA-acIqaV/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1P6MxH2z4G5_9m-13Xqp2ke5yXuRyr_Vt/view?usp=sharing"
+                }
+            },
+            {
+                id: 60,
+                title: "Melow",
+                producer: "De Beat Chef",
+                bpm: 113,
+                genre: "Amapiano, Asake Type Beat",
+                key: "A flat major",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (3).jpg",
+                audioUrl: "beat 4/Melow  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1rqLG2hCdqm1R_UAI0zwU9xHsWP_gtta3/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1GKKJvaXVGTQyX4jtnMHOvek5YJldCPw9/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/174gKfL-4de05Ot-T9ImN6Fe0yw6uHHeS/view?usp=sharing"
+                }
+            },
+            {
+                id: 61,
+                title: "Ment",
+                producer: "De Beat Chef",
+                bpm: 100,
+                genre: "Afrobeat, Wizkid Type Beat",
+                key: "A flat minor",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (4).jpg",
+                audioUrl: "beat 4/Ment  Tems x Wizkid x Fireboy x Afrobeat Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1tqjGM8wKc4gA07C9Wbnej4ycL6hJBaIn/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/146WX_XpXXO1KqvVCymEPV6DwZGUlcV4r/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1-PPW7DzIuRAqJk-e73nY1tKfVP23jkD0/view?usp=sharing"
+                }
+            },
+            {
+                id: 62,
+                title: "Orobo",
+                producer: "De Beat Chef",
+                bpm: 117,
+                genre: "Amapiano, Asake Type Beat",
+                key: "F major",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (5).jpg",
+                audioUrl: "beat 4/Orobo  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1g80kqmt55cQafb463mcgHYAu6tVDrd1o/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1SFXK4Tn2eRp64YkXmq5rdIcImJe04mRW/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/18TUbDIoupXXK7U8cpoDsClB8gfR6GruA/view?usp=sharing"
+                }
+            },
+            {
+                id: 63,
+                title: "Rambo",
+                producer: "De Beat Chef",
+                bpm: 100,
+                genre: "Afrobeat, Wizkid Type Beat",
+                key: "B flat minor",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (6).jpg",
+                audioUrl: "beat 4/RamboBflatminor100bpm_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1CtGwzvNXNWUfT-N3cdoMEWb5lkpHspmx/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1NjGGhe8mgRnSBWIfZMe5C1L9NysiIdvn/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1b01R-AnAWKhO_Uhr5fLka8VQLIEkiFrz/view?usp=sharing"
+                }
+            },
+            {
+                id: 64,
+                title: "Trust",
+                producer: "De Beat Chef",
+                bpm: 95,
+                genre: "Reggaeton, Wizkid Type Beat",
+                key: "C major",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (7).jpg",
+                audioUrl: "beat 4/Trust  Ayra Starr x Wizkid x Fireboy x Raggaeton Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1v3u-vlS16FLj3uFOuJwA7k1HU7ZAZ9qx/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1NG03ydQ_DxRV5E5ClG-ms4P502j8NmN8/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1f_xRJiiEzHbeascQGzC_gJBnHS1gl1hR/view?usp=sharing"
+                }
+            },
+            {
+                id: 65,
+                title: "Zanga",
+                producer: "De Beat Chef",
+                bpm: 118,
+                genre: "Afrobeat, Wizkid Type Beat",
+                key: "F major",
+                price: { mp3: 20.99, wav: 40.99, premium: 130.99, unlimited: 270.99 },
+                image: "Photo 5/Dog (8).jpg",
+                audioUrl: "beat 4/Zanga  Asake x Ayra Starr x Amapiano Type Beat 2024_tagged.mp3",
+                downloadLinks: {
+                    mp3: "https://drive.google.com/file/d/1FwiPwDOf5KGFoptmqwxxTPwm88ImhvWw/view?usp=sharing",
+                    wav: "https://drive.google.com/file/d/1Sd1aUb2R6Re5a46yH_3dkY3fYCGBCqE0/view?usp=sharing",
+                    zip: "https://drive.google.com/file/d/1A3H1FJ40CTbRxPMxyK2n8w6tivmqrUOz/view?usp=sharing"
+                }
             }
 
         ];
 
         beats.forEach(beat => {
+            if (beat && beat.price) {
+                Object.keys(beat.price).forEach(licenseType => {
+                    const legacyPrice = Number(beat.price[licenseType]);
+                    beat.price[licenseType] = legacyPrice > 1000 ? Math.round(legacyPrice / 1000 * 100) / 100 : legacyPrice;
+                });
+            }
             if (beat && beat.audioUrl) {
                 beat.downloadLinks = beat.downloadLinks || {};
                 if (!beat.downloadLinks.taggedMp3) {
@@ -3488,9 +3756,11 @@
         // Ensure first user gesture unlocks AudioContext on mobile
         unlockAudioOnFirstGesture();
 
-        function formatNaira(amount) {
-            return '₦' + amount.toLocaleString('en-NG');
+        function formatUsd(amount) {
+            return '$' + Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
+
+        const formatNaira = formatUsd;
 
         function resolveTrackDuration(beatId) {
             if (Number.isFinite(trackDurationOverrides[beatId])) {
@@ -4919,7 +5189,7 @@
             
             if (cart.length === 0) {
                 container.innerHTML = '<p class="text-gray-500 text-center py-8 text-sm sm:text-base">Your cart is empty</p>';
-                document.getElementById('cart-total').textContent = '₦0';
+                document.getElementById('cart-total').textContent = '$0.00';
                 return;
             }
             
@@ -5728,20 +5998,21 @@
                             <div id="checkout-items" class="space-y-2 mb-3"></div>
                             <div class="border-t-2 pt-3 space-y-2">
                                 <div class="flex justify-between text-xs sm:text-sm text-gray-600">
-                                    <span>Subtotal</span>
+                                    <span>Subtotal (USD)</span>
                                     <span>${formatNaira(summary.subtotal)}</span>
                                 </div>
                                 ${summary.discount > 0 ? `<div class="flex justify-between text-xs sm:text-sm text-green-700">
-                                    <span>Bulk deal discount</span>
+                                    <span>Bulk deal discount (USD)</span>
                                     <span>-${formatNaira(summary.discount)}</span>
                                 </div>` : ''}
                                 <div class="flex justify-between items-center">
-                                    <span class="font-bold text-base sm:text-lg">Total:</span>
+                                    <span class="font-bold text-base sm:text-lg">Total (USD):</span>
                                     <span class="text-xl sm:text-2xl font-bold price-badge" id="checkout-total"></span>
                                 </div>
                             </div>
                         </div>
                         
+                        <p class="text-xs sm:text-sm text-gray-600 mb-4 text-center">Paystack converts the USD cart total to NGN at checkout using the latest published USD/NGN rate</p>
                         <button type="submit" id="pay-button" class="w-full btn-primary text-white py-3 sm:py-4 rounded-xl font-semibold shadow-md text-sm sm:text-base">
                             <i class="fas fa-lock mr-2"></i>Pay with Paystack
                         </button>
@@ -5789,7 +6060,7 @@
             }
         }
 
-        function processPayment(event) {
+        async function processPayment(event) {
             event.preventDefault();
             
             const email = document.getElementById('customer-email').value;
@@ -5804,14 +6075,25 @@
             const payButton = document.getElementById('pay-button');
             payButton.disabled = true;
             payButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-            
-            const handler = PaystackPop.setup({
-                key: publicKey,
-                email: email,
-                amount: Math.round(total * 100),
-                currency: 'NGN',
-                ref: 'DBSTORE-' + Math.floor((Math.random() * 1000000000) + 1),
-                metadata: {
+
+            try {
+                const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
+                const quoteResponse = await fetch(`${scriptUrl}?type=exchange_rate&amountUsd=${encodeURIComponent(total)}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+                const quote = await quoteResponse.json();
+                if (!quoteResponse.ok || !quote.ok || !Number.isFinite(Number(quote.amountInKobo))) {
+                    throw new Error(quote.message || 'Unable to get the latest USD/NGN exchange rate.');
+                }
+
+                const handler = PaystackPop.setup({
+                    key: publicKey,
+                    email: email,
+                    amount: quote.amountInKobo,
+                    currency: 'NGN',
+                    ref: 'DBSTORE-' + Math.floor((Math.random() * 1000000000) + 1),
+                    metadata: {
                     custom_fields: [
                         {
                             display_name: "Customer Name",
@@ -5822,22 +6104,33 @@
                             display_name: "Order Items",
                             variable_name: "order_items",
                             value: cart.map(item => `${item.beatTitle} (${item.licenseName})`).join(', ')
+                        },
+                        {
+                            display_name: "USD to NGN Rate",
+                            variable_name: "usd_ngn_rate",
+                            value: String(quote.rate)
                         }
                     ]
-                },
-                callback: function(response) {
-                    handlePaymentSuccess(response, email, name);
-                },
-                onClose: function() {
-                    payButton.disabled = false;
-                    payButton.innerHTML = '<i class="fas fa-lock mr-2"></i>Pay with Paystack';
-                }
-            });
-            
-            handler.openIframe();
+                    },
+                    callback: function(response) {
+                        handlePaymentSuccess(response, email, name, quote);
+                    },
+                    onClose: function() {
+                        payButton.disabled = false;
+                        payButton.innerHTML = '<i class="fas fa-lock mr-2"></i>Pay with Paystack';
+                    }
+                });
+
+                handler.openIframe();
+            } catch (error) {
+                console.error('Exchange-rate lookup failed:', error);
+                showToast(error.message || 'Unable to prepare the NGN Paystack amount.', 'error');
+                payButton.disabled = false;
+                payButton.innerHTML = '<i class="fas fa-lock mr-2"></i>Pay with Paystack';
+            }
         }
 
-        async function syncPaymentToGoogleSheet({ email, name, paymentResponse, amount, orderDetails, downloadLinks }) {
+        async function syncPaymentToGoogleSheet({ email, name, paymentResponse, amount, amountNgn, exchangeRate, orderDetails, downloadLinks }) {
             const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
             const scriptUrl = config.google_apps_script_url || defaultConfig.google_apps_script_url;
 
@@ -5857,7 +6150,9 @@
                         email: email,
                         paymentReference: paymentResponse.reference,
                         amount: amount,
-                        currency: 'NGN',
+                        amountNgn: amountNgn,
+                        exchangeRate: exchangeRate,
+                        currency: 'USD',
                         status: 'success',
                         orderItems: JSON.stringify(orderDetails),
                         orderSummary: JSON.stringify({ items: orderDetails, total: amount }),
@@ -5876,7 +6171,7 @@
             }
         }
 
-        async function handlePaymentSuccess(response, email, name) {
+        async function handlePaymentSuccess(response, email, name, quote) {
             const orderDetails = cart.map(item => ({
                 beat: item.beatTitle,
                 license: item.licenseName,
@@ -5901,6 +6196,8 @@
                 name,
                 paymentResponse: response,
                 amount: paidTotal,
+                amountNgn: quote.amountNgn,
+                exchangeRate: quote.rate,
                 orderDetails,
                 downloadLinks: JSON.stringify(orderDetails.map(item => ({
                     beat: item.beat,
@@ -5965,8 +6262,9 @@
                             </div>
                             <div class="border-t-2 mt-3 pt-3 flex justify-between text-sm sm:text-base">
                                 <span class="font-bold text-gray-900">Total Paid:</span>
-                                <span class="font-bold text-green-600">${formatNaira(paidTotal)}</span>
+                                <span class="font-bold text-green-600">${formatUsd(paidTotal)} (₦${Number(quote.amountNgn).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</span>
                             </div>
+                            <p class="text-[10px] sm:text-xs text-gray-600 mt-2 text-right">Rate: ₦${Number(quote.rate).toLocaleString('en-NG', { maximumFractionDigits: 2 })}/USD</p>
                         </div>
                         
                         <div class="mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-900">

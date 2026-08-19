@@ -6,6 +6,7 @@
 // 5) Replace PASTE_YOUR_SPREADSHEET_ID_HERE with your Google Sheet ID
 
 const DEFAULT_ADMIN_EMAIL = 'debeatjay@gmail.com';
+const USD_NGN_RATE_URL = 'https://open.er-api.com/v6/latest/USD';
 
 function createCorsJsonOutput(payload) {
   const output = ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
@@ -20,6 +21,10 @@ function createCorsJsonOutput(payload) {
 function doGet(e) {
   const params = e.parameter || {};
   const type = (params.type || '').toString().toLowerCase();
+
+  if (type === 'exchange_rate') {
+    return getUsdNgnQuote(params);
+  }
 
   if (type === 'offer_action' && params.token && params.action) {
     return handleOfferAction(params);
@@ -36,6 +41,42 @@ function doGet(e) {
   return HtmlService.createHtmlOutput('Beat Store Apps Script is running.');
 }
 
+function getUsdNgnQuote(params) {
+  const amountUsd = Number(params.amountUsd);
+  if (!isFinite(amountUsd) || amountUsd < 0) {
+    return createCorsJsonOutput({ ok: false, message: 'A valid USD amount is required.' });
+  }
+
+  try {
+    const response = UrlFetchApp.fetch(USD_NGN_RATE_URL, { muteHttpExceptions: true });
+    if (response.getResponseCode() < 200 || response.getResponseCode() >= 300) {
+      throw new Error('Exchange-rate provider returned HTTP ' + response.getResponseCode());
+    }
+
+    const payload = JSON.parse(response.getContentText());
+    const rate = Number(payload && payload.rates && payload.rates.NGN);
+    if (!isFinite(rate) || rate <= 0) {
+      throw new Error('The exchange-rate provider returned an invalid USD/NGN rate.');
+    }
+
+    const amountNgn = Math.round(amountUsd * rate * 100) / 100;
+    return createCorsJsonOutput({
+      ok: true,
+      baseCurrency: 'USD',
+      quoteCurrency: 'NGN',
+      rate: rate,
+      amountUsd: Math.round(amountUsd * 100) / 100,
+      amountNgn: amountNgn,
+      amountInKobo: Math.round(amountNgn * 100),
+      publishedAt: payload.time_last_update_utc || '',
+      source: USD_NGN_RATE_URL
+    });
+  } catch (error) {
+    Logger.log('Exchange-rate lookup failed: %s', error && error.stack ? error.stack : error);
+    return createCorsJsonOutput({ ok: false, message: 'Unable to get the latest USD/NGN exchange rate.' });
+  }
+}
+
 function normalizeFrontendUrl(value) {
   if (!value) {
     return '';
@@ -48,7 +89,7 @@ function normalizeFrontendUrl(value) {
 }
 
 function getOfferLookup(params) {
-  const spreadsheetId = '1fyzAjb2dYuYJuRf39wIXS8j1XbObKaiPFTiHAlqELk4';
+  const spreadsheetId = '1bE1KFeVtHm4-C_7-IMq0k5PmklnfhoIbmqeXNZeXTGE';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -142,7 +183,7 @@ function renderOfferHtml(title, message, extraHtml) {
 }
 
 function handleOfferAction(params) {
-  const spreadsheetId = '1fyzAjb2dYuYJuRf39wIXS8j1XbObKaiPFTiHAlqELk4';
+  const spreadsheetId = '1bE1KFeVtHm4-C_7-IMq0k5PmklnfhoIbmqeXNZeXTGE';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -242,7 +283,7 @@ function handleOfferAction(params) {
 }
 
 function redirectOfferCartFromToken(token) {
-  const spreadsheetId = '1fyzAjb2dYuYJuRf39wIXS8j1XbObKaiPFTiHAlqELk4';
+  const spreadsheetId = '1bE1KFeVtHm4-C_7-IMq0k5PmklnfhoIbmqeXNZeXTGE';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -269,7 +310,7 @@ function redirectOfferCartFromToken(token) {
 }
 
 function renderPayLinkPage(token) {
-  const spreadsheetId = '1fyzAjb2dYuYJuRf39wIXS8j1XbObKaiPFTiHAlqELk4';
+  const spreadsheetId = '1bE1KFeVtHm4-C_7-IMq0k5PmklnfhoIbmqeXNZeXTGE';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -300,7 +341,7 @@ function renderPayLinkPage(token) {
 }
 
 function renderPayLinkPage_v2(token) {
-  const spreadsheetId = '1fyzAjb2dYuYJuRf39wIXS8j1XbObKaiPFTiHAlqELk4';
+  const spreadsheetId = '1bE1KFeVtHm4-C_7-IMq0k5PmklnfhoIbmqeXNZeXTGE';
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const offersSheet = getOrCreateSheet(ss, 'Offers');
   ensureHeaders(offersSheet, ['timestamp', 'type', 'name', 'email', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'itemId', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl']);
@@ -875,7 +916,7 @@ function buildLicenseAgreementText(customerName, customerEmail, orderDetails) {
 
       orderLines.push('Item ' + (index + 1) + ': ' + (item.beat || 'Untitled Beat'));
       orderLines.push('License: ' + template.title);
-      orderLines.push('License Fee: ' + (item.price != null ? '₦' + item.price : 'N/A'));
+      orderLines.push('License Fee: ' + (item.price != null ? '$' + item.price : 'N/A'));
       orderLines.push('Included Files: ' + (Array.isArray(item.allowedFiles) ? item.allowedFiles.join(', ') : 'N/A'));
       orderLines.push('');
       orderLines.push(template.content.replace(/\[Beat Title\]/g, item.beat || 'Preview Track Only'));
@@ -929,7 +970,7 @@ function doPost(e) {
   try {
     Logger.log('doPost called with parameter object: %s', JSON.stringify(e && e.parameter ? e.parameter : {}));
     Logger.log('doPost raw body: %s', e && e.postData ? e.postData.contents : '(none)');
-    const spreadsheetId = '1fyzAjb2dYuYJuRf39wIXS8j1XbObKaiPFTiHAlqELk4';
+    const spreadsheetId = '1bE1KFeVtHm4-C_7-IMq0k5PmklnfhoIbmqeXNZeXTGE';
     const ss = SpreadsheetApp.openById(spreadsheetId);
     let params = e.parameter || {};
     if ((!params || Object.keys(params).length === 0) && e.postData && e.postData.contents) {
@@ -988,7 +1029,7 @@ function doPost(e) {
     headers = ['timestamp', 'type', 'name', 'email', 'customerEmail', 'adminEmail', 'scriptUrl', 'frontendUrl', 'itemId', 'beatTitle', 'beatGenre', 'beatBpm', 'beatKey', 'offerPrice', 'offerMessage', 'actionToken', 'status', 'actionTaken', 'actionTimestamp', 'payLinkToken', 'payLinkUrl'];
   } else {
     sheetName = 'Payments';
-    headers = ['timestamp', 'type', 'name', 'email', 'paymentReference', 'amount', 'currency', 'status', 'orderItems', 'orderSummary', 'downloadLinks', 'rawResponse'];
+    headers = ['timestamp', 'type', 'name', 'email', 'paymentReference', 'amount', 'currency', 'amountNgn', 'exchangeRate', 'status', 'orderItems', 'orderSummary', 'downloadLinks', 'rawResponse'];
   }
 
   if (type === 'account_create' || type === 'account_signin' || type === 'account_forgot_password') {
@@ -1099,6 +1140,8 @@ function doPost(e) {
     paymentReference: params.paymentReference || '',
     amount: params.amount || '',
     currency: params.currency || '',
+    amountNgn: params.amountNgn || '',
+    exchangeRate: params.exchangeRate || '',
     orderItems: params.orderItems || '',
     orderSummary: params.orderSummary || '',
     downloadLinks: params.downloadLinks || '',
@@ -1225,7 +1268,8 @@ function doPost(e) {
       `<p>Hi ${customerName},</p>`,
       '<p>Thank you for your purchase from De Beat Chef!</p>',
       `<p><strong>Order reference:</strong> ${params.paymentReference || 'N/A'}</p>`,
-      `<p><strong>Total paid:</strong> ${params.amount ? '₦' + params.amount : 'N/A'}</p>`,
+      `<p><strong>Cart total:</strong> ${params.amount ? '$' + params.amount : 'N/A'}</p>`,
+      `<p><strong>Paystack charge:</strong> ${params.amountNgn ? '₦' + params.amountNgn : 'N/A'}${params.exchangeRate ? ' (rate: ₦' + params.exchangeRate + '/USD)' : ''}</p>`,
       '<p>Here are your download links:</p>',
       `${downloadHtml || '<p>No valid download links were included in the order.</p>'}`,
       '<p>Your license agreement is attached to this email.</p>',
@@ -1245,7 +1289,8 @@ function doPost(e) {
       const adminPaymentBody = [
         `<p>New purchase completed by ${customerName} (${customerEmail}).</p>`,
         `<p><strong>Reference:</strong> ${params.paymentReference || 'N/A'}</p>`,
-        `<p><strong>Amount:</strong> ₦${params.amount || 'N/A'}</p>`,
+        `<p><strong>Cart total:</strong> $${params.amount || 'N/A'}</p>`,
+        `<p><strong>Paystack charge:</strong> ₦${params.amountNgn || 'N/A'}${params.exchangeRate ? ' (rate: ₦' + params.exchangeRate + '/USD)' : ''}</p>`,
         `<p><strong>Purchased items:</strong></p>`,
         `<pre style="white-space:pre-wrap;">${params.orderItems || 'N/A'}</pre>`
       ].join('');
